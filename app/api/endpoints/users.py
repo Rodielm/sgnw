@@ -12,26 +12,26 @@ from starlette.status import (
 router = APIRouter()
 
 
-@router.get("/", tags=["users"])
+@router.get("/")
 def read_users():
     return [{"username": "Foo"}, {"username": "Bar"}]
 
 
-@router.get("/{id}", tags=["users"])
+@router.get("/{id}")
 def find_user(id: int):
     return [{"username": "Foo"}, {"username": "Bar"}]
 
 
-@router.post("/", tags=["users"], status_code=HTTP_201_CREATED)
+@router.post("/", status_code=HTTP_201_CREATED)
 def create_users(username: str):
     return {"username": "fakecurrentuser"}
 
 
-@router.put("/{id}", tags=["users"])
+@router.put("/{id}")
 def update_user(username: str):
     return {"username": username}
 
 
-@router.delete("/{id}", tags=["users"])
+@router.delete("/{id}")
 def delete_user(username: str):
     return {"username": username}
