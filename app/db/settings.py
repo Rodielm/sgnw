@@ -18,13 +18,12 @@ def init():
     except Exception as e:
         logging.error(e)
 
+
 @db_session
 def populate_database():
     u1 = db.User(first_name='fulano',
                  last_name='fulanin',
                  email='fulan@gmail.com')
-
-    commit()
 
     u2 = db.User(first_name='fulana',
                  last_name='fulanan',
