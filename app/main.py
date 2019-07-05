@@ -1,9 +1,9 @@
 
 from fastapi import Depends, FastAPI, Header, HTTPException
 
-from app.routers.users import router as api_router
+from .routers import users 
 
 app = FastAPI()
 
-app.include_router(api_router)
+app.include_router(users.router)
 
