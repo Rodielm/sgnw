@@ -1,3 +1,3 @@
 # sgiw
 
-Sistema de Gestión de Identidades Web
+Sistema de gestión de notificación Web
