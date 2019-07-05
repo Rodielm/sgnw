@@ -1,5 +1,6 @@
 
-from pony.orm import * 
+from pony.orm import *
+from .base import db 
 
 class Group(db.Entity):
     idGroup = PrimaryKey(int, auto=True)

@@ -1,9 +1,12 @@
 
 from fastapi import Depends, FastAPI, Header, HTTPException
 
-from .routers import users 
+from app.api.api import router as api_router
+from app.db.settings import init
+
 
 app = FastAPI()
 
-app.include_router(users.router)
+app.add_event_handler("startup",init)
+app.include_router(api_router,prefix="/api")
 

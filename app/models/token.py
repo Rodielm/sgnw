@@ -1,7 +1,7 @@
 
 from datetime import datetime
 from pony.orm import * 
-
+from .base import db
 
 class Token(db.Entity):
     idToken = PrimaryKey(int, auto=True)

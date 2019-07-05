@@ -1,5 +1,6 @@
 
 from pony.orm import * 
+from .base import db
 
 class App(db.Entity):
     idApp = PrimaryKey(int, auto=True)

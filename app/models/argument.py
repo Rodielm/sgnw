@@ -1,6 +1,8 @@
 
 
-from pony.orm import * 
+from pony.orm import *
+from .base import db
+
 
 class Argument(db.Entity):
     idArgument = PrimaryKey(int, auto=True)

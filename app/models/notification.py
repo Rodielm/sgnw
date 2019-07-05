@@ -1,6 +1,7 @@
 
 from datetime import datetime
-from pony.orm import * 
+from pony.orm import *
+from .base import db 
 from .app import App
 
 

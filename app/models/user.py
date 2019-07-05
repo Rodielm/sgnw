@@ -1,6 +1,7 @@
 from datetime import datetime
 
 from pony.orm import * 
+from .base import db
 
 class User(db.Entity):
     idUser = PrimaryKey(int, auto=True)
