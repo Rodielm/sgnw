@@ -1,6 +1,6 @@
 import logging
 from pony.orm import *
-from app.models import db
+from . import db
 
 
 # db.bind(provider='sqlite', filename='database.sqlite', create_db=True)
@@ -12,11 +12,11 @@ def init():
     sql_debug(True)
     db.generate_mapping(create_tables=True)
     logging.info("initilize database")
-    try:
-        populate_database()
-        logging.info("populate database")
-    except Exception as e:
-        logging.error(e)
+    # try:
+    #     populate_database()
+    #     logging.info("populate database")
+    # except Exception as e:
+    #     logging.error(e)
 
 
 @db_session

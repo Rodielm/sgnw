@@ -1,5 +1,13 @@
 
 from fastapi import APIRouter
+from app.models.user import (UserBase, ManyUsersInResponse, UserInResponse, UserInDB, UserInUpdate)
+from app.crud import user as db_user
+from fastapi.encoders import jsonable_encoder
+from app.core.utils import create_aliased_response
+from typing import List
+
+from starlette.responses import JSONResponse
+from starlette.exceptions import HTTPException
 from starlette.status import (
     HTTP_201_CREATED,
     HTTP_204_NO_CONTENT,
@@ -12,26 +20,37 @@ from starlette.status import (
 router = APIRouter()
 
 
-@router.get("/")
+@router.get("/", response_model=List[UserInResponse])
 def read_users():
-    return [{"username": "Foo"}, {"username": "Bar"}]
+    users_data = db_user.findAll_users()
+    return users_data
 
 
-@router.get("/{id}")
-def find_user(id: int):
-    return [{"username": "Foo"}, {"username": "Bar"}]
+@router.get("/{email}",response_model=UserInResponse)
+def find_user(email: str):
+    user = db_user.read_user_email(email)
+    if not user:
+        raise HTTPException(status_code=HTTP_404_NOT_FOUND,
+                            detail="User not exist",
+                            )
+    return user
 
 
 @router.post("/", status_code=HTTP_201_CREATED)
-def create_users(username: str):
-    return {"username": "fakecurrentuser"}
+def create_users(user: UserInDB):
+    return db_user.create_user(user)
 
 
 @router.put("/{id}")
-def update_user(username: str):
-    return {"username": username}
+def update_user(id:int,user: UserInUpdate):
+    user = db_user.update_user(id,user)
+    if not user:
+        raise HTTPException(status_code=HTTP_404_NOT_FOUND,
+                            detail="User not exist",
+                            )
+    return user
 
 
 @router.delete("/{id}")
-def delete_user(username: str):
-    return {"username": username}
+def delete_user(id: int):
+    db_user.delete_user(id)

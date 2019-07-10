@@ -1,16 +1,24 @@
-from datetime import datetime
 
-from pony.orm import * 
-from .base import db
+from typing import (Optional, List)
+from pydantic import BaseModel
 
-class User(db.Entity):
-    idUser = PrimaryKey(int, auto=True)
-    first_name = Optional(str)
-    last_name = Optional(str)
-    email = Optional(str)
-    username = Optional(str)
-    password = Optional(str)
-    create_ts = Optional(str)
-    user_groups = Set('UserGroup')
-    user_roles = Set('UserRole')
-    user_recipients = Set('UserRecipient')
+
+class UserBase(BaseModel):
+    first_name: str
+    last_name: str
+    email: str
+    username: str
+    
+# Response means out like UserOut...
+
+class UserInResponse(UserBase):
+    pass
+
+class UserInDB(UserBase):
+    password: str
+
+class UserInUpdate(UserBase):
+    pass
+
+class ManyUsersInResponse(UserBase):
+    users: List[UserBase]
