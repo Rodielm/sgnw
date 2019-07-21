@@ -6,7 +6,6 @@ from pydantic import BaseModel
 class RoleBase(BaseModel):
     name: str
     
-# Response means out like UserOut...
 
 class RoleInResponse(RoleBase):
     id:int

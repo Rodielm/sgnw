@@ -23,7 +23,7 @@ class App(db.Entity):
     name = Optional(str)
     description = Optional(str)
     version = Optional(str)
-    create_ts = Optional(date)
+    create_ts = Required(datetime,sql_default='CURRENT_TIMESTAMP')
     languages = Set('Language')
     notifications = Set('Notification')
 
@@ -52,7 +52,7 @@ class Group(db.Entity):
     id = PrimaryKey(int, auto=True)
     name = Optional(str)
     description = Optional(str)
-    create_ts = Optional(date)
+    create_ts = Required(datetime,sql_default='CURRENT_TIMESTAMP')
     users = Set(User)
     recipients = Set('Recipient')
 
