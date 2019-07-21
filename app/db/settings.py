@@ -28,5 +28,4 @@ def populate_database():
     u2 = db.User(first_name='fulana',
                  last_name='fulanan',
                  email='fulina@gmail.com')
-
     commit()

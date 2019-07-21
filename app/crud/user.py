@@ -14,16 +14,16 @@ def create_user(user: UserBase):
 
 @db_session
 def update_user(id: int, user: UserInUpdate):
-    userUpdate = db.User.get(idUser=id)
-    if not userUpdate:
-        return userUpdate
+    dbuser = db.User.get(id=id)
+    if not dbuser:
+        return dbuser
     else:
-        userUpdate.first_name = user.first_name
-        userUpdate.last_name = user.last_name
-        userUpdate.email = user.email
-        userUpdate.username = user.username
+        dbuser.first_name = user.first_name
+        dbuser.last_name = user.last_name
+        dbuser.email = user.email
+        dbuser.username = user.username
         commit()
-    return user
+    return dbuser
 
 
 @db_session

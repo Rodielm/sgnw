@@ -16,9 +16,7 @@ from starlette.status import (
     HTTP_422_UNPROCESSABLE_ENTITY,
 )
 
-
 router = APIRouter()
-
 
 @router.get("/", response_model=List[UserInResponse])
 def read_users():
@@ -27,7 +25,7 @@ def read_users():
 
 
 @router.get("/{email}",response_model=UserInResponse)
-def find_user(email: str):
+def find_user_by_email(email: str):
     user = db_user.read_user_email(email)
     if not user:
         raise HTTPException(status_code=HTTP_404_NOT_FOUND,
@@ -37,7 +35,7 @@ def find_user(email: str):
 
 
 @router.post("/", status_code=HTTP_201_CREATED)
-def create_users(user: UserInDB):
+def create_user(user: UserInDB):
     return db_user.create_user(user)
 
 
