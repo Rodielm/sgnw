@@ -29,7 +29,7 @@ def update_user(id: int, user: UserInUpdate):
 @db_session
 def findAll_users() -> List[UserInResponse]:
     users: List[UserInResponse] = []
-    rows = select(u for u in db.User)[:]
+    rows = db.User.select()
     for row in rows:
         users.append(row.to_dict())
     return users

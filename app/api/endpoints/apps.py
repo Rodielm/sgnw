@@ -1,7 +1,7 @@
 
 from fastapi import APIRouter
-from app.models.rol import (RoleBase, ManyRolesInResponse, RoleInResponse, RoleInDB, RoleInUpdate)
-from app.crud import rol as db_role
+from app.models.app import *
+from app.crud import app as db_app
 from fastapi.encoders import jsonable_encoder
 from app.core.utils import create_aliased_response
 from typing import List
@@ -18,37 +18,37 @@ from starlette.status import (
 
 router = APIRouter()
 
-@router.get("/", response_model=List[RoleInResponse])
-def read_roles():
-    roles = db_role.read_roles()
-    return roles
+@router.get("/", response_model=List[AppInResponse])
+def read_apps():
+    apps = db_app.read_apps()
+    return apps
 
 
-@router.get("/{name}",response_model=RoleInResponse)
-def read_rol_by_name(name: str):
-    row = db_role.read_role_name(name)
+@router.get("/{name}",response_model=AppInResponse)
+def read_app_by_name(name: str):
+    row = db_app.read_app_for_name(name)
     if not row:
         raise HTTPException(status_code=HTTP_404_NOT_FOUND,
-                            detail="Rol not exist",
+                            detail="App not exist",
                             )
     return row
 
 
 @router.post("/", status_code=HTTP_201_CREATED)
-def create_role(rol: RoleInDB):
-    return db_role.create_rol(rol)
+def create_app(app: AppInDB):
+    return db_app.create_app(app)
 
 
 @router.put("/{id}")
-def update_rol(id:int,rol: RoleInUpdate):
-    row = db_role.update_rol(id,rol)
+def update_app(id:int, app: AppInUpdate):
+    row = db_app.update_app(id,app)
     if not row:
         raise HTTPException(status_code=HTTP_404_NOT_FOUND,
-                            detail="Role not exist",
+                            detail="App not exist",
                             )
     return row
 
 
 @router.delete("/{id}")
-def delete_rol(id: int):
-    db_role.delete_role(id)
+def delete_app(id: int):
+    db_app.delete_app(id)
