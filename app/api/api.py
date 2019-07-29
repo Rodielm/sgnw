@@ -1,6 +1,5 @@
 from fastapi import APIRouter
 
-from .endpoints.arguments import router as arguments_router
 from .endpoints.users import router as users_router
 from .endpoints.roles import router as roles_router
 from .endpoints.apps import router as apps_router

@@ -28,12 +28,41 @@ def init():
 def populate_database():
     db.User(first_name='fulano',
             last_name='fulanin',
+            username='user1',
+            password='1234',
             email='fulan@gmail.com')
 
-    db.User(first_name='fulana',
-            last_name='fulanan',
-            email='fulina@gmail.com')
-    db.Language(name='Spanish')
-    db.Language(name='English')
-    db.Language(name='French')
+    user2 = db.User(first_name='fulana',
+                    last_name='fulanan',
+                    username='user2',
+                    password='1234',
+                    email='fulina@gmail.com')
+
+    lang1 = db.Lang(name='Spanish')
+    lang2 = db.Lang(name='English')
+    lang3 = db.Lang(name='French')
+
+    state = db.NotifyState(name='Nuevo')
+    db.NotifyState(name='Leido')
+    db.NotifyState(name='Borrado')
+
+    group1 = db.Group(name='group1')
+    group2 = db.Group(name='group2')
+    db.Group(name='group3')
+
+    role1 = db.Role(name='role1')
+    role2 = db.Role(name='role2')
+    db.Role(name='role3')
+
+    app = db.App(name='App3')
+    db.App_lang(app=app, lang=lang1, filename='example.ts')
+
+    #TODO NotifyUser insert by group, roles or user..
+    # Cuando se inserta por usuario el recipient user será true
+
+    # En caso de grupo o roles 
+    # Como objeto se inserta NotifyUser con sus listado de roles y grupos
+    # Luego se inserta todos los usuarios que pertenece al grupo tal o roles en notifyUser
+    # Como se insertaría cuando solo es grupo y roles.  
+
     commit()

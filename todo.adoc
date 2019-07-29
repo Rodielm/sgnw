@@ -1,0 +1,17 @@
+
+
+# el bodyType no será necesario, los argumentos se pasaran como dict igual que un 
+#json directamente la notificacion
+
+
+#UserNotify tabla para registrar datos de la notificacion
+estará relacionada con notificacion
+UserGroup
+UserRoles
+
+
+Sobre notifyUser en el atributo User este debería ser opcional
+debido que puedo crear una notificacion solamente para roles o grupos
+entonces en ese caso no cumple.
+
+# pretende realizar punto centralizado

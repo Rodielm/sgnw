@@ -2,93 +2,97 @@ from datetime import date
 from datetime import datetime
 
 from pony.orm import *
-from .base import db 
+from .base import db
+
 
 class User(db.Entity):
     id = PrimaryKey(int, auto=True)
-    first_name = Optional(str)
-    last_name = Optional(str)
+    first_name = Required(str)
+    last_name = Required(str)
     email = Optional(str)
-    username = Optional(str)
-    password = Optional(str)
-    create_ts = Optional(date)
+    username = Required(str)
+    password = Required(str)
+    create_ts = Optional(date, default=lambda: date.today())
+    tokens = Set('Token')
+    notify_users = Set('NotifyUser')
     groups = Set('Group')
     roles = Set('Role')
-    recipients = Set('Recipient')
-    tokens = Set('Token')
-
-
-class App(db.Entity):
-    id = PrimaryKey(int, auto=True)
-    name = Optional(str)
-    description = Optional(str)
-    version = Optional(str)
-    create_ts = Required(datetime,sql_default='CURRENT_TIMESTAMP')
-    languages = Set('Language')
-    notifications = Set('Notification')
-
-
-class Token(db.Entity):
-    id = PrimaryKey(int, auto=True)
-    token = Optional(str)
-    token_expires = Optional(datetime)
-    user = Required(User)
-
-
-class Argument(db.Entity):
-    id = PrimaryKey(int, auto=True)
-    name = Optional(str)
-    type = Optional(str)  # summary or body
 
 
 class Role(db.Entity):
     id = PrimaryKey(int, auto=True)
-    name = Optional(str)
+    name = Required(str)
+    description = Optional(str)
+    create_ts = Optional(date, default=lambda: date.today())
     users = Set(User)
-    recipients = Set('Recipient')
+    notify_users = Set('NotifyUser')
 
 
 class Group(db.Entity):
     id = PrimaryKey(int, auto=True)
-    name = Optional(str)
+    name = Required(str)
     description = Optional(str)
-    create_ts = Required(datetime,sql_default='CURRENT_TIMESTAMP')
+    create_ts = Required(datetime, sql_default='CURRENT_TIMESTAMP')
     users = Set(User)
-    recipients = Set('Recipient')
+    notify_users = Set('NotifyUser')
 
 
-class Language(db.Entity):
+class App(db.Entity):
     id = PrimaryKey(int, auto=True)
-    name = Optional(str)
-    apps = Set(App)
+    name = Required(str)
+    description = Optional(str)
+    version = Optional(str)
+    create_ts = Required(datetime, sql_default='CURRENT_TIMESTAMP')
+    notifications = Set('Notification')
+    app_langs = Set('App_lang')
+
+
+class Token(db.Entity):
+    id = PrimaryKey(int, auto=True)
+    token = Required(str)
+    token_expires = Optional(datetime)
+    user = Required(User)
+
+
+class Lang(db.Entity):
+    id = PrimaryKey(int, auto=True)
+    name = Required(str)
+    app_langs = Set('App_lang')
+
+
+class App_lang(db.Entity):
+    app = Required(App)
+    lang = Required(Lang)
+    version = Optional(str)
+    filename = Required(str)
+    PrimaryKey(app, lang)
 
 
 class Notification(db.Entity):
     id = PrimaryKey(int, auto=True)
     summary = Optional(str)
+    summary_args = Optional(Json)
     body = Optional(str)
-    body_type = Required('BodyType')
-    hints = Optional(str)
+    body_args = Optional(Json)
+    hints = Optional(Json)
     app = Required(App)
-    recipient = Optional('Recipient')
     I10n_vers = Optional(str)
-    create_ts = Optional(date)
+    create_ts = Required(datetime, sql_default='CURRENT_TIMESTAMP')
     expire_ts = Optional(date)
+    notify_users = Set('NotifyUser')
 
 
-class Recipient(db.Entity):
+class NotifyUser(db.Entity):
+    notification = Required('Notification')
+    user = Required('User')
+    status = Required('NotifyState')
+    recipient_user = Required(bool, default=False, sql_default='0')
+    recipient_groups = Set('Group')
+    recipient_roles = Set('Role')
+    composite_key(notification, user)
+
+
+class NotifyState(db.Entity):
     id = PrimaryKey(int, auto=True)
-    users = Set(User)
-    notifications = Set(Notification)
-    roles = Set(Role)
-    groups = Set(Group)
-
-
-class BodyType(db.Entity):
-    id = PrimaryKey(int, auto=True)
-    name = Optional(str)
-    type = Optional(str)
-    create_ts = Optional(date)
-    notifications = Set(Notification)
-
-
+    name = Required(str)
+    notify_users = Set(NotifyUser)
