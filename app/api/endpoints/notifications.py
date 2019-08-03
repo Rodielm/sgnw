@@ -1,7 +1,7 @@
 
 from fastapi import APIRouter
 from app.models.notification import *
-from app.crud import app as db_app
+from app.crud import notification as db_noti
 from fastapi.encoders import jsonable_encoder
 from app.core.utils import create_aliased_response
 from typing import List
@@ -26,12 +26,11 @@ def read_notification_user():
 
 @router.post("/", status_code=HTTP_201_CREATED)
 def create_notification(notification: NotificationInCreate):
-    #TODO Post notification by App
     # app, notify users, user, groups, roles list and status
-    return ""
+    return db_noti.create_notification(notification)
 
 
 @router.delete("/{id}")
 def delete_notification(id: int):
     # TODO delete notification by user
-    db_app.delete_app(id)
+    db_noti.delete_notification(id)

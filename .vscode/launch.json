@@ -15,7 +15,7 @@
             "name": "Python: Current File (External Terminal)",
             "type": "python",
             "request": "launch",
-            "program": "${file}",
+            "program": "${workspaceRoot}/main.py",
             "console": "externalTerminal"
         }
     ]

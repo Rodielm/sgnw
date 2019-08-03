@@ -1,7 +1,5 @@
 import logging
-from pony.orm import *
-from . import db
-
+from .base import *
 
 # db.bind(provider='sqlite', filename='database.sqlite', create_db=True)
 db_params = {'provider': 'sqlite', 'filename': 'notify.db', 'create_db': True}
@@ -135,7 +133,7 @@ def populate_database():
 #         )
 
 # # 4to Caso: Todos
-#     # Groups and roles separated and then users alone 
+#     # Groups and roles separated and then users alone
 #     users_by_groups = select(u for u in db.User if '1' in u.groups.id)[:]
 #     users_by_roles = select(u for u in db.User if '1' in u.roles.id)[:]
 

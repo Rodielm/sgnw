@@ -1,6 +1,6 @@
-from pony import orm
 
-orm.set_sql_debug(True)
-db = orm.Database()
+from pony.orm import *
 
+db = Database()
+sql_debug(True)
 

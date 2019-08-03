@@ -1,4 +1,3 @@
-
 from typing import (Optional, List)
 from pydantic import BaseModel
 
@@ -9,9 +8,11 @@ class GroupBase(BaseModel):
     name: str
     description: str
 
+
 class GroupNotification(BaseModel):
-    id:int
-    name:str
+    id: int
+    name: str = ""
+
 
 class GroupInResponse(GroupBase):
     id: int

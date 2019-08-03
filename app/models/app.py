@@ -5,8 +5,12 @@ from .master import MasterBase
 
 class AppBase(BaseModel):
     name: str
-    description: str
-    version: str
+    description: str = None
+    version: str = None
+
+class AppNotification(BaseModel):
+    id:int
+    name:str = None
     
 class AppInResponse(AppBase):
     pass
