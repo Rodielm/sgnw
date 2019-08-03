@@ -28,10 +28,11 @@ def create_app(row: AppInDB):
     for item in row.languages:
         lang = db.Language.get(name=item.name)
         langs.append(lang)
-    db.App(name=row.name,
-           description=row.description,
-           version=row.version,
-           languages=langs)
+    db.App(
+        name=row.name,
+        description=row.description,
+        version=row.version,
+        languages=langs)
     return row
 
 

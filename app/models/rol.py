@@ -7,6 +7,10 @@ class RoleBase(BaseModel):
     name: str
     
 
+class RoleNotification(BaseModel):
+    id:int
+    name:str
+    
 class RoleInResponse(RoleBase):
     id:int
     pass

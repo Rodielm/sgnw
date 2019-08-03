@@ -1,6 +1,6 @@
 
 from fastapi import APIRouter
-from app.models.app import *
+from app.models.notification import *
 from app.crud import app as db_app
 from fastapi.encoders import jsonable_encoder
 from app.core.utils import create_aliased_response
@@ -18,17 +18,17 @@ from starlette.status import (
 
 router = APIRouter()
 
-@router.get("/{user}", response_model=List[AppInResponse])
+@router.get("/{user}", response_model=List[NotificationInResponse])
 def read_notification_user():
     #TODO  Read Notification by Current user
     return "User Notification list"
 
 
 @router.post("/", status_code=HTTP_201_CREATED)
-def create_notification(app: AppInDB):
+def create_notification(notification: NotificationInCreate):
     #TODO Post notification by App
     # app, notify users, user, groups, roles list and status
-    return db_app.create_app(app)
+    return ""
 
 
 @router.delete("/{id}")

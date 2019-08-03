@@ -9,7 +9,10 @@ class UserBase(BaseModel):
     email: str
     username: str
     
-# Response means out like UserOut...
+
+class UserNotification(BaseModel):
+    id:int
+    username:str
 
 class UserInResponse(UserBase):
     pass

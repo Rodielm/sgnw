@@ -4,10 +4,14 @@ from pydantic import BaseModel
 
 from datetime import datetime
 
+
 class GroupBase(BaseModel):
     name: str
     description: str
 
+class GroupNotification(BaseModel):
+    id:int
+    name:str
 
 class GroupInResponse(GroupBase):
     id: int

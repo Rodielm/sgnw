@@ -18,25 +18,57 @@ def init():
     logging.info("initilize database")
     try:
         db.create_tables()
-        populate_database()
         logging.info("populate database")
+        populate_database()
+        logging.info("test queries")
+        # test_query()
     except Exception as e:
         logging.error("Creating tables: {}".format(e))
 
 
 @db_session
-def populate_database():
-    db.User(first_name='fulano',
-            last_name='fulanin',
-            username='user1',
-            password='1234',
-            email='fulan@gmail.com')
+def test_query():
+    result = select(u for u in db.User if '1' in u.groups.id)[:]
+    print(result)
 
-    user2 = db.User(first_name='fulana',
-                    last_name='fulanan',
-                    username='user2',
-                    password='1234',
-                    email='fulina@gmail.com')
+
+@db_session
+def populate_database():
+
+    group1 = db.Group(name='group1')
+    group2 = db.Group(name='group2')
+
+    user1 = db.User(
+        first_name='fulano',
+        last_name='fulanin',
+        username='user1',
+        password='1234',
+        email='fulan@gmail.com',
+        groups=[group1])
+
+    user2 = db.User(
+        first_name='fulana',
+        last_name='fulanan',
+        username='user2',
+        password='1234',
+        email='fulina@gmail.com',
+        groups=[group1])
+
+    user3 = db.User(
+        first_name='miguel',
+        last_name='fulanan',
+        username='user2',
+        password='1234',
+        email='fulina@gmail.com',
+        groups=[group2])
+
+    user4 = db.User(
+        first_name='mario',
+        last_name='fulanan',
+        username='user2',
+        password='1234',
+        email='fulina@gmail.com',
+        groups=[group2])
 
     lang1 = db.Lang(name='Spanish')
     lang2 = db.Lang(name='English')
@@ -46,8 +78,6 @@ def populate_database():
     db.NotifyState(name='Leido')
     db.NotifyState(name='Borrado')
 
-    group1 = db.Group(name='group1')
-    group2 = db.Group(name='group2')
     db.Group(name='group3')
 
     role1 = db.Role(name='role1')
@@ -57,12 +87,64 @@ def populate_database():
     app = db.App(name='App3')
     db.App_lang(app=app, lang=lang1, filename='example.ts')
 
-    #TODO NotifyUser insert by group, roles or user..
-    # Cuando se inserta por usuario el recipient user será true
+    # noti = db.Notification(
+    #     summary='Testing', body='Notification testing', app=app)
 
-    # En caso de grupo o roles 
-    # Como objeto se inserta NotifyUser con sus listado de roles y grupos
-    # Luego se inserta todos los usuarios que pertenece al grupo tal o roles en notifyUser
-    # Como se insertaría cuando solo es grupo y roles.  
+    # users = [user1, user2]
+    # groups = [group1]
+    # roles = [role1]
 
-    commit()
+
+# # 1er Caso: Usuarios directos
+# # By users
+# #     for user in users:
+# #         print(user)
+# #         db.NotifyUser(
+# #             notification=noti,
+# #             user=user,
+# #             status=state,
+# #             recipient_user=True
+# #         )
+
+# # 2do Caso: Grupos
+# # By Groups
+
+#     users_by_groups = select(u for u in db.User if '1' in u.groups.id)[:]
+
+#     for user in users_by_groups:
+#         db.NotifyUser(
+#             notification=noti,
+#             user=user,
+#             status=state,
+#             recipient_user=False,
+#             recipient_groups=group1
+#         )
+
+
+# # 3er Caso: Roles
+
+#     users_by_roles = select(u for u in db.User if '1' in u.roles.id)[:]
+
+#     for user in users_by_roles:
+#         db.NotifyUser(
+#             notification=noti,
+#             user=user,
+#             status=state,
+#             recipient_user=False,
+#             recipient_roles=group1
+#         )
+
+# # 4to Caso: Todos
+#     # Groups and roles separated and then users alone 
+#     users_by_groups = select(u for u in db.User if '1' in u.groups.id)[:]
+#     users_by_roles = select(u for u in db.User if '1' in u.roles.id)[:]
+
+#     for user in users_by_roles:
+#         db.NotifyUser(
+#             notification=noti,
+#             user=user,
+#             status=state,
+#             recipient_user=False,
+#             recipinet_groups=groups,
+#             recipient_roles=roles
+#         )
