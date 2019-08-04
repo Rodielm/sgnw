@@ -1,8 +1,9 @@
+
 from fastapi import Depends, FastAPI, Header, HTTPException
 import uvicorn
+
 from app.api.api import router as api_router
 from app.db.settings import init
-
 
 # from fastapi.security import OAuth2PasswordBearer
 # uvicorn app.main:app --reload

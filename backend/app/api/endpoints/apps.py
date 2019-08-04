@@ -1,4 +1,3 @@
-
 from fastapi import APIRouter
 from app.models.app import *
 from app.crud import app as db_app
