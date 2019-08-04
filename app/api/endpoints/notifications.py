@@ -18,10 +18,10 @@ from starlette.status import (
 
 router = APIRouter()
 
-@router.get("/{user}", response_model=List[NotificationInResponse])
-def read_notification_user():
-    #TODO  Read Notification by Current user
-    return "User Notification list"
+
+@router.get("/{id}")
+def read_notification_user(id: int):
+    return db_noti.read_notification_for_user(id)
 
 
 @router.post("/", status_code=HTTP_201_CREATED)

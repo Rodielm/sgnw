@@ -36,6 +36,11 @@ def populate_database():
     group1 = db.Group(name='group1')
     group2 = db.Group(name='group2')
 
+    role1 = db.Role(name='role1')
+    role2 = db.Role(name='role2')
+    db.Role(name='role3')
+
+
     user1 = db.User(
         first_name='fulano',
         last_name='fulanin',
@@ -58,7 +63,7 @@ def populate_database():
         username='user2',
         password='1234',
         email='fulina@gmail.com',
-        groups=[group2])
+        roles=[role2])
 
     user4 = db.User(
         first_name='mario',
@@ -66,7 +71,7 @@ def populate_database():
         username='user2',
         password='1234',
         email='fulina@gmail.com',
-        groups=[group2])
+        roles=[role2])
 
     lang1 = db.Lang(name='Spanish')
     lang2 = db.Lang(name='English')
@@ -78,58 +83,48 @@ def populate_database():
 
     db.Group(name='group3')
 
-    role1 = db.Role(name='role1')
-    role2 = db.Role(name='role2')
-    db.Role(name='role3')
-
     app = db.App(name='App3')
     db.App_lang(app=app, lang=lang1, filename='example.ts')
 
-    # noti = db.Notification(
-    #     summary='Testing', body='Notification testing', app=app)
+    noti = db.Notification(
+        summary='Testing', body='Notification testing', app=app)
 
     # users = [user1, user2]
-    # groups = [group1]
-    # roles = [role1]
-
-
-# # 1er Caso: Usuarios directos
+    
+# 1er Caso: Usuarios directos
 # # By users
-# #     for user in users:
-# #         print(user)
-# #         db.NotifyUser(
-# #             notification=noti,
-# #             user=user,
-# #             status=state,
-# #             recipient_user=True
-# #         )
-
-# # 2do Caso: Grupos
-# # By Groups
-
-#     users_by_groups = select(u for u in db.User if '1' in u.groups.id)[:]
-
-#     for user in users_by_groups:
+#     for user in users:
+#         print(user)
 #         db.NotifyUser(
 #             notification=noti,
 #             user=user,
 #             status=state,
-#             recipient_user=False,
-#             recipient_groups=group1
+#             recipient_user=True
 #         )
 
+# # 2do Caso: Grupos
+# # By Groups
+    users_by_groups = select(u for u in db.User if '1' in u.groups.id)[:]
 
-# # 3er Caso: Roles
+    for user in users_by_groups:
+        db.NotifyUser(
+            notification=noti,
+            user=user,
+            status=state,
+            recipient_user=False,
+            recipient_groups=group1
+        )
 
-#     users_by_roles = select(u for u in db.User if '1' in u.roles.id)[:]
 
+# # # 3er Caso: Roles
+#     users_by_roles = select(u for u in db.User if '2' in u.roles.id)[:]
 #     for user in users_by_roles:
 #         db.NotifyUser(
 #             notification=noti,
 #             user=user,
 #             status=state,
 #             recipient_user=False,
-#             recipient_roles=group1
+#             recipient_roles=role2
 #         )
 
 # # 4to Caso: Todos

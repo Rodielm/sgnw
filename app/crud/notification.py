@@ -5,21 +5,21 @@ from app.models.master import MasterBase
 from app.db.base import *
 
 
-@db_session
-def read_notifications() -> List[NotificationInResponse]:
-    # apps: List[AppInResponse] = []
-    # rows = select(r for r in db.App)[:]
-    # for row in rows:
-    #     apps.append(row.to_dict())
-    return "En construcción"
 
+# TODO buscar como saber si es por grupo , roles o directos
+# recibiendo parametro como id grupo y roles del usuario.
+# read notification by user
 
 @db_session
-def read_notification_for_user(name: str) -> AppInResponse:
-    # row = db.App.get(name=name)
-    # if row:
-    #     return row.to_dict()
-    return "En construcción"
+def read_notification_for_user(id: int):
+    sql_debug(True)
+    notify: List[NotificationInResponse] = []
+    # rows = select(n for n in db.Notification if JOIN(
+    #     id in n.notify_users.user.id))[:]
+    rows = select(n for n in db.Notification if id in n.notify_users.user.id)[:]
+    for row in rows:
+        notify.append(row.to_dict())
+    return notify
 
 
 @db_session
@@ -49,13 +49,13 @@ def create_notification(row: NotificationInCreate):
     # By Roles
     if row.recipient_roles:
         create_notification_role(Notify, status, row)
-    
+
     return Notify
 
 
 @db_session
 def delete_notification(id: int):
-    db.app[id].delete()
+    db.Notification[id].delete()
 
 
 def create_notification_user(Notify: NotificationBase, status: NotifyStateBase, row: NotificationInCreate):
@@ -107,5 +107,6 @@ def create_notification_role(Notify: NotificationBase, status: NotifyStateBase, 
             recipient_roles=rol
         )
 
+
 def send_notification_email():
-    return "send to email"
+    return "send to email soon"
