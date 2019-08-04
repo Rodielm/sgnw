@@ -28,4 +28,4 @@ Sistema de gestión de notificación Web
 
 ## TODO Issue Backend
 
-- [ ] Issue #1: Inconvenientes a crear notificaciones del mismo usuario como directo, grupo y roles 
+- [ ] Issue #1: Inconvenientes a crear notificaciones del mismo usuario como directo, grupo y roles por la regla de unique
