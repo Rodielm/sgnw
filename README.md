@@ -4,18 +4,18 @@ Sistema de gestión de notificación Web
 
 ## TODO Backend
 
-- [] Security
+- [ ] Security
 - [x] Crud User
 - [x] Crud Roles
 - [x] Crud Grupos
 - [x] Crud App
 - [x] Crud Lang
 - [x] Post Notifications (notification, notifyuser)
-- [] Login Back
-- [] Configurations filter user
+- [ ] Login Back
+- [ ] Configurations filter user
 
 - [x] Get Notifications by user
-- [] Post Notification to Email
+- [ ] Post Notification to Email
 
 ## TODO Frontend
 
@@ -28,4 +28,4 @@ Sistema de gestión de notificación Web
 
 ## TODO Issue Backend
 
-- [] Issue #1: Inconvenientes a crear notificaciones del mismo usuario como directo, grupo y roles 
+- [ ] Issue #1: Inconvenientes a crear notificaciones del mismo usuario como directo, grupo y roles 
