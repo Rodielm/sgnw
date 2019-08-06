@@ -3,12 +3,43 @@ from typing import List
 from pony.orm import *
 from app.models.user import (UserBase, UserInResponse, UserInDB, UserInUpdate)
 from app.db.base import db
+from app.core.security import get_password_hash, verify_password
 
 
 @db_session
-def create_user(user: UserBase):
-    db.User(**user.dict())
-    commit()
+def get(user_id: int) -> Optional[UserInResponse]:
+    return db.User.get(id=user_id)
+
+@db_session
+def is_user_active(user: UserBase):
+    return "test"
+
+@db_session
+def is_user_admin(user: UserBase):
+    return "test"
+
+@db_session
+def get_by_email(email: str) -> Optional[UserInResponse]:
+    return db.User.get(email=email)
+
+@db_session
+def authenticate(email:str,password:str) -> Optional[UserInDB]:
+    user = get_by_email(emai=email)
+    if not user:
+        return None
+    if not verify_password(password, user.password):
+        return None
+    return user
+
+@db_session
+def create_user(user: UserInDB):
+    user = db.User(
+        first_name=user.first_name,
+        last_name=user.last_name,
+        email=user.email,
+        username=user.username,
+        password=get_password_hash(user.password)
+    )
     return user
 
 
@@ -42,7 +73,7 @@ def read_user_email(email: str) -> UserInResponse:
     if row:
         return row.to_dict()
 
+
 @db_session
-def delete_user(id:int):
+def delete_user(id: int):
     db.User[id].delete()
-    

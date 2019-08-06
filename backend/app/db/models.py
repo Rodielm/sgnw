@@ -7,11 +7,11 @@ from .base import db
 
 class User(db.Entity):
     id = PrimaryKey(int, auto=True)
-    first_name = Required(str)
-    last_name = Required(str)
     email = Optional(str)
     username = Required(str)
     password = Required(str)
+    isActive = Required(bool, default=True)
+    isAdmin = Required(bool, default=False)
     create_ts = Optional(date, default=lambda: date.today())
     tokens = Set('Token')
     notify_users = Set('NotifyUser')
