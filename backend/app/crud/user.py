@@ -1,41 +1,45 @@
 
 from typing import List
 from pony.orm import *
-from app.models.user import (UserBase, UserInResponse, UserInDB, UserInUpdate)
+from app.models.user import (
+    UserBase, UserSecurity, UserInResponse, UserInDB, UserInUpdate)
 from app.db.base import db
 from app.core.security import get_password_hash, verify_password
 
 
 @db_session
-def get(user_id: int) -> Optional[UserInResponse]:
+def get(user_id: int):
     return db.User.get(id=user_id)
 
-@db_session
-def is_user_active(user: UserBase):
-    return "test"
 
 @db_session
-def is_user_admin(user: UserBase):
-    return "test"
+def is_user_active(user: UserSecurity):
+    return user.isActive
+
 
 @db_session
-def get_by_email(email: str) -> Optional[UserInResponse]:
+def is_user_admin(user: UserSecurity):
+    return user.isAdmin
+
+
+@db_session
+def get_by_email(email: str):
     return db.User.get(email=email)
 
+
 @db_session
-def authenticate(email:str,password:str) -> Optional[UserInDB]:
-    user = get_by_email(emai=email)
+def authenticate(email: str, password: str):
+    user = get_by_email(email=email)
     if not user:
         return None
     if not verify_password(password, user.password):
         return None
     return user
 
+
 @db_session
 def create_user(user: UserInDB):
     user = db.User(
-        first_name=user.first_name,
-        last_name=user.last_name,
         email=user.email,
         username=user.username,
         password=get_password_hash(user.password)
@@ -49,8 +53,6 @@ def update_user(id: int, user: UserInUpdate):
     if not dbuser:
         return dbuser
     else:
-        dbuser.first_name = user.first_name
-        dbuser.last_name = user.last_name
         dbuser.email = user.email
         dbuser.username = user.username
         commit()

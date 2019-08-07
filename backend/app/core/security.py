@@ -13,10 +13,11 @@ from app.core.jwt import ALGORITHM
 from app.models.token import TokenPayload
 from app.db.base import db
 from app.crud import user as db_user
+from app.models.user import UserSecurity
 from pony.orm import *
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
-
+reusable_oauth2 = OAuth2PasswordBearer(tokenUrl="/api/login/access-token")
 
 def generate_salt():
     return bcrypt.gensalt().decode()
@@ -44,14 +45,14 @@ def get_current_user(token: str = Security(reusable_oauth2)):
     return user
 
 
-def get_current_active_user(current_user: User = Security(get_current_user)):
-    if not db_user.is_user_active(current_user):
+def get_current_active_user(current_user: UserSecurity = Security(get_current_user)):
+    if not current_user.isActive:
         raise HTTPException(status_code=400, detail="Inactive user")
     return current_user
 
 
-def get_current_active_superuser(current_user: User = Security(get_current_user)):
-    if not db_user.is_user_admin(current_user):
+def get_current_active_superuser(current_user: UserSecurity = Security(get_current_user)):
+    if not current_user.isAdmin:
         raise HTTPException(
             status_code=400, detail="The user doesn't have enough privileges"
         )

@@ -1,6 +1,6 @@
 
 from fastapi import APIRouter
-from app.models.user import (
+from app.models.user import ( UserSecurity,
     UserBase, ManyUsersInResponse, UserInResponse, UserInDB, UserInUpdate)
 from datetime import timedelta
 from app.crud import user as db_user
@@ -27,17 +27,17 @@ from starlette.status import (
 router = APIRouter()
 
 
-@router.post("/login/access-token", response_model=Token, tags=["login"])
+@router.post("/access-token")
 def login_access_token(form_data: OAuth2PasswordRequestForm = Depends()):
     """
     OAuth2 compatible token login, get an access token for future requests
     """
-    user = db_user.authenticate(email=form_data.username, password=form_data.password
-                                )
+    user = db_user.authenticate(
+        email=form_data.username, password=form_data.password)
     if not user:
         raise HTTPException(
             status_code=400, detail="Incorrect email or password")
-    elif not db_user.is_active(user):
+    elif not user.isActive:
         raise HTTPException(status_code=400, detail="Inactive user")
     access_token_expires = timedelta(
         minutes=config.ACCESS_TOKEN_EXPIRE_MINUTES)
@@ -49,12 +49,9 @@ def login_access_token(form_data: OAuth2PasswordRequestForm = Depends()):
     }
 
 
-@router.post("/login/test-token", tags=["login"], response_model=UserBase)
-def test_token(current_user: UserBase = Depends(get_current_user)):
+@router.post("/test-token")
+def test_token(current_user: UserSecurity = Depends(get_current_user)):
     """
     Test access token
     """
     return current_user
-
-
-

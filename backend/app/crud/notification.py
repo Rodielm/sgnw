@@ -14,8 +14,9 @@ def read_notification_for_user(id: int):
     notify: List[NotificationInResponse] = []
     # rows = select(n for n in db.Notification if JOIN(
     #     id in n.notify_users.user.id))[:]
-    rows = select(n for n in db.Notification
-                  if id in n.notify_users.user.id)[:]
+    rows = select(
+        n for n in db.Notification
+        if id in n.notify_users.user.id)[:]
     for row in rows:
         notify.append(row.to_dict())
     return notify
@@ -27,15 +28,16 @@ def create_notification(row: NotificationInCreate):
     status = db.NotifyState.get(id=1)
     app = db.App.get(id=row.app.id)
     # Create Notification
-    Notify = db.Notification(summary=row.summary,
-                             summary_args=row.summary_args,
-                             body=row.body,
-                             body_args=row.body_args,
-                             hints=row.hints,
-                             app=app,
-                             I10n_vers=row.I10n_vers)
+    Notify = db.Notification(
+        summary=row.summary,
+        summary_args=row.summary_args,
+        body=row.body,
+        body_args=row.body_args,
+        hints=row.hints,
+        app=app,
+        I10n_vers=row.I10n_vers)
     # Compute user relationships to notifications
-    notications_by_user = {}
+    notifications_by_user = {}
     # Users
     if row.user:
         users = row.user  # FIXME: user is a list... rename to users

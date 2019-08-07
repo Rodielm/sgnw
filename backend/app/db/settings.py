@@ -1,5 +1,6 @@
 import logging
 from .base import *
+from app.core.security import get_password_hash, verify_password
 
 # db.bind(provider='sqlite', filename='database.sqlite', create_db=True)
 db_params = {'provider': 'sqlite', 'filename': 'notify.db', 'create_db': True}
@@ -38,39 +39,31 @@ def populate_database():
 
     role1 = db.Role(name='role1')
     role2 = db.Role(name='role2')
+
     db.Role(name='role3')
 
-
     user1 = db.User(
-        first_name='fulano',
-        last_name='fulanin',
         username='user1',
-        password='1234',
+        password=get_password_hash('1234'),
         email='fulan@gmail.com',
         groups=[group1])
 
     user2 = db.User(
-        first_name='fulana',
-        last_name='fulanan',
         username='user2',
-        password='1234',
-        email='fulina@gmail.com',
+        password=get_password_hash('1234'),
+        email='fulin@gmail.com',
         groups=[group1])
 
     user3 = db.User(
-        first_name='miguel',
-        last_name='fulanan',
         username='user2',
-        password='1234',
-        email='fulina@gmail.com',
+        password=get_password_hash('1234'),
+        email='fulint@gmail.com',
         roles=[role2])
 
     user4 = db.User(
-        first_name='mario',
-        last_name='fulanan',
         username='user2',
-        password='1234',
-        email='fulina@gmail.com',
+        password=get_password_hash('1234'),
+        email='fuline@gmail.com',
         roles=[role2])
 
     lang1 = db.Lang(name='Spanish')
@@ -86,11 +79,11 @@ def populate_database():
     app = db.App(name='App3')
     db.App_lang(app=app, lang=lang1, filename='example.ts')
 
-    noti = db.Notification(
-        summary='Testing', body='Notification testing', app=app)
+    # noti = db.Notification(
+    #     summary='Testing', body='Notification testing', app=app)
 
     # users = [user1, user2]
-    
+
 # 1er Caso: Usuarios directos
 # # By users
 #     for user in users:
@@ -104,16 +97,16 @@ def populate_database():
 
 # # 2do Caso: Grupos
 # # By Groups
-    users_by_groups = select(u for u in db.User if '1' in u.groups.id)[:]
+    # users_by_groups = select(u for u in db.User if '1' in u.groups.id)[:]
 
-    for user in users_by_groups:
-        db.NotifyUser(
-            notification=noti,
-            user=user,
-            status=state,
-            recipient_user=False,
-            recipient_groups=group1
-        )
+    # for user in users_by_groups:
+    #     db.NotifyUser(
+    #         notification=noti,
+    #         user=user,
+    #         status=state,
+    #         recipient_user=False,
+    #         recipient_groups=group1
+    #     )
 
 
 # # # 3er Caso: Roles
