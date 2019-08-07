@@ -8,8 +8,7 @@ class RoleBase(BaseModel):
     
 
 class RoleNotification(BaseModel):
-    id:int
-    name:str = ""
+    name: str
     
 class RoleInResponse(RoleBase):
     id:int

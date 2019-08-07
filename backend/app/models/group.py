@@ -10,8 +10,7 @@ class GroupBase(BaseModel):
 
 
 class GroupNotification(BaseModel):
-    id: int
-    name: str = ""
+    name: str
 
 
 class GroupInResponse(GroupBase):

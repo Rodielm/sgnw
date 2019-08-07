@@ -22,6 +22,8 @@ class User(db.Entity):
 class Role(db.Entity):
     id = PrimaryKey(int, auto=True)
     name = Required(str)
+    app = Optional('App')
+    composite_key(name, app)
     description = Optional(str)
     create_ts = Optional(date, default=lambda: date.today())
     users = Set(User)
@@ -31,6 +33,8 @@ class Role(db.Entity):
 class Group(db.Entity):
     id = PrimaryKey(int, auto=True)
     name = Required(str)
+    app = Optional('App')
+    composite_key(name, app)
     description = Optional(str)
     create_ts = Required(datetime, sql_default='CURRENT_TIMESTAMP')
     users = Set(User)
@@ -45,6 +49,8 @@ class App(db.Entity):
     create_ts = Required(datetime, sql_default='CURRENT_TIMESTAMP')
     notifications = Set('Notification')
     app_langs = Set('App_lang')
+    groups = Set('Group')
+    roles = Set('Role')
 
 
 class Token(db.Entity):

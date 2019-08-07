@@ -4,12 +4,12 @@ from pydantic import BaseModel
 
 
 class UserBase(BaseModel):
-    email: str
-    username: str
-    
+    email: str = ""
+    username: str = ""
+
 
 class UserNotification(BaseModel):
-    id:int
+    email: str
     username:str
 
 class UserInResponse(UserBase):
