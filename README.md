@@ -11,6 +11,7 @@ Sistema de gestión de notificación Web
 - [x] Crud App
 - [x] Crud Lang
 - [x] Post Notifications (notification, notifyuser)
+- [ ] Update Notification Status (read, new, erased) ... has to verify if the notification can be completely erased (all active users have erased it)
 - [ ] Login Back
 - [ ] Configurations filter user
 
@@ -28,4 +29,4 @@ Sistema de gestión de notificación Web
 
 ## TODO Issue Backend
 
-- [ ] Issue #1: Inconvenientes a crear notificaciones del mismo usuario como directo, grupo y roles por la regla de unique
+- [x] Issue #1: Inconvenientes a crear notificaciones del mismo usuario como directo, grupo y roles por la regla de unique
