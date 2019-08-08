@@ -1,11 +1,8 @@
 from typing import List
+import logging
 from app.models.notification import *
 from app.models.master import MasterBase
 from app.db.base import *
-
-# TODO buscar como saber si es por grupo , roles o directos
-# recibiendo parametro como id grupo y roles del usuario.
-# read notification by user
 
 
 @db_session
@@ -27,6 +24,7 @@ def create_notification(row: NotificationInCreate):
     sql_debug(True)
     status = db.NotifyState.get(id=1)
     app = db.App.get(id=row.app.id)
+    print("Inserting notification")
     # Create Notification
     Notify = db.Notification(
         summary=row.summary,
@@ -46,27 +44,27 @@ def create_notification(row: NotificationInCreate):
             if user is None:
                 user = db.User.get(email=u.email)
             if user is None:
-                # FIXME: Report that the user does not exist (i.e. on the
-                # application error log)
+                logging.error(
+                    'User doest not exist {}'.format(row.user.to_dict()))
                 continue
-            uid = u.id
+            uid = user.id
             notifications_by_user[uid] = {}
             notifications_by_user[uid]['recipient_user'] = True
             notifications_by_user[uid]['recipient_groups'] = set()
             notifications_by_user[uid]['recipient_roles'] = set()
     # Groups
     if row.recipient_groups:
+        print("Procesando grupos")
         groups = row.recipient_groups
         for gr in groups:
-            group = db.Group.get(id=gr.name, app=app)
+            group = db.Group.get(name=gr.name, app=app)
             if group is None:
                 group = db.Group.get(name=gr.name, app=None)
             if group is None:
-                # FIXME: Report that the group does not exist (i.e. on the
-                # application error log)
+                logging.error('Group doest not exist {}'.format(gr.to_dict()))
                 continue
-            for u in group.users:
-                uid = u.id
+            for user in group.users:
+                uid = user.id
                 if uid not in notifications_by_user:
                     notifications_by_user[uid] = {}
                     notifications_by_user[uid]['recipient_user'] = False
@@ -81,11 +79,10 @@ def create_notification(row: NotificationInCreate):
             if role is None:
                 role = db.Role.get(name=ro.name, app=None)
             if role is None:
-                # FIXME: Report that the role does not exist (i.e. on the
-                # application error log)
+                logging.error('Roles doest not exist {}'.format(ro.to_dict()))
                 continue
-            for u in role.users:
-                uid = u.id
+            for user in role.users:
+                uid = user.id
                 if uid not in notifications_by_user:
                     notifications_by_user[uid] = {}
                     notifications_by_user[uid]['recipient_user'] = False
@@ -95,7 +92,7 @@ def create_notification(row: NotificationInCreate):
     # Create NotifyUser entries
     new_state = db.NotifyState.get(name='Nuevo')
     for uid in notifications_by_user:
-        user = db.User.get(uid)
+        user = db.User.get(id=uid)
         nu = db.NotifyUser(
             notification=Notify,
             user=user,
