@@ -1,6 +1,12 @@
 import logging
 from .base import *
 from app.core.security import get_password_hash, verify_password
+from app.models.notification import NotificationInCreate
+from app.crud.notification import create_notification
+from app.models.app import AppNotification
+from app.models.group import GroupNotification
+from app.models.user import UserNotification
+
 
 # db.bind(provider='sqlite', filename='database.sqlite', create_db=True)
 db_params = {'provider': 'sqlite', 'filename': 'notify.db', 'create_db': True}
@@ -10,17 +16,18 @@ def init():
     db.bind(db_params)
     try:
         db.generate_mapping()
-        db.drop_all_tables(True)
-        logging.info("Dropping Tables completed")
+        # db.drop_all_tables(True)
+        # logging.info("Dropping Tables completed")
     except Exception as e:
         logging.error("Dropping Tables: {}".format(e))
     logging.info("initilize database")
     try:
-        db.create_tables()
-        logging.info("populate database")
-        populate_database()
+        # db.create_tables()
+        # logging.info("populate database")
+        # populate_database()
         logging.info("test queries")
         # test_query()
+        test_db()
     except Exception as e:
         logging.error("Creating tables: {}".format(e))
 
@@ -30,10 +37,38 @@ def test_query():
     result = select(u for u in db.User if '1' in u.groups.id)[:]
     print(result)
 
+@db_session
+def test_db():
+    app = db.App.get(name='App3')
+    logging.info('Prueba de este test {}'.format(AppNotification(id=app.id,app=app.name)))
+
+    groups = select(g for g in db.Group)[:2]
+    users = select(u for u in db.User)[:2]
+    
+    AppNoti = AppNotification(id=app.id,name=app.name)
+    groupNoti: List[GroupNotification] = []
+    userNoti: List[UserNotification] = []
+
+    for group in groups:
+        groupNoti.append(GroupNotification(name=group.name))
+
+    for u in users:
+        userNoti.append(UserNotification(email=u.email,username=u.username))
+
+    noti = NotificationInCreate(
+        summary='prueba de summary',
+        body='prueba de body',
+        app=AppNotification(id=app.id,name=app.name),
+        user=userNoti,
+        recipient_groups=groupNoti,
+    )
+
+    create_notification(noti)
+    # g = db.Group.get(name='App3', app=app)
 
 @db_session
 def populate_database():
-
+    
     group1 = db.Group(name='group1')
     group2 = db.Group(name='group2')
 
@@ -79,10 +114,14 @@ def populate_database():
     app = db.App(name='App3')
     db.App_lang(app=app, lang=lang1, filename='example.ts')
 
-    # noti = db.Notification(
-    #     summary='Testing', body='Notification testing', app=app)
+    users = [user1, user2]
+    groups = [group1]
+    roles = [role1]
 
-    # users = [user1, user2]
+# noti = db.Notification(
+#     summary='Testing', body='Notification testing', app=app)
+
+# users = [user1, user2]
 
 # 1er Caso: Usuarios directos
 # # By users
@@ -97,16 +136,16 @@ def populate_database():
 
 # # 2do Caso: Grupos
 # # By Groups
-    # users_by_groups = select(u for u in db.User if '1' in u.groups.id)[:]
+# users_by_groups = select(u for u in db.User if '1' in u.groups.id)[:]
 
-    # for user in users_by_groups:
-    #     db.NotifyUser(
-    #         notification=noti,
-    #         user=user,
-    #         status=state,
-    #         recipient_user=False,
-    #         recipient_groups=group1
-    #     )
+# for user in users_by_groups:
+#     db.NotifyUser(
+#         notification=noti,
+#         user=user,
+#         status=state,
+#         recipient_user=False,
+#         recipient_groups=group1
+#     )
 
 
 # # # 3er Caso: Roles
