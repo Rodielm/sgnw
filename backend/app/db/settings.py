@@ -1,11 +1,11 @@
 import logging
 from .base import *
 from app.core.security import get_password_hash, verify_password
-from app.models.notification import NotificationInCreate
+from app.api.models.notification import NotificationInCreate
 from app.crud.notification import create_notification
-from app.models.app import AppNotification
-from app.models.group import GroupNotification
-from app.models.user import UserNotification
+from app.api.models.app import AppNotification
+from app.api.models.group import GroupNotification
+from app.api.models.user import UserNotification
 
 
 # db.bind(provider='sqlite', filename='database.sqlite', create_db=True)

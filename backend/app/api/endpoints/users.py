@@ -1,6 +1,6 @@
 
 from fastapi import APIRouter
-from app.models.user import (UserBase, ManyUsersInResponse, UserInResponse, UserInDB, UserInUpdate)
+from app.api.models.user import (UserBase, ManyUsersInResponse, UserInResponse, UserInDB, UserInUpdate)
 from app.crud import user as db_user
 from fastapi.encoders import jsonable_encoder
 from app.core.utils import create_aliased_response

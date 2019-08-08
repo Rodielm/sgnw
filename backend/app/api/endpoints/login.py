@@ -1,6 +1,6 @@
 
 from fastapi import APIRouter
-from app.models.user import ( UserSecurity,
+from app.api.models.user import ( UserSecurity,
     UserBase, ManyUsersInResponse, UserInResponse, UserInDB, UserInUpdate)
 from datetime import timedelta
 from app.crud import user as db_user

@@ -1,5 +1,5 @@
 from fastapi import APIRouter
-from app.models.app import *
+from app.api.models.app import *
 from app.crud import app as db_app
 from fastapi.encoders import jsonable_encoder
 from app.core.utils import create_aliased_response

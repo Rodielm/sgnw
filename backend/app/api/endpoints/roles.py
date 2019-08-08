@@ -1,6 +1,6 @@
 
 from fastapi import APIRouter
-from app.models.rol import (RoleBase, ManyRolesInResponse, RoleInResponse, RoleInDB, RoleInUpdate)
+from app.api.models.rol import (RoleBase, ManyRolesInResponse, RoleInResponse, RoleInDB, RoleInUpdate)
 from app.crud import rol as db_role
 from fastapi.encoders import jsonable_encoder
 from app.core.utils import create_aliased_response

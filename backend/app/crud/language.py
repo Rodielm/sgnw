@@ -1,7 +1,7 @@
 
 from typing import List
 from pony.orm import *
-from app.models.master import *
+from app.api.models.master import *
 from app.db.base import db
 
 

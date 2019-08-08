@@ -1,7 +1,7 @@
 
 from typing import List
 from pony.orm import *
-from app.models.user import (
+from app.api.models.user import (
     UserBase, UserSecurity, UserInResponse, UserInDB, UserInUpdate)
 from app.db.base import db
 from app.core.security import get_password_hash, verify_password

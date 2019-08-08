@@ -1,8 +1,8 @@
 
 from typing import List
 from pony.orm import *
-from app.models.app import *
-from app.models.master import MasterBase
+from app.api.models.app import *
+from app.api.models.master import MasterBase
 from app.db.base import db
 
 

@@ -1,7 +1,7 @@
 from typing import List
 import logging
-from app.models.notification import *
-from app.models.master import MasterBase
+from app.api.models.notification import *
+from app.api.models.master import MasterBase
 from app.db.base import *
 
 

@@ -10,10 +10,10 @@ from starlette.status import HTTP_403_FORBIDDEN
 
 from app.core import config
 from app.core.jwt import ALGORITHM
-from app.models.token import TokenPayload
+from app.api.models.token import TokenPayload
 from app.db.base import db
 from app.crud import user as db_user
-from app.models.user import UserSecurity
+from app.api.models.user import UserSecurity
 from pony.orm import *
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")

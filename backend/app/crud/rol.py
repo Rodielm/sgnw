@@ -1,7 +1,7 @@
 
 from typing import List
 from pony.orm import *
-from app.models.rol import (RoleBase,RoleInUpdate,RoleInResponse,RoleInDB)
+from app.api.models.rol import (RoleBase,RoleInUpdate,RoleInResponse,RoleInDB)
 from app.db.base import db
 
 

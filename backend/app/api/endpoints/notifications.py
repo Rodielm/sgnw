@@ -1,6 +1,6 @@
 
 from fastapi import APIRouter
-from app.models.notification import *
+from app.api.models.notification import *
 from app.crud import notification as db_noti
 from fastapi.encoders import jsonable_encoder
 from app.core.utils import create_aliased_response
