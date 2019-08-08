@@ -22,7 +22,7 @@ class NotificationBase(BaseModel):
 
 
 class NotificationInCreate(NotificationBase):
-    user: List[UserNotification] = None
+    users: List[UserNotification] = None
     recipient_groups: List[GroupNotification] = None
     recipient_roles: List[RoleNotification] = None
     pass

@@ -37,15 +37,15 @@ def create_notification(row: NotificationInCreate):
     # Compute user relationships to notifications
     notifications_by_user = {}
     # Users
-    if row.user:
-        users = row.user  # FIXME: user is a list... rename to users
+    if row.users:
+        users = row.users  # FIXME: user is a list... rename to users
         for u in users:
             user = db.User.get(username=u.username)
             if user is None:
                 user = db.User.get(email=u.email)
             if user is None:
                 logging.error(
-                    'User doest not exist {}'.format(row.user.to_dict()))
+                    'User doest not exist {}'.format(u))
                 continue
             uid = user.id
             notifications_by_user[uid] = {}
