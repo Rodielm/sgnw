@@ -12,7 +12,7 @@ Sistema de gestión de notificación Web
 - [x] Crud Lang
 - [x] Post Notifications (notification, notifyuser)
 - [ ] Update Notification Status (read, new, erased) ... has to verify if the notification can be completely erased (all active users have erased it)
-- [ ] Login Back
+- [x] Login Back
 - [ ] Configurations filter user
 
 - [x] Get Notifications by user
