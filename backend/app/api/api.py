@@ -11,7 +11,6 @@ from .endpoints.notifications import router as noti_router
 
 router = APIRouter()
 
-# router.include_router(arguments_router)
 router.include_router(login_router, prefix="/login", tags=["Login"])
 router.include_router(users_router, prefix="/users", tags=["Users"])
 router.include_router(roles_router, prefix="/roles", tags=["Roles"])

@@ -10,6 +10,8 @@ from starlette.responses import JSONResponse
 from starlette.exceptions import HTTPException
 from starlette.status import (
     HTTP_201_CREATED,
+    HTTP_200_OK,
+    HTTP_202_ACCEPTED,
     HTTP_204_NO_CONTENT,
     HTTP_400_BAD_REQUEST,
     HTTP_404_NOT_FOUND,
@@ -28,6 +30,11 @@ def read_notification_user(id: int):
 def create_notification(notification: NotificationInCreate):
     # app, notify users, user, groups, roles list and status
     return db_noti.create_notification(notification)
+
+
+@router.put("/", status_code=HTTP_202_ACCEPTED)
+def update_notification(current_user: int, idNotification: int, idStatus: int):
+    return db_noti.update_notification_by_status(idNotification, current_user, idStatus)
 
 
 @router.delete("/{id}")

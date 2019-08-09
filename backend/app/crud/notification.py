@@ -1,6 +1,7 @@
 from typing import List
 import logging
 from app.api.models.notification import *
+from app.api.models.NotifyState import NotifyStateInUpdate
 from app.api.models.master import MasterBase
 from app.db.base import *
 
@@ -9,8 +10,6 @@ from app.db.base import *
 def read_notification_for_user(id: int):
     sql_debug(True)
     notify: List[NotificationInResponse] = []
-    # rows = select(n for n in db.Notification if JOIN(
-    #     id in n.notify_users.user.id))[:]
     rows = select(
         n for n in db.Notification
         if id in n.notify_users.user.id)[:]
@@ -104,6 +103,18 @@ def create_notification(row: NotificationInCreate):
                 notifications_by_user[uid]['recipient_roles']),
         )
     return Notify
+
+
+@db_session
+def update_notification_by_status(idNotification: int, idUser: int, notifystate: NotifyStateInUpdate):
+    # FIXME change idUser by current_user logged
+    # 1: Nuevo, 2: Leído, 3: Borrado
+    notifyState = db.NotifyState.get(name=notifystate.name)
+    notifyuser = db.NotifyUser.get(notification=idNotification, user=idUser)
+    if notifyuser is None:
+        logging.error('This notification does not exist')
+    else:
+        notifyuser.status = notifyState
 
 
 @db_session

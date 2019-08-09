@@ -27,7 +27,7 @@ def init():
         # populate_database()
         logging.info("test queries")
         # test_query()
-        test_db()
+        # test_db()
     except Exception as e:
         logging.error("Creating tables: {}".format(e))
 
