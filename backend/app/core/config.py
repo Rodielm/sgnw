@@ -5,7 +5,7 @@ import os
 # $ source bin/activate
 # load_dotenv(".env")
 
-API_V1 = "/api"
+API_V1 = "v1/api"
 
 SECRET_KEY = os.getenvb(b"SECRET_KEY")
 if not SECRET_KEY:

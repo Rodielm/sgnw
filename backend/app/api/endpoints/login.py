@@ -54,4 +54,5 @@ def test_token(current_user: UserSecurity = Depends(get_current_user)):
     """
     Test access token
     """
-    return current_user
+    user = current_user.to_dict()
+    return user

@@ -30,10 +30,12 @@ def get_by_email(email: str):
 @db_session
 def authenticate(email: str, password: str):
     user = get_by_email(email=email)
+    
     if not user:
         return None
     if not verify_password(password, user.password):
         return None
+    print("authenticated user: {} ".format(user.to_dict()))
     return user
 
 
@@ -64,7 +66,9 @@ def findAll_users() -> List[UserInResponse]:
     users: List[UserInResponse] = []
     rows = db.User.select()
     for row in rows:
-        users.append(row.to_dict())
+        user = row.to_dict()
+        user['full_name'] = user.get('username')
+        users.append(user)
     return users
 
 

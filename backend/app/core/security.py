@@ -17,7 +17,7 @@ from app.api.models.user import UserSecurity
 from pony.orm import *
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
-reusable_oauth2 = OAuth2PasswordBearer(tokenUrl="/api/login/access-token")
+reusable_oauth2 = OAuth2PasswordBearer(tokenUrl="api/v1/login/access-token")
 
 def generate_salt():
     return bcrypt.gensalt().decode()
