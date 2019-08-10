@@ -6,7 +6,7 @@ export const getters = {
     hasAdminAccess: (state: MainState) => {
         return (
             state.userProfile &&
-            state.userProfile.is_superuser && state.userProfile.is_active);
+            state.userProfile.isAdmin && state.userProfile.isActive);
     },
     loginError: (state: MainState) => state.logInError,
     dashboardShowDrawer: (state: MainState) => state.dashboardShowDrawer,
