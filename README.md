@@ -22,7 +22,7 @@ Sistema de gestión de notificación Web
 - [x] Login Front
 - [ ] Crud User Front (Admin)
 - [ ] Crud Roles Front (Admin)
-- [ ] Crud Group Front (Admin)
+- [x] Crud Group Front (Admin)
 - [ ] Crud App Front (Admin)
 - [ ] Crud Lang Front (Admin)
 
