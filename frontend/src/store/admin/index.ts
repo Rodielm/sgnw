@@ -5,6 +5,7 @@ import { AdminState } from './state';
 
 const defaultState: AdminState = {
   users: [],
+  groups: [],
 };
 
 export const adminModule = {

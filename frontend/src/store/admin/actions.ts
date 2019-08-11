@@ -4,7 +4,7 @@ import { IUserProfileCreate, IUserProfileUpdate } from '@/interfaces';
 import { State } from '../state';
 import { AdminState } from './state';
 import { getStoreAccessors } from 'typesafe-vuex';
-import { commitSetUsers, commitSetUser } from './mutations';
+import { commitSetUsers, commitSetUser, commitSetGroups } from './mutations';
 import { dispatchCheckApiError } from '../main/actions';
 import { commitAddNotification, commitRemoveNotification } from '../main/mutations';
 
@@ -16,6 +16,16 @@ export const actions = {
             const response = await api.getUsers(context.rootState.main.token);
             if (response) {
                 commitSetUsers(context, response.data);
+            }
+        } catch (error) {
+            await dispatchCheckApiError(context, error);
+        }
+    },
+    async actionGetGroups(context: MainContext) {
+        try {
+            const response = await api.getGroups(context.rootState.main.token);
+            if (response) {
+                commitSetGroups(context, response.data);
             }
         } catch (error) {
             await dispatchCheckApiError(context, error);
@@ -58,3 +68,5 @@ const { dispatch } = getStoreAccessors<AdminState, State>('');
 export const dispatchCreateUser = dispatch(actions.actionCreateUser);
 export const dispatchGetUsers = dispatch(actions.actionGetUsers);
 export const dispatchUpdateUser = dispatch(actions.actionUpdateUser);
+
+export const dispatchGetGroups = dispatch(actions.actionGetGroups);

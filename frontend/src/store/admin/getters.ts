@@ -10,9 +10,12 @@ export const getters = {
             return { ...filteredUsers[0] };
         }
     },
+    adminGroups: (state: AdminState) => state.groups,
 };
 
 const { read } = getStoreAccessors<AdminState, State>('');
 
 export const readAdminOneUser = read(getters.adminOneUser);
 export const readAdminUsers = read(getters.adminUsers);
+
+export const readAdminGroups = read(getters.adminGroups);

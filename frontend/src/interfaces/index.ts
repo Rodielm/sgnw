@@ -21,3 +21,10 @@ export interface IUserProfileCreate {
     isActive?: boolean;
     isAdmin?: boolean;
 }
+
+export interface IGroups {
+    name?: string;
+    app?: string;
+    idGroup?: number;
+    idApp?: number;
+}

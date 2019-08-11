@@ -48,7 +48,7 @@
               <v-list-tile-title>Manage Users</v-list-tile-title>
             </v-list-tile-content>
           </v-list-tile>
-          <v-list-tile to="/main/admin/users/all">
+          <v-list-tile>
             <v-list-tile-action>
               <v-icon>apps</v-icon>
             </v-list-tile-action>
@@ -56,7 +56,7 @@
               <v-list-tile-title>Manage Apps</v-list-tile-title>
             </v-list-tile-content>
           </v-list-tile>
-          <v-list-tile to="/main/admin/users/all">
+          <v-list-tile>
             <v-list-tile-action>
               <v-icon>assignment_ind</v-icon>
             </v-list-tile-action>
@@ -64,7 +64,7 @@
               <v-list-tile-title>Manage Roles</v-list-tile-title>
             </v-list-tile-content>
           </v-list-tile>
-          <v-list-tile to="/main/admin/users/all">
+          <v-list-tile to="/main/admin/groups/all">
             <v-list-tile-action>
               <v-icon>group</v-icon>
             </v-list-tile-action>
@@ -142,16 +142,23 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component } from 'vue-property-decorator';
+import { Vue, Component } from "vue-property-decorator";
 
-import { appName } from '@/env';
-import { readDashboardMiniDrawer, readDashboardShowDrawer, readHasAdminAccess } from '@/store/main/getters';
-import { commitSetDashboardShowDrawer, commitSetDashboardMiniDrawer } from '@/store/main/mutations';
-import { dispatchUserLogOut } from '@/store/main/actions';
+import { appName } from "@/env";
+import {
+  readDashboardMiniDrawer,
+  readDashboardShowDrawer,
+  readHasAdminAccess
+} from "@/store/main/getters";
+import {
+  commitSetDashboardShowDrawer,
+  commitSetDashboardMiniDrawer
+} from "@/store/main/mutations";
+import { dispatchUserLogOut } from "@/store/main/actions";
 
 const routeGuardMain = async (to, from, next) => {
-  if (to.path === '/main') {
-    next('/main/dashboard');
+  if (to.path === "/main") {
+    next("/main/dashboard");
   } else {
     next();
   }
@@ -184,14 +191,14 @@ export default class Main extends Vue {
   public switchShowDrawer() {
     commitSetDashboardShowDrawer(
       this.$store,
-      !readDashboardShowDrawer(this.$store),
+      !readDashboardShowDrawer(this.$store)
     );
   }
 
   public switchMiniDrawer() {
     commitSetDashboardMiniDrawer(
       this.$store,
-      !readDashboardMiniDrawer(this.$store),
+      !readDashboardMiniDrawer(this.$store)
     );
   }
 
