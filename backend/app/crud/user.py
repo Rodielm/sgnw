@@ -30,7 +30,7 @@ def get_by_email(email: str):
 @db_session
 def authenticate(email: str, password: str):
     user = get_by_email(email=email)
-    
+
     if not user:
         return None
     if not verify_password(password, user.password):
@@ -55,9 +55,10 @@ def update_user(id: int, user: UserInUpdate):
     if not dbuser:
         return dbuser
     else:
-        dbuser.email = user.email
-        dbuser.username = user.username
-        commit()
+        if user.username is not None:
+            dbuser.username = user.username
+        if user.email is not None:
+            dbuser.email = user.email
     return dbuser
 
 
@@ -67,7 +68,6 @@ def findAll_users() -> List[UserInResponse]:
     rows = db.User.select()
     for row in rows:
         user = row.to_dict()
-        user['full_name'] = user.get('username')
         users.append(user)
     return users
 
