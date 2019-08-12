@@ -7,7 +7,7 @@
       <v-card-text>
         <div class="my-4">
           <div class="subheading secondary--text text--lighten-3">Full Name</div>
-          <div class="title primary--text text--darken-2" v-if="userProfile && userProfile.full_name">{{userProfile.full_name}}</div>
+          <div class="title primary--text text--darken-2" v-if="userProfile && userProfile.username">{{userProfile.username}}</div>
           <div class="title primary--text text--darken-2" v-else>-----</div>
         </div>
         <div class="my-3">

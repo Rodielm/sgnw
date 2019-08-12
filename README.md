@@ -20,7 +20,7 @@ Sistema de gestión de notificación Web
 ## TODO Frontend
 
 - [x] Login Front
-- [ ] Crud User Front (Admin)
+- [x] Crud User Front (Admin)
 - [ ] Crud Roles Front (Admin)
 - [x] Crud Group Front (Admin)
 - [ ] Crud App Front (Admin)

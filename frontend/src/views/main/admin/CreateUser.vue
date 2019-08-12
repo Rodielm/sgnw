@@ -7,7 +7,7 @@
       <v-card-text>
         <template>
           <v-form v-model="valid" ref="form" lazy-validation>
-            <v-text-field label="Full Name" v-model="fullName" required></v-text-field>
+            <v-text-field label="Username" v-model="username" required></v-text-field>
             <v-text-field label="E-mail" type="email" v-model="email" v-validate="'required|email'" data-vv-name="email" :error-messages="errors.collect('email')" required></v-text-field>
             <div class="subheading secondary--text text--lighten-2">User is superuser <span v-if="isSuperuser">(currently is a superuser)</span><span v-else>(currently is not a superuser)</span></div>
             <v-checkbox label="Is Superuser" v-model="isSuperuser"></v-checkbox>
@@ -48,7 +48,7 @@ import { dispatchGetUsers, dispatchCreateUser } from '@/store/admin/actions';
 @Component
 export default class CreateUser extends Vue {
   public valid = false;
-  public fullName: string = '';
+  public username: string = '';
   public email: string = '';
   public isActive: boolean = true;
   public isSuperuser: boolean = false;
@@ -64,7 +64,7 @@ export default class CreateUser extends Vue {
   public reset() {
     this.password1 = '';
     this.password2 = '';
-    this.fullName = '';
+    this.username = '';
     this.email = '';
     this.isActive = true;
     this.isSuperuser = false;
@@ -80,8 +80,8 @@ export default class CreateUser extends Vue {
       const updatedProfile: IUserProfileCreate = {
         email: this.email,
       };
-      if (this.fullName) {
-        updatedProfile.full_name = this.fullName;
+      if (this.username) {
+        updatedProfile.username = this.username;
       }
       if (this.email) {
         updatedProfile.email = this.email;

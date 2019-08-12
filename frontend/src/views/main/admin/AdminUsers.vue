@@ -9,9 +9,8 @@
     </v-toolbar>
     <v-data-table :headers="headers" :items="users">
       <template slot="items" slot-scope="props">
-        <td>{{ props.item.name }}</td>
         <td>{{ props.item.email }}</td>
-        <td>{{ props.item.full_name }}</td>
+        <td>{{ props.item.username }}</td>
         <td><v-icon v-if="props.item.isActive">checkmark</v-icon></td>
         <td><v-icon v-if="props.item.isAdmin">checkmark</v-icon></td>
         <td class="justify-center layout px-0">
@@ -47,12 +46,6 @@ export default class AdminUsers extends Vue {
       text: 'Email',
       sortable: true,
       value: 'email',
-      align: 'left',
-    },
-    {
-      text: 'Full Name',
-      sortable: true,
-      value: 'full_name',
       align: 'left',
     },
     {
