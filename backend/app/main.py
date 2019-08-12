@@ -8,9 +8,14 @@ from app.core import config
 
 app = FastAPI(config.PROJECT_NAME, openapi_url="/api/v1/openapi.json")
 
+origins = [
+    "http://localhost:8080",
+    "http://localhost:8000"
+]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
