@@ -28,3 +28,15 @@ export interface IGroups {
     idGroup?: number;
     idApp?: number;
 }
+
+export interface IGroupsCreate {
+    name: string;
+    description?: string;
+    app?: number
+}
+
+export interface IGroupsUpdate {
+    name: string;
+    description?: string;
+    app?: number
+}

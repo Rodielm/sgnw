@@ -13,6 +13,7 @@ class AppNotification(BaseModel):
     name:str = None
     
 class AppInResponse(AppBase):
+    id:int
     pass
 
 class AppInDB(AppBase):

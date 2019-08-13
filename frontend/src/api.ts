@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { apiUrl } from '@/env';
-import { IUserProfile, IUserProfileUpdate, IUserProfileCreate, IGroups } from './interfaces';
+import { IUserProfile, IUserProfileUpdate, IUserProfileCreate, IGroups, IGroupsCreate, IGroupsUpdate } from './interfaces';
 
 function authHeaders(token: string) {
   return {
@@ -33,8 +33,14 @@ export const api = {
   async updateUser(token: string, userId: number, data: IUserProfileUpdate) {
     return axios.put(`${apiUrl}/api/v1/users/${userId}`, data, authHeaders(token));
   },
+  async updateGroups(token: string, groupId: number, data: IGroupsUpdate) {
+    return axios.put(`${apiUrl}/api/v1/groups/${groupId}`, data, authHeaders(token));
+  },
   async createUser(token: string, data: IUserProfileCreate) {
     return axios.post(`${apiUrl}/api/v1/users/`, data, authHeaders(token));
+  },
+  async createGroup(token: string, data: IGroupsCreate) {
+    return axios.post(`${apiUrl}/api/v1/groups/`, data, authHeaders(token));
   },
   async passwordRecovery(email: string) {
     return axios.post(`${apiUrl}/api/v1/password-recovery/${email}`);

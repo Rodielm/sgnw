@@ -20,14 +20,6 @@
               <v-list-tile-title>Profile</v-list-tile-title>
             </v-list-tile-content>
           </v-list-tile>
-          <v-list-tile to="/main/profile/edit">
-            <v-list-tile-action>
-              <v-icon>edit</v-icon>
-            </v-list-tile-action>
-            <v-list-tile-content>
-              <v-list-tile-title>Edit Profile</v-list-tile-title>
-            </v-list-tile-content>
-          </v-list-tile>
           <v-list-tile to="/main/profile/password">
             <v-list-tile-action>
               <v-icon>vpn_key</v-icon>
@@ -70,14 +62,6 @@
             </v-list-tile-action>
             <v-list-tile-content>
               <v-list-tile-title>Manage Group</v-list-tile-title>
-            </v-list-tile-content>
-          </v-list-tile>
-          <v-list-tile to="/main/admin/users/create">
-            <v-list-tile-action>
-              <v-icon>person_add</v-icon>
-            </v-list-tile-action>
-            <v-list-tile-content>
-              <v-list-tile-title>Create User</v-list-tile-title>
             </v-list-tile-content>
           </v-list-tile>
         </v-list>

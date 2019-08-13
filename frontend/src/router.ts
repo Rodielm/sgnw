@@ -89,6 +89,12 @@ export default new Router({
                   component: () => import(
                     /* webpackChunkName: "main-admin-groups" */ './views/main/admin/AdminGroup.vue'),
                 },
+                {
+                  path: 'groups/create',
+                  name: 'main-admin-groups-create',
+                  component: () => import(
+                    /* webpackChunkName: "main-admin-users-create" */ './views/main/admin/CreateGroups.vue'),
+                },
               ],
             },
           ],

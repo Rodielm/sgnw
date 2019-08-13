@@ -2,11 +2,13 @@ from typing import (Optional, List)
 from pydantic import BaseModel
 
 from datetime import datetime
+from .app import AppBase
 
 
 class GroupBase(BaseModel):
     name: str
     description: str
+    app: AppBase = None
 
 
 class GroupNotification(BaseModel):

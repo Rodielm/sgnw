@@ -5,7 +5,7 @@
         Manage Groups
       </v-toolbar-title>
       <v-spacer></v-spacer>
-      <v-btn color="primary" to="/main/admin/groups/create">Create Groups</v-btn>
+      <v-btn color="primary" to="/main/admin/groups/create">Create Group</v-btn>
     </v-toolbar>
     <v-data-table :headers="headers" :items="groups">
       <template slot="items" slot-scope="props">
