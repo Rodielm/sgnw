@@ -25,7 +25,7 @@ export interface IUserProfileCreate {
 export interface IGroup {
     id: number;
     name: string;
-    description:string;
+    description: string;
     app: IApp;
 }
 
@@ -41,10 +41,10 @@ export interface IGroupUpdate {
     app?: IApp
 }
 
-export interface IApp{
+export interface IApp {
     name: string;
-    description?: string;
-    version?: string;
+    description: string;
+    version: string;
     id: number;
 }
 
@@ -63,7 +63,7 @@ export interface IAppUpdate {
 export interface IRole {
     id: number;
     name: string;
-    description:string;
+    description: string;
     app: IApp;
 }
 

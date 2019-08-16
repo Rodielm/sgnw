@@ -40,7 +40,7 @@
               <v-list-tile-title>Manage Users</v-list-tile-title>
             </v-list-tile-content>
           </v-list-tile>
-          <v-list-tile>
+          <v-list-tile to="/main/admin/apps/all">
             <v-list-tile-action>
               <v-icon>apps</v-icon>
             </v-list-tile-action>

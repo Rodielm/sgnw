@@ -42,6 +42,10 @@ export default class EditApp extends Vue {
     this.name = "";
     this.description = "";
     this.$validator.reset();
+    if(this.app){
+      this.name = this.app.name;
+      this.description = this.app.description;
+    }
   }
 
   public cancel() {
@@ -57,7 +61,7 @@ export default class EditApp extends Vue {
       if (this.description) {
         updatedApp.description = this.description;
       }
-      
+
       await dispatchUpdateApp(this.$store, {
         id: this.app!.id,
         app: updatedApp
