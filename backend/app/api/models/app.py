@@ -6,7 +6,7 @@ from .master import MasterBase
 class AppBase(BaseModel):
     name: str
     description: str = None
-    version: str = None
+    version: str = ''
 
 class AppNotification(BaseModel):
     id:int
@@ -17,7 +17,6 @@ class AppInResponse(AppBase):
     pass
 
 class AppInDB(AppBase):
-    languages:List[MasterBase]
     pass
 
 class AppInUpdate(AppBase):

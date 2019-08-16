@@ -18,13 +18,14 @@ from starlette.status import (
 
 router = APIRouter()
 
-@router.get("/", response_model=List[GroupInResponse])
+@router.get("/")
 def read_groups():
     groups = db_group.read_groups()
+
     return groups
 
 
-@router.get("/{name}",response_model=GroupInResponse)
+@router.get("/{name}")
 def read_group_by_name(name: str):
     row = db_group.read_group_name(name)
     if not row:

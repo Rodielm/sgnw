@@ -6,11 +6,14 @@ from app.db.base import db
 
 
 @db_session
-def read_groups() -> List[GroupInResponse]:
+def read_groups():
     groups: List[GroupInResponse] = []
-    rows = select(r for r in db.Group)[:]
+    rows = db.Group.select()
     for row in rows:
-        groups.append(row.to_dict())
+        group = row.to_dict()
+        if row.app is not None:
+            group['app'] = row.app.to_dict()
+        groups.append(group)
     return groups
 
 
@@ -18,13 +21,17 @@ def read_groups() -> List[GroupInResponse]:
 def read_group_name(name: str) -> GroupInResponse:
     row = db.Group.get(name=name)
     if row:
-        return row.to_dict()
+        group = row.to_dict()
+        group['app'] = row.app.to_dict()
+        return group
 
 
 @db_session
 def create_group(row: GroupBase):
-    db.Group(**row.dict())
-    commit()
+    app = None
+    if row.app:
+        app = db.App.get(name=row.app.name)
+    db.Group(name=row.name, description=row.description, app=app)
     return row
 
 
@@ -34,8 +41,10 @@ def update_group(id: int, group: GroupInUpdate):
     if not dbgroup:
         return dbgroup
     else:
-        dbgroup.name = group.name
-        commit()
+        if group.name is not None:
+            dbgroup.name = group.name
+        if group.description is not None:
+            dbgroup.description = group.description
     return dbgroup
 
 

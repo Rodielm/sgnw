@@ -48,7 +48,7 @@
               <v-list-tile-title>Manage Apps</v-list-tile-title>
             </v-list-tile-content>
           </v-list-tile>
-          <v-list-tile>
+          <v-list-tile to="/main/admin/roles/all">
             <v-list-tile-action>
               <v-icon>assignment_ind</v-icon>
             </v-list-tile-action>

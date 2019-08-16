@@ -111,7 +111,10 @@ def populate_database():
 
     db.Group(name='group3')
 
+    db.App(name='App1')
+    db.App(name='App2')
     app = db.App(name='App3')
+
     db.App_lang(app=app, lang=lang1, filename='example.ts')
 
     users = [user1, user2]

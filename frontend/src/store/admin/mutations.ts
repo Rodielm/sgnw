@@ -1,4 +1,4 @@
-import { IUserProfile, IGroups } from '@/interfaces';
+import { IUserProfile, IGroup, IApp, IRole } from '@/interfaces';
 import { AdminState } from './state';
 import { getStoreAccessors } from 'typesafe-vuex';
 import { State } from '../state';
@@ -12,8 +12,24 @@ export const mutations = {
         users.push(payload);
         state.users = users;
     },
-    setGroups(state: AdminState, payload: IGroups[]) {
+    setGroup(state: AdminState, payload: IGroup) {
+        const groups = state.groups.filter((group: IGroup) => group.id !== payload.id);
+        groups.push(payload);
+        state.groups = groups;
+    },
+    setGroups(state: AdminState, payload: IGroup[]) {
         state.groups = payload;
+    },
+    setRole(state: AdminState, payload: IRole) {
+        const roles = state.groups.filter((role: IRole) => role.id !== payload.id);
+        roles.push(payload);
+        state.roles = roles;
+    },
+    setRoles(state: AdminState, payload: IRole[]) {
+        state.roles = payload;
+    },
+    setApps(state: AdminState, payload: IApp[]) {
+        state.apps = payload;
     },
 };
 
@@ -22,4 +38,10 @@ const { commit } = getStoreAccessors<AdminState, State>('');
 export const commitSetUser = commit(mutations.setUser);
 export const commitSetUsers = commit(mutations.setUsers);
 
+export const commitSetGroup = commit(mutations.setGroup);
 export const commitSetGroups = commit(mutations.setGroups);
+
+export const commitSetRole = commit(mutations.setRole);
+export const commitSetRoles = commit(mutations.setRoles);
+
+export const commitSetApps = commit(mutations.setApps);

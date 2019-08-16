@@ -84,16 +84,61 @@ export default new Router({
                   component: () => import(
                     /* webpackChunkName: "main-admin-users-create" */ './views/main/admin/CreateUser.vue'),
                 },
+              ],
+            },
+            {
+              path: 'admin',
+              component: () => import(/* webpackChunkName: "main-admin" */ './views/main/admin/Admin.vue'),
+              redirect: 'admin/groups/all',
+              children: [
+                {
+                  path: 'groups',
+                  redirect: 'groups/all',
+                },
                 {
                   path: 'groups/all',
                   component: () => import(
-                    /* webpackChunkName: "main-admin-groups" */ './views/main/admin/AdminGroup.vue'),
+                    /* webpackChunkName: "main-admin-groups" */ './views/main/admin/AdminGroups.vue'),
                 },
                 {
                   path: 'groups/create',
                   name: 'main-admin-groups-create',
                   component: () => import(
-                    /* webpackChunkName: "main-admin-users-create" */ './views/main/admin/CreateGroups.vue'),
+                    /* webpackChunkName: "main-admin-users-create" */ './views/main/admin/CreateGroup.vue'),
+                },
+                {
+                  path: 'groups/edit/:id',
+                  name: 'main-admin-groups-edit',
+                  component: () => import(
+                    /* webpackChunkName: "main-admin-groups-edit" */ './views/main/admin/EditGroup.vue'),
+                },
+              ],
+            },
+            {
+              path: 'admin',
+              component: () => import(/* webpackChunkName: "main-admin" */ './views/main/admin/Admin.vue'),
+              redirect: 'admin/roles/all',
+              children: [
+                {
+                  path: 'roles',
+                  redirect: 'roles/all',
+                },
+                {
+                  path: 'roles/all',
+                  component: () => import(
+                    /* webpackChunkName: "main-admin-groups" */ './views/main/admin/AdminRoles.vue'),
+                },
+                {
+                  path: 'roles/create',
+                  name: 'main-admin-roles-create',
+                  component: () => import(
+                    /* webpackChunkName: "main-admin-users-create" */ './views/main/admin/CreateRole.vue'),
+                },
+                {
+                  path: 'groups/edit/:id',
+                  name: 'main-admin-roles-edit',
+                  component: () => import(
+                    /* webpackChunkName: "main-admin-groups-edit" */ './views/main/admin/EditRole.vue'),
                 },
               ],
             },

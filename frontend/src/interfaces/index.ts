@@ -22,21 +22,56 @@ export interface IUserProfileCreate {
     isAdmin?: boolean;
 }
 
-export interface IGroups {
+export interface IGroup {
+    id: number;
+    name: string;
+    description:string;
+    app: IApp;
+}
+
+export interface IGroupCreate {
+    name: string;
+    description?: string;
+    app?: IApp
+}
+
+export interface IGroupUpdate {
     name?: string;
-    app?: string;
-    idGroup?: number;
-    idApp?: number;
+    description?: string;
+    app?: IApp
 }
 
-export interface IGroupsCreate {
+export interface IApp{
     name: string;
     description?: string;
-    app?: number
+    version?: string;
+    id?: number;
+    // language
 }
 
-export interface IGroupsUpdate {
+export interface IAppCreate {
     name: string;
     description?: string;
-    app?: number
+    version?: string;
+    id: number;
+}
+
+
+export interface IRole {
+    id: number;
+    name: string;
+    description:string;
+    app: IApp;
+}
+
+export interface IRoleCreate {
+    name: string;
+    description?: string;
+    app?: IApp
+}
+
+export interface IRoleUpdate {
+    name?: string;
+    description?: string;
+    app?: IApp
 }

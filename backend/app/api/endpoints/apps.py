@@ -34,7 +34,7 @@ def read_app_by_name(name: str):
 
 
 @router.post("/", status_code=HTTP_201_CREATED)
-def create_app(app: AppInDB):
+def create_app(app: AppBase):
     return db_app.create_app(app)
 
 

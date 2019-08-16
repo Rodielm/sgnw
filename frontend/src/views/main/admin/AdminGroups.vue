@@ -10,11 +10,11 @@
     <v-data-table :headers="headers" :items="groups">
       <template slot="items" slot-scope="props">
         <td>{{ props.item.name }}</td>
-        <td>{{ props.item.app }}</td>
+        <td>{{ props.item.app? props.item.app.name:''}}</td>
         <td class="justify-center layout px-0">
           <v-tooltip top>
             <span>Edit</span>
-            <v-btn slot="activator" flat :to="{name: 'main-admin-groups-edit', params: {idGroup: props.item.id, idApp: props.item.idApp}}">
+            <v-btn slot="activator" flat :to="{name: 'main-admin-groups-edit', params: {id: props.item.id}}">
               <v-icon>edit</v-icon>
             </v-btn>
           </v-tooltip>
@@ -27,7 +27,7 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import { Store } from 'vuex';
-import { IGroups } from '@/interfaces';
+import { IGroup } from '@/interfaces';
 import { readAdminGroups } from '@/store/admin/getters';
 import { dispatchGetGroups } from '@/store/admin/actions';
 

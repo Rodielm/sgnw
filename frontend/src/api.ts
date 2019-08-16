@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { apiUrl } from '@/env';
-import { IUserProfile, IUserProfileUpdate, IUserProfileCreate, IGroups, IGroupsCreate, IGroupsUpdate } from './interfaces';
+import { IUserProfile, IUserProfileUpdate, IUserProfileCreate, IGroup, IGroupCreate, IGroupUpdate, IApp, IRole, IRoleUpdate, IRoleCreate } from './interfaces';
 
 function authHeaders(token: string) {
   return {
@@ -28,19 +28,31 @@ export const api = {
     return axios.get<IUserProfile[]>(`${apiUrl}/api/v1/users/`, authHeaders(token));
   },
   async getGroups(token: string) {
-    return axios.get<IGroups[]>(`${apiUrl}/api/v1/groups/`, authHeaders(token));
+    return axios.get<IGroup[]>(`${apiUrl}/api/v1/groups/`, authHeaders(token));
+  },
+  async getRoles(token: string) {
+    return axios.get<IRole[]>(`${apiUrl}/api/v1/roles/`, authHeaders(token));
+  },
+  async getApps(token: string) {
+    return axios.get<IApp[]>(`${apiUrl}/api/v1/apps/`, authHeaders(token));
   },
   async updateUser(token: string, userId: number, data: IUserProfileUpdate) {
     return axios.put(`${apiUrl}/api/v1/users/${userId}`, data, authHeaders(token));
   },
-  async updateGroups(token: string, groupId: number, data: IGroupsUpdate) {
+  async updateGroup(token: string, groupId: number, data: IGroupUpdate) {
     return axios.put(`${apiUrl}/api/v1/groups/${groupId}`, data, authHeaders(token));
+  },
+  async updateRole(token: string, roleId: number, data: IRoleUpdate) {
+    return axios.put(`${apiUrl}/api/v1/roles/${roleId}`, data, authHeaders(token));
   },
   async createUser(token: string, data: IUserProfileCreate) {
     return axios.post(`${apiUrl}/api/v1/users/`, data, authHeaders(token));
   },
-  async createGroup(token: string, data: IGroupsCreate) {
+  async createGroup(token: string, data: IGroupCreate) {
     return axios.post(`${apiUrl}/api/v1/groups/`, data, authHeaders(token));
+  },
+  async createRole(token: string, data: IRoleCreate) {
+    return axios.post(`${apiUrl}/api/v1/roles/`, data, authHeaders(token));
   },
   async passwordRecovery(email: string) {
     return axios.post(`${apiUrl}/api/v1/password-recovery/${email}`);

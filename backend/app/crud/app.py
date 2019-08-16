@@ -23,16 +23,13 @@ def read_app_for_name(name: str) -> AppInResponse:
 
 
 @db_session
-def create_app(row: AppInDB):
-    langs: List[MasterBase] = []
-    for item in row.languages:
-        lang = db.Language.get(name=item.name)
-        langs.append(lang)
-    db.App(
-        name=row.name,
-        description=row.description,
-        version=row.version,
-        languages=langs)
+def create_app(row: AppBase):
+    # langs: List[MasterBase] = []
+    # if row.languages is not None:
+    #     for item in row.languages:
+    #         lang = db.Language.get(name=item.name)
+    #         langs.append(lang)
+    db.App(**row.dict())
     return row
 
 
