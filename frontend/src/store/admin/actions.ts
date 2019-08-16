@@ -1,10 +1,10 @@
 import { api } from '@/api';
 import { ActionContext } from 'vuex';
-import { IUserProfileCreate, IUserProfileUpdate, IGroupCreate, IGroupUpdate, IRoleUpdate, IRoleCreate } from '@/interfaces';
+import { IUserProfileCreate, IUserProfileUpdate, IGroupCreate, IGroupUpdate, IRoleUpdate, IRoleCreate, IAppCreate, IAppUpdate } from '@/interfaces';
 import { State } from '../state';
 import { AdminState } from './state';
 import { getStoreAccessors } from 'typesafe-vuex';
-import { commitSetUsers, commitSetUser, commitSetGroups, commitSetApps, commitSetGroup, commitSetRole, commitSetRoles } from './mutations';
+import { commitSetUsers, commitSetUser, commitSetGroups, commitSetApps, commitSetGroup, commitSetRole, commitSetRoles, commitSetApp } from './mutations';
 import { dispatchCheckApiError } from '../main/actions';
 import { commitAddNotification, commitRemoveNotification } from '../main/mutations';
 
@@ -96,6 +96,21 @@ export const actions = {
             await dispatchCheckApiError(context, error);
         }
     },
+    async actionUpdateApp(context: MainContext, payload: { id: number, app: IAppUpdate }) {
+        try {
+            const loadingNotification = { content: 'saving', showProgress: true };
+            commitAddNotification(context, loadingNotification);
+            const response = (await Promise.all([
+                api.updateApp(context.rootState.main.token, payload.id, payload.app),
+                await new Promise((resolve, reject) => setTimeout(() => resolve(), 500)),
+            ]))[0];
+            commitSetApp(context, response.data);
+            commitRemoveNotification(context, loadingNotification);
+            commitAddNotification(context, { content: 'App successfully updated', color: 'success' });
+        } catch (error) {
+            await dispatchCheckApiError(context, error);
+        }
+    },
     async actionCreateUser(context: MainContext, payload: IUserProfileCreate) {
         try {
             const loadingNotification = { content: 'saving', showProgress: true };
@@ -141,6 +156,21 @@ export const actions = {
             await dispatchCheckApiError(context, error);
         }
     },
+    async actionCreateApp(context: MainContext, payload: IAppCreate) {
+        try {
+            const loadingNotification = { content: 'saving', showProgress: true };
+            commitAddNotification(context, loadingNotification);
+            const response = (await Promise.all([
+                api.createApp(context.rootState.main.token, payload),
+                await new Promise((resolve, reject) => setTimeout(() => resolve(), 500)),
+            ]))[0];
+            commitSetApp(context, response.data);
+            commitRemoveNotification(context, loadingNotification);
+            commitAddNotification(context, { content: 'App successfully created', color: 'success' });
+        } catch (error) {
+            await dispatchCheckApiError(context, error);
+        }
+    },
 };
 
 const { dispatch } = getStoreAccessors<AdminState, State>('');
@@ -157,5 +187,6 @@ export const dispatchGetRoles = dispatch(actions.actionGetRoles);
 export const dispatchCreateRole = dispatch(actions.actionCreateRole);
 export const dispatchUpdateRole = dispatch(actions.actionUpdateRole);
 
-
 export const dispatchGetApps = dispatch(actions.actionGetApp);
+export const dispatchCreateApp = dispatch(actions.actionCreateApp);
+export const dispatchUpdateApp  = dispatch(actions.actionUpdateApp);

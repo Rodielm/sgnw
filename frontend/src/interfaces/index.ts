@@ -45,17 +45,20 @@ export interface IApp{
     name: string;
     description?: string;
     version?: string;
-    id?: number;
-    // language
+    id: number;
 }
 
 export interface IAppCreate {
     name: string;
     description?: string;
     version?: string;
-    id: number;
 }
 
+export interface IAppUpdate {
+    name?: string;
+    description?: string;
+    version?: string;
+}
 
 export interface IRole {
     id: number;

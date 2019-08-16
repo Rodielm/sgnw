@@ -126,19 +126,47 @@ export default new Router({
                 {
                   path: 'roles/all',
                   component: () => import(
-                    /* webpackChunkName: "main-admin-groups" */ './views/main/admin/AdminRoles.vue'),
+                    /* webpackChunkName: "main-admin-roles" */ './views/main/admin/AdminRoles.vue'),
                 },
                 {
                   path: 'roles/create',
                   name: 'main-admin-roles-create',
                   component: () => import(
-                    /* webpackChunkName: "main-admin-users-create" */ './views/main/admin/CreateRole.vue'),
+                    /* webpackChunkName: "main-admin-roles-create" */ './views/main/admin/CreateRole.vue'),
                 },
                 {
                   path: 'groups/edit/:id',
                   name: 'main-admin-roles-edit',
                   component: () => import(
-                    /* webpackChunkName: "main-admin-groups-edit" */ './views/main/admin/EditRole.vue'),
+                    /* webpackChunkName: "main-admin-roles-edit" */ './views/main/admin/EditRole.vue'),
+                },
+              ],
+            },
+            {
+              path: 'admin',
+              component: () => import(/* webpackChunkName: "main-admin" */ './views/main/admin/Admin.vue'),
+              redirect: 'admin/apps/all',
+              children: [
+                {
+                  path: 'apps',
+                  redirect: 'apps/all',
+                },
+                {
+                  path: 'apps/all',
+                  component: () => import(
+                    /* webpackChunkName: "main-admin-apps" */ './views/main/admin/AdminApps.vue'),
+                },
+                {
+                  path: 'apps/create',
+                  name: 'main-admin-apps-create',
+                  component: () => import(
+                    /* webpackChunkName: "main-admin-apps-create" */ './views/main/admin/CreateApp.vue'),
+                },
+                {
+                  path: 'apps/edit/:id',
+                  name: 'main-admin-apps-edit',
+                  component: () => import(
+                    /* webpackChunkName: "main-admin-apps-edit" */ './views/main/admin/EditApp.vue'),
                 },
               ],
             },

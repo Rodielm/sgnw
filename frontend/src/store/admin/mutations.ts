@@ -21,12 +21,17 @@ export const mutations = {
         state.groups = payload;
     },
     setRole(state: AdminState, payload: IRole) {
-        const roles = state.groups.filter((role: IRole) => role.id !== payload.id);
+        const roles = state.roles.filter((role: IRole) => role.id !== payload.id);
         roles.push(payload);
         state.roles = roles;
     },
     setRoles(state: AdminState, payload: IRole[]) {
         state.roles = payload;
+    },
+    setApp(state: AdminState, payload: IApp) {
+        const apps = state.apps.filter((app: IApp) => app.id !== payload.id);
+        apps.push(payload);
+        state.apps = apps;
     },
     setApps(state: AdminState, payload: IApp[]) {
         state.apps = payload;
@@ -44,4 +49,5 @@ export const commitSetGroups = commit(mutations.setGroups);
 export const commitSetRole = commit(mutations.setRole);
 export const commitSetRoles = commit(mutations.setRoles);
 
+export const commitSetApp = commit(mutations.setApp);
 export const commitSetApps = commit(mutations.setApps);

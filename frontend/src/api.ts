@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { apiUrl } from '@/env';
-import { IUserProfile, IUserProfileUpdate, IUserProfileCreate, IGroup, IGroupCreate, IGroupUpdate, IApp, IRole, IRoleUpdate, IRoleCreate } from './interfaces';
+import { IUserProfile, IUserProfileUpdate, IUserProfileCreate, IGroup, IGroupCreate, IGroupUpdate, IApp, IRole, IRoleUpdate, IRoleCreate, IAppCreate, IAppUpdate } from './interfaces';
 
 function authHeaders(token: string) {
   return {
@@ -45,6 +45,9 @@ export const api = {
   async updateRole(token: string, roleId: number, data: IRoleUpdate) {
     return axios.put(`${apiUrl}/api/v1/roles/${roleId}`, data, authHeaders(token));
   },
+  async updateApp(token: string, appId: number, data: IAppUpdate) {
+    return axios.put(`${apiUrl}/api/v1/apps/${appId}`, data, authHeaders(token));
+  },
   async createUser(token: string, data: IUserProfileCreate) {
     return axios.post(`${apiUrl}/api/v1/users/`, data, authHeaders(token));
   },
@@ -53,6 +56,9 @@ export const api = {
   },
   async createRole(token: string, data: IRoleCreate) {
     return axios.post(`${apiUrl}/api/v1/roles/`, data, authHeaders(token));
+  },
+  async createApp(token: string, data: IAppCreate) {
+    return axios.post(`${apiUrl}/api/v1/apps/`, data, authHeaders(token));
   },
   async passwordRecovery(email: string) {
     return axios.post(`${apiUrl}/api/v1/password-recovery/${email}`);

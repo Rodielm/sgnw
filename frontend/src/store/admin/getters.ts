@@ -24,7 +24,13 @@ export const getters = {
             return { ...filteredRoles[0] };
         }
     },
-    adminApps: (state:AdminState) => state.apps,
+    adminApps: (state: AdminState) => state.apps,
+    adminOneApp: (state: AdminState) => (appId: number) => {
+        const filteredaApps = state.apps.filter((app) => app.id === appId);
+        if (filteredaApps.length > 0) {
+            return { ...filteredaApps[0] };
+        }
+    },
 };
 
 const { read } = getStoreAccessors<AdminState, State>('');
@@ -33,6 +39,7 @@ export const readAdminOneUser = read(getters.adminOneUser);
 export const readAdminUsers = read(getters.adminUsers);
 
 export const readAdminApps = read(getters.adminApps);
+export const readAdminOneApp = read(getters.adminOneApp);
 
 export const readAdminGroups = read(getters.adminGroups);
 export const readAdminOneGroup = read(getters.adminOneGroup);
