@@ -24,7 +24,7 @@ Sistema de gestión de notificación Web
 - [x] Crud Roles Front (Admin)
 - [x] Crud Group Front (Admin)
 - [x] Crud App Front (Admin)
-- [ ] Crud Lang Front (Admin)
+- [x] Crud Lang Front (Admin)
 
 ## TODO Issue Backend
 
