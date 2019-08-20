@@ -32,13 +32,13 @@ export interface IGroup {
 export interface IGroupCreate {
     name: string;
     description?: string;
-    app?: IApp
+    app?: IApp;
 }
 
 export interface IGroupUpdate {
     name?: string;
     description?: string;
-    app?: IApp
+    app?: IApp;
 }
 
 export interface IApp {
@@ -70,11 +70,24 @@ export interface IRole {
 export interface IRoleCreate {
     name: string;
     description?: string;
-    app?: IApp
+    app?: IApp;
 }
 
 export interface IRoleUpdate {
     name?: string;
     description?: string;
-    app?: IApp
+    app?: IApp;
+}
+
+export interface ILang {
+    id: number;
+    name: string;
+}
+
+export interface ILangCreate{
+    name:string;
+}
+
+export interface ILangUpdate{
+    name?:string;
 }

@@ -64,6 +64,14 @@
               <v-list-tile-title>Manage Group</v-list-tile-title>
             </v-list-tile-content>
           </v-list-tile>
+          <v-list-tile to="/main/admin/langs/all">
+            <v-list-tile-action>
+              <v-icon>translate</v-icon>
+            </v-list-tile-action>
+            <v-list-tile-content>
+              <v-list-tile-title>Manage Lang</v-list-tile-title>
+            </v-list-tile-content>
+          </v-list-tile>
         </v-list>
         <v-spacer></v-spacer>
         <v-list>

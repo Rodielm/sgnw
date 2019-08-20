@@ -45,7 +45,7 @@ export default class AdminRoles extends Vue {
       sortable: true,
       value: 'app',
       align: 'left',
-    }
+    },
   ];
   get roles() {
     return readAdminRoles(this.$store);

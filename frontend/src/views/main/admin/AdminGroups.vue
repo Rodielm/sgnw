@@ -45,7 +45,7 @@ export default class AdminGroups extends Vue {
       sortable: true,
       value: 'app',
       align: 'left',
-    }
+    },
   ];
   get groups() {
     return readAdminGroups(this.$store);

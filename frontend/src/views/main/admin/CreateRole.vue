@@ -43,6 +43,7 @@ import {
   dispatchCreateRole,
   dispatchGetApps
 } from "@/store/admin/actions";
+import { version } from "vee-validate";
 
 @Component
 export default class CreateRole extends Vue {
@@ -88,8 +89,10 @@ export default class CreateRole extends Vue {
       }
       if (this.app) {
         updatedRole.app = {
+          id: this.app.id,
           name: this.app.name,
-          description: this.app.description
+          description: this.app.description,
+          version: this.app.version
         };
       }
 

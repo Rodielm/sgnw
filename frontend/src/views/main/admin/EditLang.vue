@@ -2,13 +2,12 @@
   <v-container fluid>
     <v-card class="ma-3 pa-3">
       <v-card-title primary-title>
-        <div class="headline primary--text">Create App</div>
+        <div class="headline primary--text">Edit App</div>
       </v-card-title>
       <v-card-text>
         <template>
           <v-form v-model="valid" ref="form" lazy-validation>
             <v-text-field label="Name" v-model="name" required></v-text-field>
-            <v-text-field label="Description" v-model="description"></v-text-field>
           </v-form>
         </template>
       </v-card-text>
@@ -23,17 +22,15 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
-import { IApp, IAppCreate } from '@/interfaces';
-import { readAdminApps } from '@/store/admin/getters';
-import { dispatchGetApps, dispatchCreateApp } from '@/store/admin/actions';
+import { Component, Vue } from "vue-property-decorator";
+import { readAdminOneLang } from "@/store/admin/getters";
+import { ILangUpdate } from "../../../interfaces";
+import { dispatchUpdateLang } from "../../../store/admin/actions";
 
 @Component
-export default class CreateApp extends Vue {
-  public valid = false;
+export default class EditLang extends Vue {
+  public valid = true;
   public name: string = "";
-  public description: string = "";
-  public app: IApp = {} as any;
 
   public async mounted() {
     this.reset();
@@ -41,9 +38,10 @@ export default class CreateApp extends Vue {
 
   public reset() {
     this.name = "";
-    this.description = "";
-    this.app = {} as any;
     this.$validator.reset();
+    if (this.lang) {
+      this.name = this.lang.name;
+    }
   }
 
   public cancel() {
@@ -52,21 +50,21 @@ export default class CreateApp extends Vue {
 
   public async submit() {
     if (await this.$validator.validateAll()) {
-      const updatedApp: IAppCreate = {
-        name: this.name
-      };
-      if (this.description) {
-        updatedApp.description = this.description;
-      }
+      const updatedLang: ILangUpdate = {};
       if (this.name) {
-        updatedApp.name = this.name;
+        updatedLang.name = this.name;
       }
-      if (this.description) {
-        updatedApp.description = this.description;
-      }
-      await dispatchCreateApp(this.$store, updatedApp);
-      this.$router.push("/main/admin/apps");
+
+      await dispatchUpdateLang(this.$store, {
+        id: this.lang!.id,
+        lang: updatedLang
+      });
+      this.$router.push("/main/admin/langs");
     }
+  }
+
+  get lang() {
+    return readAdminOneLang(this.$store)(+this.$router.currentRoute.params.id);
   }
 }
 </script>

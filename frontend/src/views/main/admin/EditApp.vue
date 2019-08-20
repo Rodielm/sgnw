@@ -9,6 +9,7 @@
           <v-form v-model="valid" ref="form" lazy-validation>
             <v-text-field label="Name" v-model="name" required></v-text-field>
             <v-text-field label="Description" v-model="description" required></v-text-field>
+            <v-text-field label="Version" v-model="version"></v-text-field>
           </v-form>
         </template>
       </v-card-text>
@@ -33,6 +34,7 @@ export default class EditApp extends Vue {
   public valid = true;
   public name: string = "";
   public description: string = "";
+  public version: string = "";
 
   public async mounted() {
     this.reset();
@@ -41,10 +43,12 @@ export default class EditApp extends Vue {
   public reset() {
     this.name = "";
     this.description = "";
+    this.version = "";
     this.$validator.reset();
     if(this.app){
       this.name = this.app.name;
       this.description = this.app.description;
+      this.version = this.app.version;
     }
   }
 
@@ -60,6 +64,9 @@ export default class EditApp extends Vue {
       }
       if (this.description) {
         updatedApp.description = this.description;
+      }
+      if (this.version){
+        updatedApp.version = this.version;
       }
 
       await dispatchUpdateApp(this.$store, {

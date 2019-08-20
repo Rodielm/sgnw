@@ -1,4 +1,4 @@
-import { IUserProfile, IGroup, IApp, IRole } from '@/interfaces';
+import { IUserProfile, IGroup, IApp, IRole, ILang } from '@/interfaces';
 import { AdminState } from './state';
 import { getStoreAccessors } from 'typesafe-vuex';
 import { State } from '../state';
@@ -36,6 +36,14 @@ export const mutations = {
     setApps(state: AdminState, payload: IApp[]) {
         state.apps = payload;
     },
+    setLang(state: AdminState, payload: ILang) {
+        const langs = state.langs.filter((lang: ILang) => lang.id !== payload.id);
+        langs.push(payload);
+        state.langs = langs;
+    },
+    setLangs(state: AdminState, payload: ILang[]) {
+        state.langs = payload;
+    },
 };
 
 const { commit } = getStoreAccessors<AdminState, State>('');
@@ -51,3 +59,6 @@ export const commitSetRoles = commit(mutations.setRoles);
 
 export const commitSetApp = commit(mutations.setApp);
 export const commitSetApps = commit(mutations.setApps);
+
+export const commitSetLang = commit(mutations.setLang);
+export const commitSetLangs = commit(mutations.setLangs);

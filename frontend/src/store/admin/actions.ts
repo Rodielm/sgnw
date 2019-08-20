@@ -1,10 +1,32 @@
 import { api } from '@/api';
 import { ActionContext } from 'vuex';
-import { IUserProfileCreate, IUserProfileUpdate, IGroupCreate, IGroupUpdate, IRoleUpdate, IRoleCreate, IAppCreate, IAppUpdate } from '@/interfaces';
+import {
+    IUserProfileCreate,
+    IUserProfileUpdate,
+    IGroupCreate,
+    IGroupUpdate,
+    IRoleUpdate,
+    IRoleCreate,
+    IAppCreate,
+    IAppUpdate,
+    ILangCreate,
+    ILangUpdate
+} from '@/interfaces';
 import { State } from '../state';
 import { AdminState } from './state';
 import { getStoreAccessors } from 'typesafe-vuex';
-import { commitSetUsers, commitSetUser, commitSetGroups, commitSetApps, commitSetGroup, commitSetRole, commitSetRoles, commitSetApp } from './mutations';
+import {
+    commitSetUsers,
+    commitSetUser,
+    commitSetGroups,
+    commitSetApps,
+    commitSetGroup,
+    commitSetRole,
+    commitSetRoles,
+    commitSetApp,
+    commitSetLang,
+    commitSetLangs,
+} from './mutations';
 import { dispatchCheckApiError } from '../main/actions';
 import { commitAddNotification, commitRemoveNotification } from '../main/mutations';
 
@@ -46,6 +68,16 @@ export const actions = {
             const response = await api.getApps(context.rootState.main.token);
             if (response) {
                 commitSetApps(context, response.data);
+            }
+        } catch (error) {
+            await dispatchCheckApiError(context, error);
+        }
+    },
+    async actionGetLang(context: MainContext) {
+        try {
+            const response = await api.getLangs(context.rootState.main.token);
+            if (response) {
+                commitSetLangs(context, response.data);
             }
         } catch (error) {
             await dispatchCheckApiError(context, error);
@@ -111,6 +143,21 @@ export const actions = {
             await dispatchCheckApiError(context, error);
         }
     },
+    async actionUpdateLang(context: MainContext, payload: { id: number, lang: ILangUpdate }) {
+        try {
+            const loadingNotification = { content: 'saving', showProgress: true };
+            commitAddNotification(context, loadingNotification);
+            const response = (await Promise.all([
+                api.updateLang(context.rootState.main.token, payload.id, payload.lang),
+                await new Promise((resolve, reject) => setTimeout(() => resolve(), 500)),
+            ]))[0];
+            commitSetLang(context, response.data);
+            commitRemoveNotification(context, loadingNotification);
+            commitAddNotification(context, { content: 'Language successfully updated', color: 'success' });
+        } catch (error) {
+            await dispatchCheckApiError(context, error);
+        }
+    },
     async actionCreateUser(context: MainContext, payload: IUserProfileCreate) {
         try {
             const loadingNotification = { content: 'saving', showProgress: true };
@@ -171,6 +218,21 @@ export const actions = {
             await dispatchCheckApiError(context, error);
         }
     },
+    async actionCreateLang(context: MainContext, payload: ILangCreate) {
+        try {
+            const loadingNotification = { content: 'saving', showProgress: true };
+            commitAddNotification(context, loadingNotification);
+            const response = (await Promise.all([
+                api.createLang(context.rootState.main.token, payload),
+                await new Promise((resolve, reject) => setTimeout(() => resolve(), 500)),
+            ]))[0];
+            commitSetLang(context, response.data);
+            commitRemoveNotification(context, loadingNotification);
+            commitAddNotification(context, { content: 'Language successfully created', color: 'success' });
+        } catch (error) {
+            await dispatchCheckApiError(context, error);
+        }
+    },
 };
 
 const { dispatch } = getStoreAccessors<AdminState, State>('');
@@ -189,4 +251,10 @@ export const dispatchUpdateRole = dispatch(actions.actionUpdateRole);
 
 export const dispatchGetApps = dispatch(actions.actionGetApp);
 export const dispatchCreateApp = dispatch(actions.actionCreateApp);
-export const dispatchUpdateApp  = dispatch(actions.actionUpdateApp);
+export const dispatchUpdateApp = dispatch(actions.actionUpdateApp);
+
+export const dispatchGetLangs = dispatch(actions.actionGetLang);
+export const dispatchCreateLang = dispatch(actions.actionCreateLang);
+export const dispatchUpdateLang = dispatch(actions.actionUpdateLang);
+
+

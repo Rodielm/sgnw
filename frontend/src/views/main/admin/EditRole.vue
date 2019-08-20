@@ -39,7 +39,7 @@
 import { Component, Vue } from "vue-property-decorator";
 import { IApp, IRoleUpdate } from "@/interfaces";
 import { dispatchGetApps, dispatchGetRoles, dispatchUpdateRole } from "@/store/admin/actions";
-import { readAdminApps, ReadAdminOneRole } from "@/store/admin/getters";
+import { readAdminApps, readAdminOneRole } from "@/store/admin/getters";
 
 @Component
 export default class EditRole extends Vue {
@@ -91,7 +91,7 @@ export default class EditRole extends Vue {
   }
 
   get role() {
-    return ReadAdminOneRole(this.$store)(+this.$router.currentRoute.params.id);
+    return readAdminOneRole(this.$store)(+this.$router.currentRoute.params.id);
   }
 }
 </script>

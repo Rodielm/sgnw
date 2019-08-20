@@ -1,6 +1,22 @@
 import axios from 'axios';
 import { apiUrl } from '@/env';
-import { IUserProfile, IUserProfileUpdate, IUserProfileCreate, IGroup, IGroupCreate, IGroupUpdate, IApp, IRole, IRoleUpdate, IRoleCreate, IAppCreate, IAppUpdate } from './interfaces';
+import {
+  IUserProfile,
+  IUserProfileUpdate,
+  IUserProfileCreate,
+  IGroup,
+  IGroupCreate,
+  IGroupUpdate,
+  IApp,
+  IRole,
+  IRoleUpdate,
+  IRoleCreate,
+  IAppCreate,
+  IAppUpdate,
+  ILangCreate,
+  ILangUpdate,
+  ILang,
+} from './interfaces';
 
 function authHeaders(token: string) {
   return {
@@ -36,6 +52,9 @@ export const api = {
   async getApps(token: string) {
     return axios.get<IApp[]>(`${apiUrl}/api/v1/apps/`, authHeaders(token));
   },
+  async getLangs(token: string) {
+    return axios.get<ILang[]>(`${apiUrl}/api/v1/langs/`, authHeaders(token));
+  },
   async updateUser(token: string, userId: number, data: IUserProfileUpdate) {
     return axios.put(`${apiUrl}/api/v1/users/${userId}`, data, authHeaders(token));
   },
@@ -48,6 +67,9 @@ export const api = {
   async updateApp(token: string, appId: number, data: IAppUpdate) {
     return axios.put(`${apiUrl}/api/v1/apps/${appId}`, data, authHeaders(token));
   },
+  async updateLang(token: string, langId: number, data: ILangUpdate) {
+    return axios.put(`${apiUrl}/api/v1/lang/${langId}`, data, authHeaders(token));
+  },
   async createUser(token: string, data: IUserProfileCreate) {
     return axios.post(`${apiUrl}/api/v1/users/`, data, authHeaders(token));
   },
@@ -59,6 +81,9 @@ export const api = {
   },
   async createApp(token: string, data: IAppCreate) {
     return axios.post(`${apiUrl}/api/v1/apps/`, data, authHeaders(token));
+  },
+  async createLang(token: string, data: ILangCreate) {
+    return axios.post(`${apiUrl}/api/v1/lang/`, data, authHeaders(token));
   },
   async passwordRecovery(email: string) {
     return axios.post(`${apiUrl}/api/v1/password-recovery/${email}`);

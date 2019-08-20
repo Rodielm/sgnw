@@ -170,6 +170,34 @@ export default new Router({
                 },
               ],
             },
+            {
+              path: 'admin',
+              component: () => import(/* webpackChunkName: "main-admin" */ './views/main/admin/Admin.vue'),
+              redirect: 'admin/langs/all',
+              children: [
+                {
+                  path: 'langs',
+                  redirect: 'langs/all',
+                },
+                {
+                  path: 'langs/all',
+                  component: () => import(
+                    /* webpackChunkName: "main-admin-langs" */ './views/main/admin/AdminLangs.vue'),
+                },
+                {
+                  path: 'langs/create',
+                  name: 'main-admin-langs-create',
+                  component: () => import(
+                    /* webpackChunkName: "main-admin-langs-create" */ './views/main/admin/CreateLang.vue'),
+                },
+                {
+                  path: 'langs/edit/:id',
+                  name: 'main-admin-langs-edit',
+                  component: () => import(
+                    /* webpackChunkName: "main-admin-langs-edit" */ './views/main/admin/EditLang.vue'),
+                },
+              ],
+            },
           ],
         },
       ],

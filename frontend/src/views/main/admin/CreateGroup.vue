@@ -35,9 +35,9 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
-import { IGroup, IGroupCreate, IApp } from "@/interfaces";
-import { readAdminApps } from "@/store/admin/getters";
+import { Component, Vue } from 'vue-property-decorator';
+import { IGroup, IGroupCreate, IApp } from '@/interfaces';
+import { readAdminApps } from '@/store/admin/getters';
 import {
   dispatchGetGroups,
   dispatchCreateGroup,
@@ -88,8 +88,10 @@ export default class CreateGroup extends Vue {
       }
       if (this.app) {
         updatedGroup.app = {
+          id: this.app.id,
           name: this.app.name,
-          description: this.app.description
+          description: this.app.description,
+          version:this.app.version
         };
       }
 

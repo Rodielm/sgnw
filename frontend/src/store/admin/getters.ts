@@ -31,6 +31,13 @@ export const getters = {
             return { ...filteredaApps[0] };
         }
     },
+    adminLangs: (state: AdminState) => state.langs,
+    adminOneLang: (state: AdminState) => (langId: number) => {
+        const filteredaLangs = state.langs.filter((lang) => lang.id === langId);
+        if (filteredaLangs.length > 0) {
+            return { ...filteredaLangs[0] };
+        }
+    },
 };
 
 const { read } = getStoreAccessors<AdminState, State>('');
@@ -45,5 +52,8 @@ export const readAdminGroups = read(getters.adminGroups);
 export const readAdminOneGroup = read(getters.adminOneGroup);
 
 export const readAdminRoles = read(getters.adminRoles);
-export const ReadAdminOneRole = read(getters.adminOneRole);
+export const readAdminOneRole = read(getters.adminOneRole);
+
+export const readAdminLangs = read(getters.adminLangs);
+export const readAdminOneLang = read(getters.adminOneLang);
 
