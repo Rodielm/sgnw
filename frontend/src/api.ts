@@ -68,7 +68,7 @@ export const api = {
     return axios.put(`${apiUrl}/api/v1/apps/${appId}`, data, authHeaders(token));
   },
   async updateLang(token: string, langId: number, data: ILangUpdate) {
-    return axios.put(`${apiUrl}/api/v1/lang/${langId}`, data, authHeaders(token));
+    return axios.put(`${apiUrl}/api/v1/langs/${langId}`, data, authHeaders(token));
   },
   async createUser(token: string, data: IUserProfileCreate) {
     return axios.post(`${apiUrl}/api/v1/users/`, data, authHeaders(token));
@@ -83,7 +83,7 @@ export const api = {
     return axios.post(`${apiUrl}/api/v1/apps/`, data, authHeaders(token));
   },
   async createLang(token: string, data: ILangCreate) {
-    return axios.post(`${apiUrl}/api/v1/lang/`, data, authHeaders(token));
+    return axios.post(`${apiUrl}/api/v1/langs/`, data, authHeaders(token));
   },
   async passwordRecovery(email: string) {
     return axios.post(`${apiUrl}/api/v1/password-recovery/${email}`);

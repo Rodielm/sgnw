@@ -2,6 +2,7 @@
   <div>
     <v-btn :color="color" @click="trigger"><slot>Choose File</slot></v-btn>
     <input :multiple="multiple" class="visually-hidden" type="file" v-on:change="files" ref="fileInput">
+    
   </div>
 </template>
 
@@ -14,6 +15,7 @@ export default class UploadButton extends Vue {
   @Prop({default: false}) public multiple!: boolean;
   @Emit()
   public files(e): FileList {
+    console.log(e.target.files)
     return e.target.files;
   }
 

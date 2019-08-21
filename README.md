@@ -24,7 +24,9 @@ Sistema de gestión de notificación Web
 - [x] Crud Roles Front (Admin)
 - [x] Crud Group Front (Admin)
 - [x] Crud App Front (Admin)
+- [ ] Add upload file language to App using dialog and represent this as list on forms
 - [x] Crud Lang Front (Admin)
+
 
 ## TODO Issue Backend
 
