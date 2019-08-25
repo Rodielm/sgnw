@@ -11,7 +11,17 @@ def read_apps() -> List[AppInResponse]:
     apps: List[AppInResponse] = []
     rows = select(r for r in db.App)[:]
     for row in rows:
-        apps.append(row.to_dict())
+        app = row.to_dict()
+        if row.app_langs is not None:
+            langs: List[AppLangBase] = []
+            for al in row.app_langs:
+                applang = AppLangBase(
+                    lang=al.lang.to_dict(),
+                    filename=al.filename,
+                    version=al.version)
+                langs.append(applang)
+            app['app_langs'] = langs
+        apps.append(app)
     return apps
 
 
@@ -23,13 +33,23 @@ def read_app_for_name(name: str) -> AppInResponse:
 
 
 @db_session
-def create_app(row: AppBase):
-    # langs: List[MasterBase] = []
-    # if row.languages is not None:
-    #     for item in row.languages:
-    #         lang = db.Language.get(name=item.name)
-    #         langs.append(lang)
-    db.App(**row.dict())
+def create_app(row: AppCreate):
+
+    app = db.App(
+        name=row.name,
+        description=row.description,
+        version=row.version,
+    )
+
+    if row.app_langs:
+        for lang in row.app_langs:
+            l = db.Lang.get(id=lang.lang.id)
+            db.App_lang(
+                app=app,
+                lang=l,
+                version=lang.version,
+                filename=lang.filename)
+
     return row
 
 
