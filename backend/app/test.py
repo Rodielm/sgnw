@@ -1,21 +1,20 @@
 
-dictionary_test = {}
-dictionary_test[0] = {}
-dictionary_test[0]['prueba_a'] = True
-dictionary_test[0]['prueba_b'] = False
-dictionary_test[0]['prueba_c'] = True
-dictionary_test[0]['prueba_d'] = False
+import gettext
+import os
 
-dictionary_test[1] = {}
-dictionary_test[1]['prueba_b'] = False
-dictionary_test[1]['prueba_a'] = True
-dictionary_test[1]['prueba_c'] = True
-dictionary_test[1]['prueba_d'] = False
+# Set domain , attach base, dir , enable fallback
+t = gettext.translation('test_i18n','locale',fallback=True)
+_ = t.gettext
 
-dictionary_test[2] = {}
-dictionary_test[2]['prueba_b'] = False
-dictionary_test[2]['prueba_a'] = True
-dictionary_test[2]['prueba_c'] = True
-dictionary_test[2]['prueba_d'] = False
+print(_('Hello World.'))
 
-print(dictionary_test)
+# print('Prueba de os:')
+# abspath = os.path.abspath(os.path.dirname(__file__))
+# localedir = os.path.join(abspath, 'locale')
+
+# cat = gettext.Catalog('noti', localedir)
+# _ = cat.gettext
+# print(_('Hello World'))
+
+# Buscar como realizar un script de idiomas con babel, una vez hecho
+# Generara la plantilla del lenguaje por medio ella.
