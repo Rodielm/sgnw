@@ -9,6 +9,7 @@ const defaultState: AdminState = {
   apps: [],
   roles: [],
   langs: [],
+  files: [],
 };
 
 export const adminModule = {

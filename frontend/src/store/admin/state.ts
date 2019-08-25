@@ -1,4 +1,4 @@
-import { IUserProfile, IGroup, IApp, IRole, ILang } from '@/interfaces';
+import { IUserProfile, IGroup, IApp, IRole, ILang, IFileUpload } from '@/interfaces';
 
 export interface AdminState {
     users: IUserProfile[];
@@ -6,4 +6,5 @@ export interface AdminState {
     apps: IApp[];
     roles: IRole[];
     langs:ILang[];
+    files:IFileUpload[];
 }

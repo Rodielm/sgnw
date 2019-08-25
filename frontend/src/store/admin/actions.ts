@@ -10,7 +10,8 @@ import {
     IAppCreate,
     IAppUpdate,
     ILangCreate,
-    ILangUpdate
+    ILangUpdate,
+    IFileUpload
 } from '@/interfaces';
 import { State } from '../state';
 import { AdminState } from './state';
@@ -26,6 +27,9 @@ import {
     commitSetApp,
     commitSetLang,
     commitSetLangs,
+    commitAddFile,
+    commitRemoveFile,
+    commitRemoveAllFile,
 } from './mutations';
 import { dispatchCheckApiError } from '../main/actions';
 import { commitAddNotification, commitRemoveNotification } from '../main/mutations';
@@ -212,6 +216,7 @@ export const actions = {
                 await new Promise((resolve, reject) => setTimeout(() => resolve(), 500)),
             ]))[0];
             commitSetApp(context, response.data);
+            commitRemoveAllFile(context); // OJO
             commitRemoveNotification(context, loadingNotification);
             commitAddNotification(context, { content: 'App successfully created', color: 'success' });
         } catch (error) {
@@ -231,6 +236,30 @@ export const actions = {
             commitAddNotification(context, { content: 'Language successfully created', color: 'success' });
         } catch (error) {
             await dispatchCheckApiError(context, error);
+        }
+    },
+    async actionAddFile(context: MainContext, payload: IFileUpload) {
+        const loadingNotification = { content: 'adding', showProgress: true };
+        try {
+            commitAddNotification(context, loadingNotification);
+            commitAddFile(context, payload);
+            commitRemoveNotification(context, loadingNotification);
+            commitAddNotification(context, { content: 'file successfully added', color: 'success' });
+        } catch (error) {
+            commitRemoveNotification(context, loadingNotification);
+            commitAddNotification(context, { color: 'error', content: 'Error wrong with file' });
+        }
+    },
+    async actionRemoveFile(context: MainContext, payload: IFileUpload) {
+        const loadingNotification = { content: 'adding', showProgress: true };
+        try {
+            commitAddNotification(context, loadingNotification);
+            commitRemoveFile(context, payload);
+            commitRemoveNotification(context, loadingNotification);
+            commitAddNotification(context, { content: 'file successfully deleted', color: 'success' });
+        } catch (error) {
+            commitRemoveNotification(context, loadingNotification);
+            commitAddNotification(context, { color: 'error', content: 'Error wrong with file' });
         }
     },
 };
@@ -256,5 +285,8 @@ export const dispatchUpdateApp = dispatch(actions.actionUpdateApp);
 export const dispatchGetLangs = dispatch(actions.actionGetLang);
 export const dispatchCreateLang = dispatch(actions.actionCreateLang);
 export const dispatchUpdateLang = dispatch(actions.actionUpdateLang);
+
+export const dispatchAddFile = dispatch(actions.actionAddFile);
+export const dispatchRemoveFile = dispatch(actions.actionRemoveFile);
 
 

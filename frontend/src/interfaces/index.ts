@@ -46,12 +46,14 @@ export interface IApp {
     description: string;
     version: string;
     id: number;
+    app_langs?: IAppLang[];
 }
 
 export interface IAppCreate {
     name: string;
     description?: string;
     version?: string;
+    app_langs: IAppLang[];
 }
 
 export interface IAppUpdate {
@@ -80,14 +82,26 @@ export interface IRoleUpdate {
 }
 
 export interface ILang {
-    id: number;
+    id?: number;
+    name?: string;
+}
+
+export interface ILangCreate {
     name: string;
 }
 
-export interface ILangCreate{
-    name:string;
+export interface ILangUpdate {
+    name?: string;
 }
 
-export interface ILangUpdate{
-    name?:string;
+export interface IAppLang {
+    lang?: ILang;
+    version?: string;
+    filename?: string;
+}
+
+export interface IFileUpload {
+    lang?: ILang;
+    version?: string;
+    file?: File;
 }

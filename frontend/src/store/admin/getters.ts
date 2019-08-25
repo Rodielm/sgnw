@@ -38,6 +38,7 @@ export const getters = {
             return { ...filteredaLangs[0] };
         }
     },
+    adminFiles: (state: AdminState) => state.files,
 };
 
 const { read } = getStoreAccessors<AdminState, State>('');
@@ -56,4 +57,7 @@ export const readAdminOneRole = read(getters.adminOneRole);
 
 export const readAdminLangs = read(getters.adminLangs);
 export const readAdminOneLang = read(getters.adminOneLang);
+
+export const readAdminFiles = read(getters.adminFiles);
+
 

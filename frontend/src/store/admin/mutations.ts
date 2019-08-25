@@ -1,4 +1,4 @@
-import { IUserProfile, IGroup, IApp, IRole, ILang } from '@/interfaces';
+import { IUserProfile, IGroup, IApp, IRole, ILang, IFileUpload } from '@/interfaces';
 import { AdminState } from './state';
 import { getStoreAccessors } from 'typesafe-vuex';
 import { State } from '../state';
@@ -44,6 +44,16 @@ export const mutations = {
     setLangs(state: AdminState, payload: ILang[]) {
         state.langs = payload;
     },
+    addFile(state: AdminState, payload: IFileUpload) {
+        state.files.push(payload);
+    },
+    removeFile(state: AdminState, payload: IFileUpload) {
+        state.files = state.files.filter(file => file !== file);
+    },
+    removeAllFile(state: AdminState) {
+        state.files = []
+    },
+
 };
 
 const { commit } = getStoreAccessors<AdminState, State>('');
@@ -62,3 +72,8 @@ export const commitSetApps = commit(mutations.setApps);
 
 export const commitSetLang = commit(mutations.setLang);
 export const commitSetLangs = commit(mutations.setLangs);
+
+export const commitAddFile = commit(mutations.addFile);
+export const commitRemoveFile = commit(mutations.removeFile);
+
+export const commitRemoveAllFile = commit(mutations.removeAllFile);
