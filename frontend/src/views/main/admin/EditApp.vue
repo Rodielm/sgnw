@@ -10,6 +10,10 @@
             <v-text-field label="Name" v-model="name" required></v-text-field>
             <v-text-field label="Description" v-model="description" required></v-text-field>
             <v-text-field label="Version" v-model="version"></v-text-field>
+            <v-chip 
+            v-for="al in langs" 
+            :key="al.id" @input="onClose(al)"
+            close>{{al.filename}}</v-chip>
           </v-form>
         </template>
       </v-card-text>
@@ -25,7 +29,7 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-import { IApp, IAppUpdate } from "@/interfaces";
+import { IApp, IAppUpdate, IAppLang } from "@/interfaces";
 import { dispatchUpdateApp } from "@/store/admin/actions";
 import { readAdminOneApp, readAdminApps } from "@/store/admin/getters";
 
@@ -35,6 +39,7 @@ export default class EditApp extends Vue {
   public name: string = "";
   public description: string = "";
   public version: string = "";
+  public langs: IAppLang[] = [];
 
   public async mounted() {
     this.reset();
@@ -45,10 +50,11 @@ export default class EditApp extends Vue {
     this.description = "";
     this.version = "";
     this.$validator.reset();
-    if(this.app){
+    if (this.app) {
       this.name = this.app.name;
       this.description = this.app.description;
       this.version = this.app.version;
+      if (this.app.app_langs) this.langs = this.app.app_langs;
     }
   }
 
@@ -65,7 +71,7 @@ export default class EditApp extends Vue {
       if (this.description) {
         updatedApp.description = this.description;
       }
-      if (this.version){
+      if (this.version) {
         updatedApp.version = this.version;
       }
 

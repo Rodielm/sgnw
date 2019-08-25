@@ -9,17 +9,15 @@
       <template slot="items" slot-scope="props">
         <td>{{ props.item.name }}</td>
         <td>{{ props.item.description }}</td>
-        <td class="justify-center layout px-0">
-          <v-tooltip top>
-            <span>Edit</span>
-            <v-btn
-              slot="activator"
-              flat
-              :to="{name: 'main-admin-apps-edit', params: {id: props.item.id}}"
-            >
-              <v-icon>edit</v-icon>
-            </v-btn>
-          </v-tooltip>
+        <td>
+          <span v-for="(l,index) in props.item.app_langs" :key="l.id">
+            <span>{{l.lang.name}}</span>
+            <span v-if="index+1 < props.item.app_langs.length">, </span>
+          </span>
+        </td>
+        <td>
+          <v-icon small class="mr-2" @click="editItem(props.item.id)">edit</v-icon>
+          <v-icon small @click="deleteItem(props.item.id)">delete</v-icon>
         </td>
       </template>
     </v-data-table>
@@ -47,10 +45,28 @@ export default class AdminApps extends Vue {
       sortable: true,
       value: "description",
       align: "left"
+    },
+    {
+      text: "Languages",
+      sortable: true,
+      value: "lang",
+      align: "left"
+    },
+    {
+      text: "Actions",
+      value: "id",
+      align: "left"
     }
   ];
   get apps() {
     return readAdminApps(this.$store);
+  }
+
+  public editItem(id) {
+    this.$router.push({
+      name: "main-admin-apps-edit",
+      params: { id: id }
+    });
   }
 
   public async mounted() {

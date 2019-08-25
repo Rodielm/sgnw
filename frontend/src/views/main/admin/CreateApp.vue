@@ -9,6 +9,7 @@
           <v-form v-model="valid" ref="form" lazy-validation>
             <v-text-field label="Name" v-model="name" required></v-text-field>
             <v-text-field label="Description" v-model="description"></v-text-field>
+            <v-text-field label="Version" v-model="version"></v-text-field>
             <v-btn color="primary" dark @click.stop="dialog = true">Add Language</v-btn>
             <v-dialog v-model="dialog" max-width="360">
               <v-card>
@@ -16,34 +17,21 @@
                   <span class="headline">Add Language</span>
                 </v-card-title>
                 <v-card-text>
-                  <v-container>
-                    <v-layout wrap>
-                      <v-flex>
-                        <v-select
-                          :items="langs"
-                          name="lang"
-                          label="Select a language"
-                          v-model="lang"
-                          item-text="name"
-                          return-object
-                          required
-                        ></v-select>
-                      </v-flex>
-                      <v-flex>
-                        <UploadButton></UploadButton>
-                      </v-flex>
-                    </v-layout>
-                  </v-container>
-                  <small>*indicates required field</small>
+                  <UploadLangFile></UploadLangFile>
                 </v-card-text>
                 <v-card-actions>
                   <v-spacer></v-spacer>
-                  <v-btn color="blue darken-1" flat="flat" @click="dialog = false">Close</v-btn>
-                  <v-btn color="blue darken-1" flat="flat" @click="dialog = false">Ok</v-btn>
+                  <v-btn color="blue darken-1" flat="flat" @click="dialogClose">Close</v-btn>
+                  <v-btn color="blue darken-1" flat="flat" @click="dialogOk">Ok</v-btn>
                 </v-card-actions>
               </v-card>
             </v-dialog>
-            <UploadButton></UploadButton>
+            <v-chip
+              v-for="f in fileUploads"
+              :key="f.file.name"
+              @input="onClose(f)"
+              close
+            >{{f.file.name}}</v-chip>
           </v-form>
         </template>
       </v-card-text>
@@ -59,18 +47,23 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-import UploadButton from "@/components/UploadButton.vue";
-import { IApp, IAppCreate, ILang } from "@/interfaces";
-import { readAdminApps, readAdminLangs } from "@/store/admin/getters";
+import UploadLangFile from "@/components/UploadLangFile.vue";
+import { IApp, IAppCreate, ILang, IAppLang, IFileUpload } from "@/interfaces";
+import {
+  readAdminApps,
+  readAdminLangs,
+  readAdminFiles
+} from "@/store/admin/getters";
 import {
   dispatchGetApps,
   dispatchCreateApp,
-  dispatchGetLangs
+  dispatchGetLangs,
+  dispatchRemoveFile
 } from "@/store/admin/actions";
 
 @Component({
   components: {
-    UploadButton
+    UploadLangFile
   }
 })
 export default class CreateApp extends Vue {
@@ -78,24 +71,34 @@ export default class CreateApp extends Vue {
   public dialog = false;
   public name: string = "";
   public description: string = "";
+  public version: string = "";
   public app: IApp = {} as any;
-  public lang: ILang = {} as any;
+  public fileUploads: IFileUpload[] = [];
 
   public async mounted() {
     await dispatchGetLangs(this.$store);
     this.reset();
   }
 
-  get langs() {
-    return readAdminLangs(this.$store);
+  async onClose(file) {
+    console.log("Close file");
+    this.fileUploads = this.fileUploads.filter(f => f !== file);
+    await dispatchRemoveFile(this.$store, file);
   }
 
   public reset() {
     this.name = "";
     this.description = "";
     this.app = {} as any;
-    this.lang = {} as any;
     this.$validator.reset();
+  }
+
+  public dialogClose() {
+    this.dialog = false;
+  }
+  public dialogOk() {
+    this.dialog = false;
+    this.fileUploads = readAdminFiles(this.$store);
   }
 
   public cancel() {
@@ -105,7 +108,8 @@ export default class CreateApp extends Vue {
   public async submit() {
     if (await this.$validator.validateAll()) {
       const updatedApp: IAppCreate = {
-        name: this.name
+        name: this.name,
+        app_langs: []
       };
       if (this.description) {
         updatedApp.description = this.description;
@@ -116,6 +120,20 @@ export default class CreateApp extends Vue {
       if (this.description) {
         updatedApp.description = this.description;
       }
+
+      if (this.fileUploads) {
+        this.fileUploads.forEach(f => {
+          const langname = f.lang ? f.lang.name : "";
+          const filename = f.file ? f.file.name : langname + "" + Date.now();
+          let app_lang: IAppLang = {
+            version: f.version,
+            filename: filename,
+            lang: f.lang
+          };
+          updatedApp.app_langs.push(app_lang);
+        });
+      }
+
       await dispatchCreateApp(this.$store, updatedApp);
       this.$router.push("/main/admin/apps");
     }
