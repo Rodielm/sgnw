@@ -28,10 +28,10 @@
             </v-dialog>
             <v-chip
               v-for="f in fileUploads"
-              :key="f.file.name"
+              :key="f.filename"
               @input="onClose(f)"
               close
-            >{{f.file.name}}</v-chip>
+            >{{f.filename}}</v-chip>
           </v-form>
         </template>
       </v-card-text>
@@ -58,7 +58,7 @@ import {
   dispatchGetApps,
   dispatchCreateApp,
   dispatchGetLangs,
-  dispatchRemoveFile
+  dispatchRemoveFileLocal
 } from "@/store/admin/actions";
 
 @Component({
@@ -83,19 +83,21 @@ export default class CreateApp extends Vue {
   async onClose(file) {
     console.log("Close file");
     this.fileUploads = this.fileUploads.filter(f => f !== file);
-    await dispatchRemoveFile(this.$store, file);
+    await dispatchRemoveFileLocal(this.$store, file);
   }
 
   public reset() {
     this.name = "";
     this.description = "";
     this.app = {} as any;
+    this.fileUploads = [];
     this.$validator.reset();
   }
 
   public dialogClose() {
     this.dialog = false;
   }
+
   public dialogOk() {
     this.dialog = false;
     this.fileUploads = readAdminFiles(this.$store);
@@ -123,8 +125,7 @@ export default class CreateApp extends Vue {
 
       if (this.fileUploads) {
         this.fileUploads.forEach(f => {
-          const langname = f.lang ? f.lang.name : "";
-          const filename = f.file ? f.file.name : langname + "" + Date.now();
+          const filename = f.file!.name + "_" + f.lang!.name + "_" + Date.now();
           let app_lang: IAppLang = {
             version: f.version,
             filename: filename,

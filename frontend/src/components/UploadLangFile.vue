@@ -36,7 +36,7 @@
 
 <script lang="ts">
 import { Component, Vue, Prop, Emit } from "vue-property-decorator";
-import { dispatchAddFile, dispatchGetLangs } from "../store/admin/actions";
+import { dispatchAddFileLocal, dispatchGetLangs } from "../store/admin/actions";
 import { readAdminLangs } from "../store/admin/getters";
 import { IFileUpload, ILang } from "../interfaces";
 
@@ -44,7 +44,7 @@ import { IFileUpload, ILang } from "../interfaces";
 export default class UploadLangFile extends Vue {
   public chip: boolean = false;
   public name: string = "";
-  public lang: ILang = {};
+  public lang: ILang = {} as any;
   public version: string = "";
   public fileSelected: File | undefined;
 
@@ -59,9 +59,10 @@ export default class UploadLangFile extends Vue {
       const fileUploadSelected: IFileUpload = {
         lang: this.lang,
         version: this.version,
-        file: this.fileSelected
+        file: this.fileSelected,
+        filename: this.fileSelected.name
       };
-      await dispatchAddFile(this.$store, fileUploadSelected);
+      await dispatchAddFileLocal(this.$store, fileUploadSelected);
     }
   }
 

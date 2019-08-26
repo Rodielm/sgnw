@@ -133,8 +133,8 @@ export const actions = {
         }
     },
     async actionUpdateApp(context: MainContext, payload: { id: number, app: IAppUpdate }) {
+        const loadingNotification = { content: 'saving', showProgress: true };
         try {
-            const loadingNotification = { content: 'saving', showProgress: true };
             commitAddNotification(context, loadingNotification);
             const response = (await Promise.all([
                 api.updateApp(context.rootState.main.token, payload.id, payload.app),
@@ -144,6 +144,9 @@ export const actions = {
             commitRemoveNotification(context, loadingNotification);
             commitAddNotification(context, { content: 'App successfully updated', color: 'success' });
         } catch (error) {
+            console.log(`Error del caso: ${error}`)
+            commitRemoveNotification(context, loadingNotification);
+            commitAddNotification(context, { color: 'error', content: `Error to delete: ${error}` });
             await dispatchCheckApiError(context, error);
         }
     },
@@ -238,7 +241,7 @@ export const actions = {
             await dispatchCheckApiError(context, error);
         }
     },
-    async actionAddFile(context: MainContext, payload: IFileUpload) {
+    async actionAddFileLocal(context: MainContext, payload: IFileUpload) {
         const loadingNotification = { content: 'adding', showProgress: true };
         try {
             commitAddNotification(context, loadingNotification);
@@ -250,7 +253,7 @@ export const actions = {
             commitAddNotification(context, { color: 'error', content: 'Error wrong with file' });
         }
     },
-    async actionRemoveFile(context: MainContext, payload: IFileUpload) {
+    async actionRemoveFileLocal(context: MainContext, payload: IFileUpload) {
         const loadingNotification = { content: 'adding', showProgress: true };
         try {
             commitAddNotification(context, loadingNotification);
@@ -260,6 +263,17 @@ export const actions = {
         } catch (error) {
             commitRemoveNotification(context, loadingNotification);
             commitAddNotification(context, { color: 'error', content: 'Error wrong with file' });
+        }
+    },
+    async actionRemoveAppLang(context: MainContext, payload: { idApp: number, idLang: number, file: IFileUpload }) {
+        try {
+            const response = (await Promise.all([
+                api.deleteAppLang(context.rootState.main.token, payload.idApp, payload.idLang),
+                await new Promise((resolve, reject) => setTimeout(() => resolve(), 500)),
+            ]))[0];
+        } catch (error) {
+            commitAddNotification(context, { color: 'error', content: `Error to delete: ${error}` });
+            await dispatchCheckApiError(context, error);
         }
     },
 };
@@ -286,7 +300,9 @@ export const dispatchGetLangs = dispatch(actions.actionGetLang);
 export const dispatchCreateLang = dispatch(actions.actionCreateLang);
 export const dispatchUpdateLang = dispatch(actions.actionUpdateLang);
 
-export const dispatchAddFile = dispatch(actions.actionAddFile);
-export const dispatchRemoveFile = dispatch(actions.actionRemoveFile);
+export const dispatchAddFileLocal = dispatch(actions.actionAddFileLocal);
+export const dispatchRemoveFileLocal = dispatch(actions.actionRemoveFileLocal);
+
+export const dispatchRemoveAppLangs = dispatch(actions.actionRemoveAppLang);
 
 

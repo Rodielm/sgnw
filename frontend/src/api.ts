@@ -26,6 +26,7 @@ function authHeaders(token: string) {
   };
 }
 
+
 export const api = {
   async logInGetToken(username: string, password: string) {
     const params = new URLSearchParams();
@@ -87,6 +88,9 @@ export const api = {
   },
   async passwordRecovery(email: string) {
     return axios.post(`${apiUrl}/api/v1/password-recovery/${email}`);
+  },
+  async deleteAppLang(token: string, appId: number, langId: number) {
+    return axios.delete(`${apiUrl}/api/v1/apps/${appId}/lang/${langId}`, authHeaders(token));
   },
   async resetPassword(password: string, token: string) {
     return axios.post(`${apiUrl}/api/v1/reset-password/`, {

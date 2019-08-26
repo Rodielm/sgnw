@@ -48,7 +48,7 @@ export const mutations = {
         state.files.push(payload);
     },
     removeFile(state: AdminState, payload: IFileUpload) {
-        state.files = state.files.filter(file => file !== file);
+        state.files = state.files.filter(file => file !== payload);
     },
     removeAllFile(state: AdminState) {
         state.files = []

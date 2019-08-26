@@ -60,6 +60,7 @@ export interface IAppUpdate {
     name?: string;
     description?: string;
     version?: string;
+    app_langs: IAppLang[];
 }
 
 export interface IRole {
@@ -82,8 +83,8 @@ export interface IRoleUpdate {
 }
 
 export interface ILang {
-    id?: number;
-    name?: string;
+    id: number;
+    name: string;
 }
 
 export interface ILangCreate {
@@ -104,4 +105,5 @@ export interface IFileUpload {
     lang?: ILang;
     version?: string;
     file?: File;
+    filename?:string;
 }
