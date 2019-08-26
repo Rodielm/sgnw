@@ -55,15 +55,49 @@ def create_app(row: AppCreate):
 
 @db_session
 def update_app(id: int, app: AppInUpdate):
-    dbapp = db.App.get(id=id)
-    if not dbapp:
-        return dbapp
+    sql_debug(True)
+    updatedApp = db.App.get(id=id)
+    if not updatedApp:
+        return updatedApp
     else:
-        dbapp.name = app.name
+        if app.name:
+            updatedApp.name = app.name
+        if app.description:
+            updatedApp.description = app.description
+        if app.version:
+            updatedApp.version = app.version
+        if app.app_langs:
+            appLangs = app.app_langs
+            for al in appLangs:
+                lang = db.Lang.get(id=al.lang.id)
+                app = db.App.get(id=id)
+                applang = db.App_lang.get(app=app, lang=lang)
+                if applang:
+
+                    updatedAppLang = [a for a in set(
+                        updatedApp.app_langs) if a.app == app and a.lang == lang][0]
+
+                    updatedAppLang.set(
+                        version=al.version,
+                        filename=al.filename)
+                else:
+                    print('crear')
+                    db.App_lang(
+                        app=app,
+                        lang=lang,
+                        version=al.version,
+                        filename=al.filename)
         commit()
-    return dbapp
+    return updatedApp
 
 
 @db_session
 def delete_app(id: int):
-    db.app[id].delete()
+    db.App[id].delete()
+
+
+@db_session
+def delete_applang(idapp: int, idlang: int):
+    sql_debug(True)
+    db.App_lang.select(
+        lambda al: al.app.id == idapp and al.lang.id == idlang).delete(bulk=True)

@@ -37,7 +37,7 @@ def create_notification(row: NotificationInCreate):
     notifications_by_user = {}
     # Users
     if row.users:
-        users = row.users  # FIXME: user is a list... rename to users
+        users = row.users 
         for u in users:
             user = db.User.get(username=u.username)
             if user is None:

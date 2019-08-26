@@ -96,3 +96,8 @@ def update_app(id: int, app: AppInUpdate):
 @router.delete("/{id}")
 def delete_app(id: int):
     db_app.delete_app(id)
+
+
+@router.delete("/{idApp}/lang/{idLang}")
+def delete_applang(idApp: int, idLang: int):
+    db_app.delete_applang(idApp, idLang)

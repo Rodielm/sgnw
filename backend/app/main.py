@@ -10,7 +10,7 @@ app = FastAPI(config.PROJECT_NAME, openapi_url="/api/v1/openapi.json")
 
 origins = [
     "http://localhost:8080",
-    "http://localhost:8000"
+    "http://localhost:8000",
 ]
 
 app.add_middleware(

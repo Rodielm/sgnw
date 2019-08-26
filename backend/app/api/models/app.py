@@ -34,7 +34,7 @@ class AppInDB(AppBase):
     pass
 
 
-class AppInUpdate(AppBase):
+class AppInUpdate(AppCreate):
     pass
 
 
