@@ -29,9 +29,17 @@ export const mutations = {
     removeNotification(state: MainState, payload: AppNotification) {
         state.notifications = state.notifications.filter((notification) => notification !== payload);
     },
+    setNotify(state: MainState, payload: any) {
+        const notifies = state.notifies.filter((notify: any) => notify.id !== payload.id);
+        notifies.push(payload);
+        state.notifies = notifies;
+    },
+    setNotifies(state: MainState, payload: any[]) {
+        state.notifies = payload
+    },
 };
 
-const {commit} = getStoreAccessors<MainState | any, State>('');
+const { commit } = getStoreAccessors<MainState | any, State>('');
 
 export const commitSetDashboardMiniDrawer = commit(mutations.setDashboardMiniDrawer);
 export const commitSetDashboardShowDrawer = commit(mutations.setDashboardShowDrawer);
@@ -41,3 +49,6 @@ export const commitSetToken = commit(mutations.setToken);
 export const commitSetUserProfile = commit(mutations.setUserProfile);
 export const commitAddNotification = commit(mutations.addNotification);
 export const commitRemoveNotification = commit(mutations.removeNotification);
+
+export const commitSetNotify = commit(mutations.setNotify);
+export const commitSetNotifies = commit(mutations.setNotifies);

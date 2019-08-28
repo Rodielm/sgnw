@@ -5,6 +5,6 @@ export interface AdminState {
     groups: IGroup[];
     apps: IApp[];
     roles: IRole[];
-    langs:ILang[];
-    files:IFileUpload[];
+    langs: ILang[];
+    files: IFileUpload[];
 }

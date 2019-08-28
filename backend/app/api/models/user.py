@@ -6,10 +6,10 @@ from pydantic import BaseModel
 class UserBase(BaseModel):
     email: str = ""
     username: str = ""
-    
 
 
 class UserSecurity(UserBase):
+    id: int
     isActive: bool
     isAdmin: bool
     pass
@@ -20,9 +20,9 @@ class UserNotification(UserBase):
 
 
 class UserInResponse(UserBase):
-    id:int
-    isAdmin:bool
-    isActive:bool
+    id: int
+    isAdmin: bool
+    isActive: bool
     pass
 
 

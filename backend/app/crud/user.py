@@ -26,11 +26,9 @@ def is_user_admin(user: UserSecurity):
 def get_by_email(email: str):
     return db.User.get(email=email)
 
-
 @db_session
 def authenticate(email: str, password: str):
     user = get_by_email(email=email)
-
     if not user:
         return None
     if not verify_password(password, user.password):

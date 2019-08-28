@@ -19,6 +19,28 @@ def read_notification_for_user(id: int):
 
 
 @db_session
+def read_notification_by_user(id: int):
+    sql_debug(True)
+    notifications = []
+    user = db.User.get(id=id)
+    rows = select(nu for nu in db.NotifyUser if nu.user == user)[:]
+    for row in rows:
+        groups = []
+        roles = []
+        notify = row.to_dict()
+        notify['notification'] = row.notification.to_dict()
+        notify['status'] = row.status.to_dict()
+        for g in row.recipient_groups:
+            groups.append(g.to_dict())
+        notify['groups'] = groups
+        for r in row.recipient_roles:
+            roles.append(g.to_dict())
+        notify['roles'] = roles
+        notifications.append(notify)
+    return notifications
+
+
+@db_session
 def create_notification(row: NotificationInCreate):
     sql_debug(True)
     status = db.NotifyState.get(id=1)
@@ -37,7 +59,7 @@ def create_notification(row: NotificationInCreate):
     notifications_by_user = {}
     # Users
     if row.users:
-        users = row.users 
+        users = row.users
         for u in users:
             user = db.User.get(username=u.username)
             if user is None:

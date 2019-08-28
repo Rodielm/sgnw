@@ -73,7 +73,6 @@
             </v-list-tile-content>
           </v-list-tile>
         </v-list>
-        <v-spacer></v-spacer>
         <v-list>
           <v-list-tile @click="logout">
             <v-list-tile-action>

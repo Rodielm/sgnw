@@ -56,6 +56,9 @@ export const api = {
   async getLangs(token: string) {
     return axios.get<ILang[]>(`${apiUrl}/api/v1/langs/`, authHeaders(token));
   },
+  async getNotifications(token: string) {
+    return axios.get(`${apiUrl}/api/v1/noti/me`, authHeaders(token));
+  },
   async updateUser(token: string, userId: number, data: IUserProfileUpdate) {
     return axios.put(`${apiUrl}/api/v1/users/${userId}`, data, authHeaders(token));
   },

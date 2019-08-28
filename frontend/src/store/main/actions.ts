@@ -12,6 +12,7 @@ import {
     commitSetLogInError,
     commitSetToken,
     commitSetUserProfile,
+    commitSetNotifies,
 } from './mutations';
 import { AppNotification, MainState } from './state';
 
@@ -154,6 +155,16 @@ export const actions = {
             commitAddNotification(context, { color: 'error', content: 'Error resetting password' });
         }
     },
+    async actionGetNotifies(context: MainContext) {
+        try {
+            const response = await api.getNotifications(context.rootState.main.token);
+            if (response) {
+                commitSetNotifies(context, response.data);
+            }
+        } catch (error) {
+            await dispatchCheckApiError(context, error);
+        }
+    },
 };
 
 const { dispatch } = getStoreAccessors<MainState | any, State>('');
@@ -171,4 +182,6 @@ export const dispatchUpdateUserProfile = dispatch(actions.actionUpdateUserProfil
 export const dispatchRemoveNotification = dispatch(actions.removeNotification);
 export const dispatchPasswordRecovery = dispatch(actions.passwordRecovery);
 export const dispatchResetPassword = dispatch(actions.resetPassword);
+
+export const dispatchUserNotify = dispatch(actions.actionGetNotifies);
 

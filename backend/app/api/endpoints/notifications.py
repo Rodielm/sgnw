@@ -1,6 +1,7 @@
 
-from fastapi import APIRouter
+from fastapi import APIRouter, Depends
 from app.api.models.notification import *
+from app.core.security import get_current_active_user
 from app.crud import notification as db_noti
 from fastapi.encoders import jsonable_encoder
 from app.core.utils import create_aliased_response
@@ -21,9 +22,11 @@ from starlette.status import (
 router = APIRouter()
 
 
-@router.get("/{id}")
-def read_notification_user(id: int):
-    return db_noti.read_notification_for_user(id)
+@router.get("/me")
+def read_notification_by_user(
+    current_user: UserSecurity = Depends(get_current_active_user)
+):
+    return db_noti.read_notification_by_user(current_user.id)
 
 
 @router.post("/", status_code=HTTP_201_CREATED)

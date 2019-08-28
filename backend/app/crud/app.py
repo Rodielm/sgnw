@@ -93,6 +93,7 @@ def update_app(id: int, app: AppInUpdate):
 
 @db_session
 def delete_app(id: int):
+    sql_debug(True)
     db.App[id].delete()
 
 
