@@ -7,7 +7,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop, Emit } from "vue-property-decorator";
+import { Component, Vue, Prop, Emit } from 'vue-property-decorator';
 
 @Component
 export default class UploadButton extends Vue {
@@ -15,7 +15,7 @@ export default class UploadButton extends Vue {
   @Prop({ default: false }) public multiple!: boolean;
   @Emit()
   public async files(e) {
-    console.log(e.target.files[0]);
+    return e.target.files[0];
   }
 
   public trigger() {

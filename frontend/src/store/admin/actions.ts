@@ -11,7 +11,7 @@ import {
     IAppUpdate,
     ILangCreate,
     ILangUpdate,
-    IFileUpload
+    IFileUpload,
 } from '@/interfaces';
 import { State } from '../state';
 import { AdminState } from './state';
@@ -144,7 +144,6 @@ export const actions = {
             commitRemoveNotification(context, loadingNotification);
             commitAddNotification(context, { content: 'App successfully updated', color: 'success' });
         } catch (error) {
-            console.log(`Error del caso: ${error}`)
             commitRemoveNotification(context, loadingNotification);
             commitAddNotification(context, { color: 'error', content: `Error to delete: ${error}` });
             await dispatchCheckApiError(context, error);

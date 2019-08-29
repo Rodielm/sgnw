@@ -35,7 +35,7 @@ export const mutations = {
         state.notifies = notifies;
     },
     setNotifies(state: MainState, payload: any[]) {
-        state.notifies = payload
+        state.notifies = payload;
     },
 };
 

@@ -22,22 +22,22 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
-import { IApp, IAppCreate, ILangCreate } from "@/interfaces";
-import { readAdminApps } from "@/store/admin/getters";
-import { dispatchGetApps, dispatchCreateApp, dispatchCreateUser, dispatchCreateLang } from "@/store/admin/actions";
+import { Component, Vue } from 'vue-property-decorator';
+import { IApp, IAppCreate, ILangCreate } from '@/interfaces';
+import { readAdminApps } from '@/store/admin/getters';
+import { dispatchGetApps, dispatchCreateApp, dispatchCreateUser, dispatchCreateLang } from '@/store/admin/actions';
 
 @Component
 export default class CreateLang extends Vue {
   public valid = false;
-  public name: string = "";
+  public name: string = '';
 
   public async mounted() {
     this.reset();
   }
 
   public reset() {
-    this.name = "";
+    this.name = '';
     this.$validator.reset();
   }
 
@@ -48,13 +48,13 @@ export default class CreateLang extends Vue {
   public async submit() {
     if (await this.$validator.validateAll()) {
       const updatedLang: ILangCreate = {
-        name: this.name
+        name: this.name,
       };
       if (this.name) {
         updatedLang.name = this.name;
       }
       await dispatchCreateLang(this.$store, updatedLang);
-      this.$router.push("/main/admin/langs");
+      this.$router.push('/main/admin/langs');
     }
   }
 }

@@ -35,17 +35,17 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop, Emit } from "vue-property-decorator";
-import { dispatchAddFileLocal, dispatchGetLangs } from "../store/admin/actions";
-import { readAdminLangs } from "../store/admin/getters";
-import { IFileUpload, ILang } from "../interfaces";
+import { Component, Vue, Prop, Emit } from 'vue-property-decorator';
+import { dispatchAddFileLocal, dispatchGetLangs } from '../store/admin/actions';
+import { readAdminLangs } from '../store/admin/getters';
+import { IFileUpload, ILang } from '../interfaces';
 
 @Component
 export default class UploadLangFile extends Vue {
   public chip: boolean = false;
-  public name: string = "";
+  public name: string = '';
   public lang: ILang = {} as any;
-  public version: string = "";
+  public version: string = '';
   public fileSelected: File | undefined;
 
   @Prop(String) public color: string | undefined;
@@ -60,15 +60,15 @@ export default class UploadLangFile extends Vue {
         lang: this.lang,
         version: this.version,
         file: this.fileSelected,
-        filename: this.fileSelected.name
+        filename: this.fileSelected.name,
       };
       await dispatchAddFileLocal(this.$store, fileUploadSelected);
     }
   }
 
   public reset() {
-    this.name = "";
-    this.version = "";
+    this.name = '';
+    this.version = '';
     this.lang = {} as any;
     this.$validator.reset();
   }

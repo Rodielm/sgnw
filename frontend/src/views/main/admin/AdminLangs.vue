@@ -27,20 +27,20 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
-import { Store } from "vuex";
-import { readAdminLangs } from "@/store/admin/getters";
-import { dispatchGetLangs } from "@/store/admin/actions";
+import { Component, Vue } from 'vue-property-decorator';
+import { Store } from 'vuex';
+import { readAdminLangs } from '@/store/admin/getters';
+import { dispatchGetLangs } from '@/store/admin/actions';
 
 @Component
 export default class AdminLangs extends Vue {
   public headers = [
     {
-      text: "Name",
+      text: 'Name',
       sortable: true,
-      value: "name",
-      align: "left"
-    }
+      value: 'name',
+      align: 'left',
+    },
   ];
   get langs() {
     return readAdminLangs(this.$store);

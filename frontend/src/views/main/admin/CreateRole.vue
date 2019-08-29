@@ -35,21 +35,21 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
-import { IRole, IRoleCreate, IApp } from "@/interfaces";
-import { readAdminApps } from "@/store/admin/getters";
+import { Component, Vue } from 'vue-property-decorator';
+import { IRole, IRoleCreate, IApp } from '@/interfaces';
+import { readAdminApps } from '@/store/admin/getters';
 import {
   dispatchGetRoles,
   dispatchCreateRole,
-  dispatchGetApps
-} from "@/store/admin/actions";
-import { version } from "vee-validate";
+  dispatchGetApps,
+} from '@/store/admin/actions';
+import { version } from 'vee-validate';
 
 @Component
 export default class CreateRole extends Vue {
   public valid = false;
-  public name: string = "";
-  public description: string = "";
+  public name: string = '';
+  public description: string = '';
   public app: IApp = {} as any;
 
   public async mounted() {
@@ -63,8 +63,8 @@ export default class CreateRole extends Vue {
   }
 
   public reset() {
-    this.name = "";
-    this.description = "";
+    this.name = '';
+    this.description = '';
     this.app = {} as any;
     this.$validator.reset();
   }
@@ -76,7 +76,7 @@ export default class CreateRole extends Vue {
   public async submit() {
     if (await this.$validator.validateAll()) {
       const updatedRole: IRoleCreate = {
-        name: this.name
+        name: this.name,
       };
       if (this.description) {
         updatedRole.description = this.description;
@@ -92,12 +92,12 @@ export default class CreateRole extends Vue {
           id: this.app.id,
           name: this.app.name,
           description: this.app.description,
-          version: this.app.version
+          version: this.app.version,
         };
       }
 
       await dispatchCreateRole(this.$store, updatedRole);
-      this.$router.push("/main/admin/roles");
+      this.$router.push('/main/admin/roles');
     }
   }
 }

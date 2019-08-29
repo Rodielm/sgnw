@@ -41,7 +41,7 @@ def read_user_logged(
     """
     user = current_user.to_dict()
     print("Current user {} ".format(user))
-    return current_user
+    return user
 
 
 @router.get("/{email}", response_model=UserInResponse)

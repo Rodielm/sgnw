@@ -51,44 +51,44 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
-import { Store } from "vuex";
-import { readUserProfile, readUsersNotify } from "@/store/main/getters";
-import { dispatchUserNotify } from "../../store/main/actions";
+import { Component, Vue } from 'vue-property-decorator';
+import { Store } from 'vuex';
+import { readUserProfile, readUsersNotify } from '@/store/main/getters';
+import { dispatchUserNotify } from '../../store/main/actions';
 
 @Component
 export default class Dashboard extends Vue {
   public expand = true;
   public headers = [
     {
-      text: "Summary",
+      text: 'Summary',
       sortable: true,
-      value: "name",
-      align: "left"
+      value: 'name',
+      align: 'left',
     },
     {
-      text: "Notification",
+      text: 'Notification',
       sortable: true,
-      value: "description",
-      align: "left"
+      value: 'description',
+      align: 'left',
     },
     {
-      text: "Groups",
+      text: 'Groups',
       sortable: true,
-      value: "group",
-      align: "left"
+      value: 'group',
+      align: 'left',
     },
     {
-      text: "Roles",
+      text: 'Roles',
       sortable: true,
-      value: "rol",
-      align: "left"
+      value: 'rol',
+      align: 'left',
     },
     {
-      text: "Actions",
-      value: "id",
-      align: "left"
-    }
+      text: 'Actions',
+      value: 'id',
+      align: 'left',
+    },
   ];
   public async mounted() {
     await dispatchUserNotify(this.$store);

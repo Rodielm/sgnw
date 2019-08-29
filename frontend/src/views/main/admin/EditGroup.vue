@@ -36,16 +36,16 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
-import { IApp, IGroupUpdate } from "@/interfaces";
-import { dispatchUpdateGroup, dispatchGetGroups, dispatchCreateUser, dispatchGetApps } from "@/store/admin/actions";
-import { readAdminOneGroup, readAdminApps } from "@/store/admin/getters";
+import { Component, Vue } from 'vue-property-decorator';
+import { IApp, IGroupUpdate } from '@/interfaces';
+import { dispatchUpdateGroup, dispatchGetGroups, dispatchCreateUser, dispatchGetApps } from '@/store/admin/actions';
+import { readAdminOneGroup, readAdminApps } from '@/store/admin/getters';
 
 @Component
 export default class EditGroup extends Vue {
   public valid = true;
-  public name: string = "";
-  public description: string = "";
+  public name: string = '';
+  public description: string = '';
   public app: IApp = {} as any;
 
   public async mounted() {
@@ -55,13 +55,13 @@ export default class EditGroup extends Vue {
   }
 
   public reset() {
-    this.name = "";
-    this.description = "";
+    this.name = '';
+    this.description = '';
     this.$validator.reset();
     if (this.group) {
       this.name = this.group.name;
       this.description = this.group.description;
-      this.app = this.group.app
+      this.app = this.group.app;
     }
   }
 
@@ -80,13 +80,13 @@ export default class EditGroup extends Vue {
       }
       await dispatchUpdateGroup(this.$store, {
         id: this.group!.id,
-        group: updatedGroup
+        group: updatedGroup,
       });
-      this.$router.push("/main/admin/groups");
+      this.$router.push('/main/admin/groups');
     }
   }
 
-  get apps(){
+  get apps() {
     return readAdminApps(this.$store);
   }
 

@@ -41,14 +41,14 @@ import { readAdminApps } from '@/store/admin/getters';
 import {
   dispatchGetGroups,
   dispatchCreateGroup,
-  dispatchGetApps
-} from "@/store/admin/actions";
+  dispatchGetApps,
+} from '@/store/admin/actions';
 
 @Component
 export default class CreateGroup extends Vue {
   public valid = false;
-  public name: string = "";
-  public description: string = "";
+  public name: string = '';
+  public description: string = '';
   public app: IApp = {} as any;
 
   public async mounted() {
@@ -62,8 +62,8 @@ export default class CreateGroup extends Vue {
   }
 
   public reset() {
-    this.name = "";
-    this.description = "";
+    this.name = '';
+    this.description = '';
     this.app = {} as any;
     this.$validator.reset();
   }
@@ -75,7 +75,7 @@ export default class CreateGroup extends Vue {
   public async submit() {
     if (await this.$validator.validateAll()) {
       const updatedGroup: IGroupCreate = {
-        name: this.name
+        name: this.name,
       };
       if (this.description) {
         updatedGroup.description = this.description;
@@ -91,12 +91,12 @@ export default class CreateGroup extends Vue {
           id: this.app.id,
           name: this.app.name,
           description: this.app.description,
-          version:this.app.version
+          version: this.app.version,
         };
       }
 
       await dispatchCreateGroup(this.$store, updatedGroup);
-      this.$router.push("/main/admin/groups");
+      this.$router.push('/main/admin/groups');
     }
   }
 }

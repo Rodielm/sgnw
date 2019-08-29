@@ -36,16 +36,16 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
-import { IApp, IRoleUpdate } from "@/interfaces";
-import { dispatchGetApps, dispatchGetRoles, dispatchUpdateRole } from "@/store/admin/actions";
-import { readAdminApps, readAdminOneRole } from "@/store/admin/getters";
+import { Component, Vue } from 'vue-property-decorator';
+import { IApp, IRoleUpdate } from '@/interfaces';
+import { dispatchGetApps, dispatchGetRoles, dispatchUpdateRole } from '@/store/admin/actions';
+import { readAdminApps, readAdminOneRole } from '@/store/admin/getters';
 
 @Component
 export default class EditRole extends Vue {
   public valid = true;
-  public name: string = "";
-  public description: string = "";
+  public name: string = '';
+  public description: string = '';
   public app: IApp = {} as any;
 
   public async mounted() {
@@ -55,13 +55,13 @@ export default class EditRole extends Vue {
   }
 
   public reset() {
-    this.name = "";
-    this.description = "";
+    this.name = '';
+    this.description = '';
     this.$validator.reset();
     if (this.role) {
       this.name = this.role.name;
       this.description = this.role.description;
-      this.app = this.role.app
+      this.app = this.role.app;
     }
   }
 
@@ -80,13 +80,13 @@ export default class EditRole extends Vue {
       }
       await dispatchUpdateRole(this.$store, {
         id: this.role!.id,
-        role: updateRole
+        role: updateRole,
       });
-      this.$router.push("/main/admin/roles");
+      this.$router.push('/main/admin/roles');
     }
   }
 
-  get apps(){
+  get apps() {
     return readAdminApps(this.$store);
   }
 

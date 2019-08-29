@@ -46,32 +46,32 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
-import UploadLangFile from "@/components/UploadLangFile.vue";
-import { IApp, IAppCreate, ILang, IAppLang, IFileUpload } from "@/interfaces";
+import { Component, Vue } from 'vue-property-decorator';
+import UploadLangFile from '@/components/UploadLangFile.vue';
+import { IApp, IAppCreate, ILang, IAppLang, IFileUpload } from '@/interfaces';
 import {
   readAdminApps,
   readAdminLangs,
-  readAdminFiles
-} from "@/store/admin/getters";
+  readAdminFiles,
+} from '@/store/admin/getters';
 import {
   dispatchGetApps,
   dispatchCreateApp,
   dispatchGetLangs,
-  dispatchRemoveFileLocal
-} from "@/store/admin/actions";
+  dispatchRemoveFileLocal,
+} from '@/store/admin/actions';
 
 @Component({
   components: {
-    UploadLangFile
-  }
+    UploadLangFile,
+  },
 })
 export default class CreateApp extends Vue {
   public valid = false;
   public dialog = false;
-  public name: string = "";
-  public description: string = "";
-  public version: string = "";
+  public name: string = '';
+  public description: string = '';
+  public version: string = '';
   public app: IApp = {} as any;
   public fileUploads: IFileUpload[] = [];
 
@@ -80,15 +80,14 @@ export default class CreateApp extends Vue {
     this.reset();
   }
 
-  async onClose(file) {
-    console.log("Close file");
-    this.fileUploads = this.fileUploads.filter(f => f !== file);
+  public async onClose(file) {
+    this.fileUploads = this.fileUploads.filter((f) => f !== file);
     await dispatchRemoveFileLocal(this.$store, file);
   }
 
   public reset() {
-    this.name = "";
-    this.description = "";
+    this.name = '';
+    this.description = '';
     this.app = {} as any;
     this.fileUploads = [];
     this.$validator.reset();
@@ -111,7 +110,7 @@ export default class CreateApp extends Vue {
     if (await this.$validator.validateAll()) {
       const updatedApp: IAppCreate = {
         name: this.name,
-        app_langs: []
+        app_langs: [],
       };
       if (this.description) {
         updatedApp.description = this.description;
@@ -124,19 +123,19 @@ export default class CreateApp extends Vue {
       }
 
       if (this.fileUploads) {
-        this.fileUploads.forEach(f => {
-          const filename = f.file!.name + "_" + f.lang!.name + "_" + Date.now();
-          let app_lang: IAppLang = {
+        this.fileUploads.forEach((f) => {
+          const filename = f.file!.name + '_' + f.lang!.name + '_' + Date.now();
+          const appLang: IAppLang = {
             version: f.version,
-            filename: filename,
-            lang: f.lang
+            filename,
+            lang: f.lang,
           };
-          updatedApp.app_langs.push(app_lang);
+          updatedApp.app_langs.push(appLang);
         });
       }
 
       await dispatchCreateApp(this.$store, updatedApp);
-      this.$router.push("/main/admin/apps");
+      this.$router.push('/main/admin/apps');
     }
   }
 }

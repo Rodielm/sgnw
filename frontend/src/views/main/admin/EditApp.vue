@@ -46,34 +46,34 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
-import UploadLangFile from "@/components/UploadLangFile.vue";
-import { IApp, IAppUpdate, IAppLang, IFileUpload } from "@/interfaces";
+import { Component, Vue } from 'vue-property-decorator';
+import UploadLangFile from '@/components/UploadLangFile.vue';
+import { IApp, IAppUpdate, IAppLang, IFileUpload } from '@/interfaces';
 import {
   dispatchUpdateApp,
   dispatchRemoveFileLocal,
   dispatchCreateUser,
   dispatchAddFileLocal,
-  dispatchRemoveAppLangs
-} from "@/store/admin/actions";
+  dispatchRemoveAppLangs,
+} from '@/store/admin/actions';
 import {
   readAdminOneApp,
   readAdminApps,
-  readAdminFiles
-} from "@/store/admin/getters";
-import { commitRemoveAllFile, commitAddFile } from "../../../store/admin/mutations";
+  readAdminFiles,
+} from '@/store/admin/getters';
+import { commitRemoveAllFile, commitAddFile } from '../../../store/admin/mutations';
 
 @Component({
   components: {
-    UploadLangFile
-  }
+    UploadLangFile,
+  },
 })
 export default class EditApp extends Vue {
   public valid = true;
   public dialog = false;
-  public name: string = "";
-  public description: string = "";
-  public version: string = "";
+  public name: string = '';
+  public description: string = '';
+  public version: string = '';
   public fileUploads: IFileUpload[] = [];
   public deletedFileUploads: IFileUpload[] = [];
 
@@ -82,26 +82,26 @@ export default class EditApp extends Vue {
   }
 
   public reset() {
-    this.name = "";
-    this.description = "";
-    this.version = "";
+    this.name = '';
+    this.description = '';
+    this.version = '';
     this.$validator.reset();
     if (this.app) {
       this.name = this.app.name;
       this.description = this.app.description;
       this.version = this.app.version;
-      if (this.app.app_langs) {
-        this.app.app_langs.forEach(f => {
-          let app_lang: IFileUpload = {
+      if (this.app.appLangs) {
+        this.app.appLangs.forEach((f) => {
+          const appLang: IFileUpload = {
             version: f.version,
             lang: f.lang,
-            filename: f.filename
+            filename: f.filename,
           };
-          this.fileUploads.push(app_lang);
+          this.fileUploads.push(appLang);
         });
         if (this.fileUploads) {
           commitRemoveAllFile(this.$store);
-          this.fileUploads.forEach(file => {
+          this.fileUploads.forEach((file) => {
             commitAddFile(this.$store, file);
           });
         }
@@ -113,15 +113,15 @@ export default class EditApp extends Vue {
     this.$router.back();
   }
 
-  async onClose(file) {
+  public async onClose(file) {
     // deleted file local component
-    this.fileUploads = this.fileUploads.filter(f => f !== file);
+    this.fileUploads = this.fileUploads.filter((f) => f !== file);
 
     // check if exist this file on deleted list
-    if (this.deletedFileUploads.some(f => f.lang!.id == file.lang.id)) {
+    if (this.deletedFileUploads.some((f) => f.lang!.id === file.lang.id)) {
       // remove file on deleted list if exist
       this.deletedFileUploads = this.deletedFileUploads.filter(
-        f => f.lang!.id !== file.lang.id
+        (f) => f.lang!.id !== file.lang.id,
       );
     } else {
       // add file to deleted list if doesn't exist
@@ -142,7 +142,7 @@ export default class EditApp extends Vue {
   public async submit() {
     if (await this.$validator.validateAll()) {
       const updatedApp: IAppUpdate = {
-        app_langs: []
+        appLangs: [],
       };
       if (this.name) {
         updatedApp.name = this.name;
@@ -155,30 +155,30 @@ export default class EditApp extends Vue {
       }
 
       if (this.fileUploads) {
-        this.fileUploads.forEach(f => {
+        this.fileUploads.forEach((f) => {
           // const filename = f.lang!.name + "_" + Date.now() + "_" + f.filename;
-          let app_lang: IAppLang = {
+          const appLang: IAppLang = {
             version: f.version,
             filename: f.filename,
-            lang: f.lang
+            lang: f.lang,
           };
-          updatedApp.app_langs.push(app_lang);
+          updatedApp.appLangs.push(appLang);
         });
 
-        this.deletedFileUploads.forEach(f => {
+        this.deletedFileUploads.forEach((f) => {
           dispatchRemoveAppLangs(this.$store, {
             idApp: this.app!.id,
             idLang: f.lang!.id,
-            file: f
+            file: f,
           });
         });
       }
 
       await dispatchUpdateApp(this.$store, {
         id: this.app!.id,
-        app: updatedApp
+        app: updatedApp,
       });
-      this.$router.push("/main/admin/apps");
+      this.$router.push('/main/admin/apps');
     }
   }
 

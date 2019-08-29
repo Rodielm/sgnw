@@ -31,7 +31,6 @@ import { dispatchCheckLoggedIn } from '@/store/main/actions';
   },
 })
 export default class App extends Vue {
-
   get loggedIn() {
     return readIsLoggedIn(this.$store);
   }

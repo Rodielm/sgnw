@@ -22,22 +22,22 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
-import { readAdminOneLang } from "@/store/admin/getters";
-import { ILangUpdate } from "../../../interfaces";
-import { dispatchUpdateLang } from "../../../store/admin/actions";
+import { Component, Vue } from 'vue-property-decorator';
+import { readAdminOneLang } from '@/store/admin/getters';
+import { ILangUpdate } from '../../../interfaces';
+import { dispatchUpdateLang } from '../../../store/admin/actions';
 
 @Component
 export default class EditLang extends Vue {
   public valid = true;
-  public name: string = "";
+  public name: string = '';
 
   public async mounted() {
     this.reset();
   }
 
   public reset() {
-    this.name = "";
+    this.name = '';
     this.$validator.reset();
     if (this.lang) {
       this.name = this.lang.name;
@@ -57,9 +57,9 @@ export default class EditLang extends Vue {
 
       await dispatchUpdateLang(this.$store, {
         id: this.lang!.id,
-        lang: updatedLang
+        lang: updatedLang,
       });
-      this.$router.push("/main/admin/langs");
+      this.$router.push('/main/admin/langs');
     }
   }
 

@@ -25,38 +25,38 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
-import { Store } from "vuex";
-import { IApp } from "@/interfaces";
-import { readAdminApps } from "@/store/admin/getters";
-import { dispatchGetApps } from "@/store/admin/actions";
+import { Component, Vue } from 'vue-property-decorator';
+import { Store } from 'vuex';
+import { IApp } from '@/interfaces';
+import { readAdminApps } from '@/store/admin/getters';
+import { dispatchGetApps } from '@/store/admin/actions';
 
 @Component
 export default class AdminApps extends Vue {
   public headers = [
     {
-      text: "Name",
+      text: 'Name',
       sortable: true,
-      value: "name",
-      align: "left"
+      value: 'name',
+      align: 'left',
     },
     {
-      text: "Description",
+      text: 'Description',
       sortable: true,
-      value: "description",
-      align: "left"
+      value: 'description',
+      align: 'left',
     },
     {
-      text: "Languages",
+      text: 'Languages',
       sortable: true,
-      value: "lang",
-      align: "left"
+      value: 'lang',
+      align: 'left',
     },
     {
-      text: "Actions",
-      value: "id",
-      align: "left"
-    }
+      text: 'Actions',
+      value: 'id',
+      align: 'left',
+    },
   ];
   get apps() {
     return readAdminApps(this.$store);
@@ -64,8 +64,8 @@ export default class AdminApps extends Vue {
 
   public editItem(id) {
     this.$router.push({
-      name: "main-admin-apps-edit",
-      params: { id: id }
+      name: 'main-admin-apps-edit',
+      params: { id },
     });
   }
 
