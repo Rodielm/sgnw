@@ -10,9 +10,9 @@
         <td>{{ props.item.name }}</td>
         <td>{{ props.item.description }}</td>
         <td>
-          <span v-for="(l,index) in props.item.app_langs" :key="l.id">
+          <span v-for="(l,index) in props.item.appLangs" :key="l.id">
             <span>{{l.lang.name}}</span>
-            <span v-if="index+1 < props.item.app_langs.length">, </span>
+            <span v-if="index+1 < props.item.appLangs.length">, </span>
           </span>
         </td>
         <td>
