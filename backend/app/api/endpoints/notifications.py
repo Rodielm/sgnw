@@ -26,7 +26,8 @@ router = APIRouter()
 def read_notification_by_user(
     current_user: UserSecurity = Depends(get_current_active_user)
 ):
-    return db_noti.read_notification_by_user(current_user.id)
+    id: int = current_user.id
+    return db_noti.read_notification_by_user(id)
 
 
 @router.post("/", status_code=HTTP_201_CREATED)

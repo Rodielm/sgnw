@@ -162,6 +162,7 @@ export const actions = {
                 commitSetNotifies(context, response.data);
             }
         } catch (error) {
+            console.log(error)
             await dispatchCheckApiError(context, error);
         }
     },

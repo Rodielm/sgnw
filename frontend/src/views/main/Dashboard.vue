@@ -6,8 +6,8 @@
       </v-card-title>
       <v-card-text>
         <div class="headline font-weight-light ma-5">Welcome {{greetedUser}}</div>
-        <v-data-table :headers="headers" :items="userNotifies" :expand="expand">
-          <template slot="items" slot-scope="props">
+        <v-data-table :headers="headers" :items="userNotifies">
+          <template v-slot:items="props">
             <tr @click="props.expanded = !props.expanded">
               <td
                 :style="{fontWeight:(props.item.status.name == 'Nuevo'?'bold':'400')}"
@@ -36,7 +36,7 @@
           </template>
           <template v-slot:expand="props">
             <v-card flat>
-              <v-card-text>props.item.notification.body</v-card-text>
+              <v-card-text>{{props.item.notification.body}}</v-card-text>
             </v-card>
           </template>
         </v-data-table>
