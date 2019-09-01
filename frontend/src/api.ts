@@ -16,6 +16,8 @@ import {
   ILangCreate,
   ILangUpdate,
   ILang,
+  IUserNotifyStatus,
+  INotifyUser,
 } from './interfaces';
 
 function authHeaders(token: string) {
@@ -73,6 +75,9 @@ export const api = {
   },
   async updateLang(token: string, langId: number, data: ILangUpdate) {
     return axios.put(`${apiUrl}/api/v1/langs/${langId}`, data, authHeaders(token));
+  },
+  async updateUserNotifyStatus(token: string, data: { idNoti: number, idStatus: number }) {
+    return axios.put(`${apiUrl}/api/v1/noti/me`, data, authHeaders(token));
   },
   async createUser(token: string, data: IUserProfileCreate) {
     return axios.post(`${apiUrl}/api/v1/users/`, data, authHeaders(token));

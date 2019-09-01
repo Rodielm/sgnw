@@ -1,8 +1,8 @@
-import { IUserProfile } from '@/interfaces';
+import { IUserProfile, IUserNotifyStatus, INotifyUser } from '@/interfaces';
 import { MainState, AppNotification } from './state';
 import { getStoreAccessors } from 'typesafe-vuex';
 import { State } from '../state';
-
+import Vue from 'vue';
 
 export const mutations = {
     setToken(state: MainState, payload: string) {
@@ -29,13 +29,22 @@ export const mutations = {
     removeNotification(state: MainState, payload: AppNotification) {
         state.notifications = state.notifications.filter((notification) => notification !== payload);
     },
-    setNotify(state: MainState, payload: any) {
-        const notifies = state.notifies.filter((notify: any) => notify.id !== payload.id);
+    setNotify(state: MainState, payload: INotifyUser) {
+        const notifies = state.notifies.filter((notifyUser) => notifyUser.id !== payload.id);
         notifies.push(payload);
         state.notifies = notifies;
+
     },
-    setNotifies(state: MainState, payload: any[]) {
+    setNotifyUpdated(state: MainState, payload: INotifyUser) {
+        const notify = state.notifies.filter((notifyUser) => notifyUser.id === payload.id);
+        const index = state.notifies.indexOf(notify[0]);
+        Vue.set(state.notifies, index, payload);
+    },
+    setNotifies(state: MainState, payload: INotifyUser[]) {
         state.notifies = payload;
+    },
+    removeNotify(state: MainState, payload: INotifyUser) {
+        state.notifies = state.notifies.filter((notifyUser) => notifyUser.id !== payload.id);
     },
 };
 
@@ -51,4 +60,6 @@ export const commitAddNotification = commit(mutations.addNotification);
 export const commitRemoveNotification = commit(mutations.removeNotification);
 
 export const commitSetNotify = commit(mutations.setNotify);
+export const commitSetNotifyUpdated = commit(mutations.setNotifyUpdated);
+export const commitRemoveNotify = commit(mutations.removeNotify);
 export const commitSetNotifies = commit(mutations.setNotifies);

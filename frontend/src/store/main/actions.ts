@@ -13,8 +13,12 @@ import {
     commitSetToken,
     commitSetUserProfile,
     commitSetNotifies,
+    commitSetNotify,
+    commitSetNotifyUpdated,
+    commitRemoveNotify,
 } from './mutations';
 import { AppNotification, MainState } from './state';
+import { IUserNotifyStatus, INotifyUser } from '@/interfaces';
 
 type MainContext = ActionContext<MainState, State>;
 
@@ -165,6 +169,30 @@ export const actions = {
             await dispatchCheckApiError(context, error);
         }
     },
+    async actionUpdateUserNotifyStatus(context: MainContext, payload: { idNoti: number, idStatus: number }) {
+        try {
+            const response = (await Promise.all([
+                api.updateUserNotifyStatus(context.state.token, payload),
+                await new Promise((resolve, reject) => setTimeout(() => resolve(), 500)),
+            ]))[0];
+            commitSetNotifyUpdated(context, response.data);
+        } catch (error) {
+            commitAddNotification(context, { content: `Error: ${error}`, color: 'error' });
+            await dispatchCheckApiError(context, error);
+        }
+    },
+    async actionRemoveUserNotifyStatus(context: MainContext, payload: { idNoti: number, idStatus: number }) {
+        try {
+            const response = (await Promise.all([
+                api.updateUserNotifyStatus(context.state.token, payload),
+                await new Promise((resolve, reject) => setTimeout(() => resolve(), 500)),
+            ]))[0];
+            commitRemoveNotify(context, response.data);
+        } catch (error) {
+            commitAddNotification(context, { content: `Error: ${error}`, color: 'error' });
+            await dispatchCheckApiError(context, error);
+        }
+    },
 };
 
 const { dispatch } = getStoreAccessors<MainState | any, State>('');
@@ -184,4 +212,5 @@ export const dispatchPasswordRecovery = dispatch(actions.passwordRecovery);
 export const dispatchResetPassword = dispatch(actions.resetPassword);
 
 export const dispatchUserNotify = dispatch(actions.actionGetNotifies);
-
+export const dispatchUpdateUserNotifyStatus = dispatch(actions.actionUpdateUserNotifyStatus);
+export const dispatchRemoveUserNotifyStatus = dispatch(actions.actionRemoveUserNotifyStatus);

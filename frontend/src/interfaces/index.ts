@@ -108,4 +108,32 @@ export interface IFileUpload {
     filename?: string;
 }
 
+export interface IUserNotifyStatus {
+    name?: string;
+}
 
+export interface INotifyUser {
+    id: number;
+    notification?: INotfication;
+    user?: IUserProfile;
+    status?: IUserNotifyStatus;
+    recipient_user?: boolean;
+    recipient_group?: IGroup[];
+    recipient_roles?: IRole[];
+}
+
+export interface INotfication {
+    summary: string;
+    summary_args: {};
+    body: string;
+    body_args: {};
+    hints: {};
+    app: IAppNotification;
+    I10n_vers: string;
+    expire_ts: Date;
+}
+
+export interface IAppNotification {
+    id: number;
+    name: string;
+}
