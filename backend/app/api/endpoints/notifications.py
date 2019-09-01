@@ -36,12 +36,19 @@ def create_notification(notification: NotificationInCreate):
     return db_noti.create_notification(notification)
 
 
-@router.put("/", status_code=HTTP_202_ACCEPTED)
-def update_notification(current_user: int, idNotification: int, idStatus: int):
-    return db_noti.update_notification_by_status(idNotification, current_user, idStatus)
+@router.put("/me", status_code=HTTP_202_ACCEPTED)
+def update_notification_by_status(
+    userNotifyStatus: UserNotifyStatus,
+    current_user: UserSecurity = Depends(get_current_active_user)
+):
+    print('METODO EN EJECUCIÓN DE UPDATE')
+    userId: int = current_user.id
+    return db_noti.update_notification_by_status(userNotifyStatus, userId)
 
 
 @router.delete("/{id}")
-def delete_notification(id: int):
-    # TODO delete notification by user
-    db_noti.delete_notification(id)
+def delete_notification(
+        userNotifyStatus: UserNotifyStatus,
+        current_user: UserSecurity = Depends(get_current_active_user)):
+    userId: int = current_user.id
+    db_noti.update_notification_by_status(userNotifyStatus, userId)

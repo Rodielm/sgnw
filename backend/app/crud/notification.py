@@ -2,6 +2,7 @@ from typing import List
 import logging
 from app.api.models.notification import *
 from app.api.models.NotifyState import NotifyStateInUpdate
+from app.api.models.notifyUser import NotifyUserInResponse
 from app.api.models.master import MasterBase
 from app.db.base import *
 
@@ -19,23 +20,28 @@ def read_notification_for_user(id: int):
 
 
 @db_session
-def read_notification_by_user(id: int):
+def read_notification_by_user(id: int, idNoti: int = 0):
     sql_debug(True)
-    notifications = []
+    notifications: List[NotifyUserInResponse] = []
     user = db.User.get(id=id)
-    rows = select(nu for nu in db.NotifyUser if nu.user == user)[:]
+    if idNoti is 0:
+        rows = select(nu for nu in db.NotifyUser if nu.user ==
+                      user and nu.status.id is not 3)[:]
+    else:
+        rows = select(nu for nu in db.NotifyUser if nu.user ==
+                      user and nu.id == idNoti)[:]
     for row in rows:
-        groups = []
-        roles = []
+        groups: List[GroupBase] = []
+        roles: List[RoleBase] = []
         notify = row.to_dict()
         notify['notification'] = row.notification.to_dict()
         notify['status'] = row.status.to_dict()
         for g in row.recipient_groups:
             groups.append(g.to_dict())
-        notify['groups'] = groups
+        notify['recipient_group'] = groups
         for r in row.recipient_roles:
             roles.append(g.to_dict())
-        notify['roles'] = roles
+        notify['recipient_roles'] = roles
         notifications.append(notify)
     return notifications
 
@@ -128,15 +134,20 @@ def create_notification(row: NotificationInCreate):
 
 
 @db_session
-def update_notification_by_status(idNotification: int, idUser: int, notifystate: NotifyStateInUpdate):
-    # FIXME change idUser by current_user logged
+def update_notification_by_status(userNotifyStatus: UserNotifyStatus, current_user: int):
     # 1: Nuevo, 2: Leído, 3: Borrado
-    notifyState = db.NotifyState.get(name=notifystate.name)
-    notifyuser = db.NotifyUser.get(notification=idNotification, user=idUser)
+    sql_debug(True)
+    notifyState = db.NotifyState.get(id=userNotifyStatus.idStatus)
+    notifyuser = db.NotifyUser.get(
+        id=userNotifyStatus.idNoti, user=current_user)
     if notifyuser is None:
         logging.error('This notification does not exist')
     else:
         notifyuser.status = notifyState
+    commit()
+    notifyUpdated = read_notification_by_user(
+        current_user, userNotifyStatus.idNoti)[0]
+    return notifyUpdated
 
 
 @db_session

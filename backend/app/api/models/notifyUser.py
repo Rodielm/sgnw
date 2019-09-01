@@ -8,13 +8,14 @@ from .rol import RoleBase
 from .group import GroupBase
 from .NotifyState import NotifyStateBase
 
+
 class NotifyUserBase(BaseModel):
     notification: NotificationBase
     user: UserBase
     status: NotifyStateBase
     recipient_user: bool
-    recipient_group:List[GroupBase]
-    recipient_roles:List[RoleBase]
+    recipient_group: List[GroupBase]
+    recipient_roles: List[RoleBase]
 
 
 class NotifyUserInResponse(NotifyUserBase):
@@ -26,6 +27,7 @@ class NotifyUserInDB(NotifyUserBase):
 
 
 class NotifyUserInUpdate(NotifyUserBase):
+    id: int
     pass
 
 

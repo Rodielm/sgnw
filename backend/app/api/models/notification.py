@@ -28,7 +28,13 @@ class NotificationInCreate(NotificationBase):
     pass
 
 
+class UserNotifyStatus(BaseModel):
+    idNoti: int
+    idStatus: int
+
+
 class NotificationInResponse(NotificationBase):
+    id: int
     pass
 
 
