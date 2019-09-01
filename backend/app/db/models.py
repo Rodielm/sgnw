@@ -10,6 +10,7 @@ class User(db.Entity):
     email = Optional(str)
     username = Required(str)
     password = Required(str)
+    config = Optional(Json)
     isActive = Required(bool, default=True)
     isAdmin = Required(bool, default=False)
     create_ts = Optional(date, default=lambda: date.today())
