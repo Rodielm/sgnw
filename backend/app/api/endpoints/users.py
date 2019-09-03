@@ -69,6 +69,16 @@ def update_user(id: int, user: UserInUpdate):
     return user
 
 
+@router.put("/{id}/status")
+def update_user_status(id: int):
+    user = db_user.update_user_status(id)
+    if not user:
+        raise HTTPException(status_code=HTTP_404_NOT_FOUND,
+                            detail="User not exist",
+                            )
+    return user
+
+
 @router.delete("/{id}")
 def delete_user(id: int):
     db_user.delete_user(id)

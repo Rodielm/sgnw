@@ -9,7 +9,7 @@ from app.db.base import db
 @db_session
 def read_apps() -> List[AppInResponse]:
     apps: List[AppInResponse] = []
-    rows = select(r for r in db.App)[:]
+    rows = select(a for a in db.App if a.isActive == True)[:]
     for row in rows:
         app = row.to_dict()
         if row.app_langs is not None:
@@ -89,6 +89,17 @@ def update_app(id: int, app: AppInUpdate):
                         filename=al.filename)
         commit()
     return updatedApp
+
+
+@db_session
+def update_app_status(id: int):
+    sql_debug(True)
+    row = db.App.get(id=id)
+    if not row:
+        return row
+    else:
+        row.isActive = False
+    return row.to_dict()
 
 
 @db_session

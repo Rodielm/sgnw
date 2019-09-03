@@ -48,6 +48,15 @@ def update_rol(id:int,rol: RoleInUpdate):
                             )
     return row
 
+@router.put("/{id}/status")
+def update_rol_status(id: int):
+    row = db_role.update_role_status(id)
+    if not row:
+        raise HTTPException(status_code=HTTP_404_NOT_FOUND,
+                            detail="Role not exist",
+                            )
+    return row
+
 
 @router.delete("/{id}")
 def delete_rol(id: int):

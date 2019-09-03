@@ -26,6 +26,7 @@ def is_user_admin(user: UserSecurity):
 def get_by_email(email: str):
     return db.User.get(email=email)
 
+
 @db_session
 def authenticate(email: str, password: str):
     user = get_by_email(email=email)
@@ -61,9 +62,20 @@ def update_user(id: int, user: UserInUpdate):
 
 
 @db_session
+def update_user_status(id: int):
+    sql_debug(True)
+    user = db.User.get(id=id)
+    if not user:
+        return user
+    else:
+        user.isActive = False
+    return user.to_dict()
+
+
+@db_session
 def findAll_users() -> List[UserInResponse]:
     users: List[UserInResponse] = []
-    rows = db.User.select()
+    rows = select(u for u in db.User if u.isActive == True)
     for row in rows:
         user = row.to_dict()
         users.append(user)

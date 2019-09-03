@@ -5,6 +5,8 @@ from app.api.models.NotifyState import NotifyStateInUpdate
 from app.api.models.notifyUser import NotifyUserInResponse
 from app.api.models.master import MasterBase
 from app.db.base import *
+import os
+import gettext
 
 
 @db_session
@@ -21,9 +23,13 @@ def read_notification_for_user(id: int):
 
 @db_session
 def read_notification_by_user(id: int, idNoti: int = 0):
+
     sql_debug(True)
     notifications: List[NotifyUserInResponse] = []
     user = db.User.get(id=id)
+    print('Idioma preferido del usuario {}'.format(user.config['languages']))
+    _ = langTranslate('en')
+    
     if idNoti is 0:
         rows = select(nu for nu in db.NotifyUser if nu.user ==
                       user and nu.status.id is not 3)[:]
@@ -35,6 +41,8 @@ def read_notification_by_user(id: int, idNoti: int = 0):
         roles: List[RoleBase] = []
         notify = row.to_dict()
         notify['notification'] = row.notification.to_dict()
+        notify['notification']['summary'] = (_(row.notification.summary) % (row.notification.summary_args))
+        notify['notification']['body'] = (_(row.notification.body) % (row.notification.body_args))
         notify['status'] = row.status.to_dict()
         for g in row.recipient_groups:
             groups.append(g.to_dict())
@@ -157,3 +165,15 @@ def delete_notification(id: int):
 
 def send_notification_email():
     return "send to email soon"
+
+
+def langTranslate(language: str):
+    try:
+        lang = gettext.translation('messages', '.../locale', languages=['en'])
+        lang.install()
+        return lang.gettext
+    except Exception as e:
+        print('Falló por {}'.format(e))
+        lang = gettext.NullTranslations()
+        lang = gettext.translation('messages', fallback=True)
+        return lang.gettext

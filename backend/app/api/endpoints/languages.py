@@ -47,6 +47,15 @@ def update_lang(id:int,lang: MasterInUpdate):
                             )
     return row
 
+@router.put("/{id}/status")
+def update_lang_status(id: int):
+    row = db_lang.update_lang_status(id)
+    if not row:
+        raise HTTPException(status_code=HTTP_404_NOT_FOUND,
+                            detail="Lang not exist",
+                            )
+    return row
+
 
 @router.delete("/{id}")
 def delete_lang(id: int):

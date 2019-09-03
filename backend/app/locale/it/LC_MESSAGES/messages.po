@@ -1,0 +1,177 @@
+# Translations template for PROJECT.
+# Copyright (C) 2019 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# Rodiel Martinez <rodielmj@rodielmj>, 2019.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2019-02-08 12:36+0000\n"
+"PO-Revision-Date: 2019-09-03 01:11+0200\n"
+"Last-Translator: Rodiel Martinez <rodielmj@rodielmj>\n"
+"Language-Team: Italian\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.6.0\n"
+"Language: it\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: app/api/opportunities/notifications.py:43
+#: app/api/opportunities/notifications.py:77
+#, python-format
+msgid "Nueva oportunidad creada en estado %(stage)s"
+msgstr "Nuova opportunità creata nello stato %(fase)s"
+
+#: app/api/opportunities/notifications.py:45
+#, python-format
+msgid ""
+"Se ha creado una nueva oportunidad con el estado %(stage)s.\n"
+"Será necesario asignarle un proyecto.\n"
+"\n"
+"Opportunidad:\t%(code)s - %(name)s"
+msgstr ""
+"È stata creata una nuova opportunità con lo stato %(stage)s. \n"
+"Sarà necessario assegnare un progetto.\n"
+"\n"
+"Opportunità:\t%(code)s - %(name)s"
+
+#: app/api/opportunities/notifications.py:79
+#, python-format
+msgid ""
+"Se ha creado una nueva oportunidad con el estado %(stage)s.\n"
+"Será necesario asignarle un proyecto y crear una planificación.\n"
+"\n"
+"Oportunidad:\t%(code)s - %(name)s"
+msgstr ""
+"È stata creata una nuova opportunità con lo stato %(stage)s.\n"
+"Sarà necessario assegnare un progetto e creare un programma.\n"
+"\n"
+"Opportunità:\t%(code)s - %(name)s"
+
+#: app/api/opportunities/notifications.py:108
+#, python-format
+msgid "La oportunidad %(code)s ha sido ganada"
+msgstr "L'opportunità %(code)s è stata vinta"
+
+#: app/api/opportunities/notifications.py:110
+#, python-format
+msgid ""
+"Se ha ganado la oportunidad %(code)s. Es necesario contar con una "
+"planificación de recursos (si no existe ya).\n"
+"\n"
+"Oportunidad:\t%(code)s - %(name)s"
+msgstr ""
+"L'opportunità %(code)s è stata guadagnata. È necessario disporre di un"
+"pianificazione delle risorse (se non esiste già).\n"
+"\n"
+"Opportunità:\t%(code)s - %(name)s"
+
+#: app/api/opportunities/notifications.py:137
+msgid "Oportunidad Comercial Pendiente de valorar"
+msgstr "Opportunità commerciali in attesa di valutazione"
+
+#: app/api/opportunities/notifications.py:138
+#, python-format
+msgid ""
+"Se ha solicitado desde el departamento comercial la realización de una "
+"valoración técnica.\n"
+"\n"
+"Oportunidad:\t%(code)s - %(name)s"
+msgstr ""
+"È stata richiesta all'ufficio commerciale la realizzazione di un"
+"valutazione tecnica.\n"
+"\n"
+"Opportunità:\t%(code)s - %(name)s"
+
+#: app/api/opportunities/notifications.py:162
+#, python-format
+msgid "Oportunidad %(code)s al 90%%"
+msgstr "Opportunità %(code)s al 90%%"
+
+#: app/api/opportunities/notifications.py:163
+#, python-format
+msgid ""
+"Se ha cambiado la probabilidad de la oportunidad al 90%%. Es necesario "
+"planificar el proyecto.\n"
+"\n"
+"Oportunidad:\t%(code)s - %(name)s"
+msgstr ""
+"La probabilità dell'opportunità è stata cambiata al 90%%. È necessario"
+"pianifica il progetto.\n"
+"\n"
+"Opportunità:\t%(code)s - %(name)s"
+
+#: app/api/opportunities/notifications.py:191
+#, python-format
+msgid "La Oportunidad %(code)s ha pasado al estado 'perdida'"
+msgstr "L'opportunità %(code)s è passata allo stato 'perso'"
+
+#: app/api/opportunities/notifications.py:193
+#, python-format
+msgid ""
+"La oportunidad ha pasado al estado 'perdida'.\n"
+"\n"
+"Oportunidad:\t%(code)s - %(name)s"
+msgstr ""
+"L'opportunità è passata allo stato 'perso'.\n"
+"\n"
+"Opportunità:\t%(code)s - %(name)s"
+
+#: app/api/opportunities/notifications.py:220
+#, python-format
+msgid "Presupuesto de oportunidad %(code)s pendiente de validar"
+msgstr "Budget opportunità %(code) in attesa di convalida"
+
+
+#: app/api/opportunities/notifications.py:222
+#, python-format
+msgid ""
+"La oportunidad %(code)s ha sido ganada y tiene su presupuesto listo para ser "
+"validado.\n"
+"\n"
+"Oportunidad:\t%(code)s - %(name)s"
+msgstr ""
+"L'opportunità %(code)s è stata guadagnata e il suo budget è pronto per essere"
+"convalidato.\n"
+"\n"
+"Opportunità:\t%(code)s - %(name)s"
+
+#: app/api/opportunities/notifications.py:253
+#, python-format
+msgid "Cambio de área y responsable de la oportunidad %(code)s"
+msgstr "Cambio di area e responsabile dell'opportunità %(code)s"
+
+#: app/api/opportunities/notifications.py:255
+#, python-format
+msgid ""
+"Has dejado de ser responable de la oportunidad %(code)s.\n"
+"\n"
+"Oportunidad:\t%(code)s - %(name)s"
+msgstr ""
+"Non sei più responsabile dell'opportunità %(code)s. \n"
+"\n"
+"Opportunità:\t%(code)s - %(name)s"
+
+#: app/api/opportunities/notifications.py:300
+#, python-format
+msgid "Cambiao de área y responsable de la oportunidad  %(code)s"
+msgstr "Cambio di area e responsabile dell'opportunità %(code)s"
+
+#: app/api/opportunities/notifications.py:302
+#, python-format
+msgid ""
+"Se ha cambiado el área y responsable de la opo %(code)s  de %(old_org_unit)s "
+"- %(old_manager)s a %(new_org_unit)s - %(new_manager)s.\n"
+"Se debe tomar alguna acción que permita desbloquear la edición de la "
+"valoración técnica.\n"
+"\n"
+"Oportunidad:\t%(code)s - %(name)s"
+msgstr ""
+"L'area e responsabile della %(code)s di %(old_org_unit)s è stata modificata"
+"- %(old_manager)s a %(new_org_unit)s - %(new_manager)s.\n"
+"Devono essere intraprese alcune azioni per sbloccare l'edizione del"
+"valutazione tecnica.\n"
+"\n"
+"Opportunità:\t%(code)s - %(name)s"

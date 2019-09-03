@@ -18,6 +18,7 @@ from starlette.status import (
 
 router = APIRouter()
 
+
 @router.get("/")
 def read_groups():
     groups = db_group.read_groups()
@@ -41,8 +42,18 @@ def create_group(group: GroupInDB):
 
 
 @router.put("/{id}")
-def update_group(id:int,group: GroupInUpdate):
-    row = db_group.update_group(id,group)
+def update_group(id: int, group: GroupInUpdate):
+    row = db_group.update_group(id, group)
+    if not row:
+        raise HTTPException(status_code=HTTP_404_NOT_FOUND,
+                            detail="Group not exist",
+                            )
+    return row
+
+
+@router.put("/{id}/status")
+def update_group_status(id: int):
+    row = db_group.update_group_status(id)
     if not row:
         raise HTTPException(status_code=HTTP_404_NOT_FOUND,
                             detail="Group not exist",

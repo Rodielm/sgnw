@@ -30,6 +30,11 @@ import {
     commitAddFile,
     commitRemoveFile,
     commitRemoveAllFile,
+    commitRemoveUser,
+    commitRemoveGroup,
+    commitRemoveRole,
+    commitRemoveApp,
+    commitRemoveLang,
 } from './mutations';
 import { dispatchCheckApiError } from '../main/actions';
 import { commitAddNotification, commitRemoveNotification } from '../main/mutations';
@@ -102,6 +107,21 @@ export const actions = {
             await dispatchCheckApiError(context, error);
         }
     },
+    async actionUpdateUserStatus(context: MainContext, payload: { id: number }) {
+        const loadingNotification = { content: '', showProgress: true };
+        try {
+            const response = (await Promise.all([
+                api.updateUserStatus(context.rootState.main.token, payload.id),
+                await new Promise((resolve, reject) => setTimeout(() => resolve(), 500)),
+            ]))[0];
+            commitRemoveUser(context, response.data);
+            commitAddNotification(context, { content: 'User successfully removed', color: 'success' });
+        } catch (error) {
+            commitRemoveNotification(context, loadingNotification);
+            commitAddNotification(context, { color: 'error', content: `Error to delete: ${error}` });
+            await dispatchCheckApiError(context, error);
+        }
+    },
     async actionUpdateGroup(context: MainContext, payload: { id: number, group: IGroupUpdate }) {
         try {
             const loadingNotification = { content: 'saving', showProgress: true };
@@ -117,6 +137,21 @@ export const actions = {
             await dispatchCheckApiError(context, error);
         }
     },
+    async actionUpdateGroupStatus(context: MainContext, payload: { id: number }) {
+        const loadingNotification = { content: '', showProgress: true };
+        try {
+            const response = (await Promise.all([
+                api.updateGroupStatus(context.rootState.main.token, payload.id),
+                await new Promise((resolve, reject) => setTimeout(() => resolve(), 500)),
+            ]))[0];
+            commitRemoveGroup(context, response.data);
+            commitAddNotification(context, { content: 'Group successfully removed', color: 'success' });
+        } catch (error) {
+            commitRemoveNotification(context, loadingNotification);
+            commitAddNotification(context, { color: 'error', content: `Error to delete: ${error}` });
+            await dispatchCheckApiError(context, error);
+        }
+    },
     async actionUpdateRole(context: MainContext, payload: { id: number, role: IRoleUpdate }) {
         try {
             const loadingNotification = { content: 'saving', showProgress: true };
@@ -129,6 +164,21 @@ export const actions = {
             commitRemoveNotification(context, loadingNotification);
             commitAddNotification(context, { content: 'Role successfully updated', color: 'success' });
         } catch (error) {
+            await dispatchCheckApiError(context, error);
+        }
+    },
+    async actionUpdateRoleStatus(context: MainContext, payload: { id: number }) {
+        const loadingNotification = { content: '', showProgress: true };
+        try {
+            const response = (await Promise.all([
+                api.updateRoleStatus(context.rootState.main.token, payload.id),
+                await new Promise((resolve, reject) => setTimeout(() => resolve(), 500)),
+            ]))[0];
+            commitRemoveRole(context, response.data);
+            commitAddNotification(context, { content: 'Role successfully removed', color: 'success' });
+        } catch (error) {
+            commitRemoveNotification(context, loadingNotification);
+            commitAddNotification(context, { color: 'error', content: `Error to delete: ${error}` });
             await dispatchCheckApiError(context, error);
         }
     },
@@ -149,6 +199,21 @@ export const actions = {
             await dispatchCheckApiError(context, error);
         }
     },
+    async actionUpdateAppStatus(context: MainContext, payload: { id: number }) {
+        const loadingNotification = { content: '', showProgress: true };
+        try {
+            const response = (await Promise.all([
+                api.updateAppStatus(context.rootState.main.token, payload.id),
+                await new Promise((resolve, reject) => setTimeout(() => resolve(), 500)),
+            ]))[0];
+            commitRemoveApp(context, response.data);
+            commitAddNotification(context, { content: 'App successfully removed', color: 'success' });
+        } catch (error) {
+            commitRemoveNotification(context, loadingNotification);
+            commitAddNotification(context, { color: 'error', content: `Error to delete: ${error}` });
+            await dispatchCheckApiError(context, error);
+        }
+    },
     async actionUpdateLang(context: MainContext, payload: { id: number, lang: ILangUpdate }) {
         try {
             const loadingNotification = { content: 'saving', showProgress: true };
@@ -161,6 +226,21 @@ export const actions = {
             commitRemoveNotification(context, loadingNotification);
             commitAddNotification(context, { content: 'Language successfully updated', color: 'success' });
         } catch (error) {
+            await dispatchCheckApiError(context, error);
+        }
+    },
+    async actionUpdateLangStatus(context: MainContext, payload: { id: number }) {
+        const loadingNotification = { content: '', showProgress: true };
+        try {
+            const response = (await Promise.all([
+                api.updateLangStatus(context.rootState.main.token, payload.id),
+                await new Promise((resolve, reject) => setTimeout(() => resolve(), 500)),
+            ]))[0];
+            commitRemoveLang(context, response.data);
+            commitAddNotification(context, { content: 'Lang successfully removed', color: 'success' });
+        } catch (error) {
+            commitRemoveNotification(context, loadingNotification);
+            commitAddNotification(context, { color: 'error', content: `Error to delete: ${error}` });
             await dispatchCheckApiError(context, error);
         }
     },
@@ -303,5 +383,11 @@ export const dispatchAddFileLocal = dispatch(actions.actionAddFileLocal);
 export const dispatchRemoveFileLocal = dispatch(actions.actionRemoveFileLocal);
 
 export const dispatchRemoveAppLangs = dispatch(actions.actionRemoveAppLang);
+
+export const dispatchRemoveUser = dispatch(actions.actionUpdateUserStatus);
+export const dispatchRemoveGroup = dispatch(actions.actionUpdateGroupStatus);
+export const dispatchRemoveRole = dispatch(actions.actionUpdateRoleStatus);
+export const dispatchRemoveLang = dispatch(actions.actionUpdateLangStatus);
+export const dispatchRemoveApp = dispatch(actions.actionUpdateAppStatus);
 
 

@@ -8,7 +8,7 @@ from app.db.base import db
 @db_session
 def read_groups():
     groups: List[GroupInResponse] = []
-    rows = db.Group.select()
+    rows = select(g for g in db.Group if g.isActive == True)
     for row in rows:
         group = row.to_dict()
         if row.app is not None:
@@ -46,6 +46,17 @@ def update_group(id: int, group: GroupInUpdate):
         if group.description is not None:
             dbgroup.description = group.description
     return dbgroup
+
+
+@db_session
+def update_group_status(id: int):
+    sql_debug(True)
+    group = db.Group.get(id=id)
+    if not group:
+        return group
+    else:
+        group.isActive = False
+    return group.to_dict()
 
 
 @db_session

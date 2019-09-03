@@ -23,11 +23,11 @@
               required
             ></v-text-field>
             <div class="subheading secondary--text text--lighten-2">
-              User is superuser
-              <span v-if="isSuperuser">(currently is a superuser)</span>
-              <span v-else>(currently is not a superuser)</span>
+              User is Admin
+              <span v-if="isSuperuser">(currently is a Admin)</span>
+              <span v-else>(currently is not a Admin)</span>
             </div>
-            <v-checkbox label="Is Superuser" v-model="isSuperuser"></v-checkbox>
+            <v-checkbox label="Is Admin" v-model="isSuperuser"></v-checkbox>
             <div class="subheading secondary--text text--lighten-2">
               User is active
               <span v-if="isActive">(currently active)</span>

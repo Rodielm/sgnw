@@ -1,7 +1,8 @@
 
 from typing import List
 from pony.orm import *
-from app.api.models.rol import (RoleBase,RoleInUpdate,RoleInResponse,RoleInDB)
+from app.api.models.rol import (
+    RoleBase, RoleInUpdate, RoleInResponse, RoleInDB)
 from app.db.base import db
 
 
@@ -26,7 +27,7 @@ def update_rol(id: int, rol: RoleInUpdate):
 @db_session
 def read_roles() -> List[RoleInResponse]:
     roles: List[UserInResponse] = []
-    rows = select(r for r in db.Role)[:]
+    rows = select(r for r in db.Role if r.isActive == True)[:]
     for row in rows:
         roles.append(row.to_dict())
     return roles
@@ -38,7 +39,18 @@ def read_role_name(name: str) -> RoleInResponse:
     if row:
         return row.to_dict()
 
+
 @db_session
-def delete_role(id:int):
+def update_role_status(id: int):
+    sql_debug(True)
+    row = db.Role.get(id=id)
+    if not row:
+        return row
+    else:
+        row.isActive = False
+    return row.to_dict()
+
+
+@db_session
+def delete_role(id: int):
     db.Role[id].delete()
-    

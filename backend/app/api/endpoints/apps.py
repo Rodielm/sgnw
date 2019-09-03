@@ -42,20 +42,28 @@ def eprint(*args, **kwargs):
     print(*args, file=sys.stderr, **kwargs)
 
 
+@router.post("/file")
+async def upload_file(file_upload: UploadFile = File(...)):
+    test_dir = "/home/rodielmj/Desktop/data"
+    filepath_to_save = os.path.join(test_dir, file_upload.filename)
+    
+    return {"filename": file_upload.filename}
+
+
 @router.post("/upload")
 async def create_upload_file(file_upload: UploadFile = File(...)):
     test_dir = "/home/rodielmj/Desktop/data"
     # base_dir = os.environ.get('LANGFILE_BASEDIR', None)
     # dir_list = os.environ.get('LANGFILE_DIRLIST', "")
-    filepath = os.path.join(test_dir, file_upload.filename)
-    print('directory paste: {}'.format(filepath))
+    filepath_to_save = os.path.join(test_dir, file_upload.filename)
+    print('directory paste file: {}'.format(filepath_to_save))
     try:
         # contents = file_upload.file.read()
         # print('contents size {}'.format(len(contents)))
         # with open(filepath, 'wb') as out_file:
         #     copyfileobj(file_upload.file, out_file)
         contents = await file_upload.read()
-        with open(contents, 'rb') as f_in, open(filepath, 'wb') as f_out:
+        with open(contents, 'rb') as f_in, open(filepath_to_save, 'wb') as f_out:
             copyfileobj(f_in, f_out)
     except Exception as e:
         print('An exception occurred {}'.format(e))
@@ -71,6 +79,7 @@ async def create_file(
     fileb: UploadFile = File(...),
     token: str = Form(...)
 ):
+
     return {
         "file_size": len(file),
         "token": token,
@@ -86,6 +95,16 @@ def create_app(app: AppCreate):
 @router.put("/{id}")
 def update_app(id: int, app: AppInUpdate):
     row = db_app.update_app(id, app)
+    if not row:
+        raise HTTPException(status_code=HTTP_404_NOT_FOUND,
+                            detail="App not exist",
+                            )
+    return row
+
+
+@router.put("/{id}/status")
+def update_app_status(id: int):
+    row = db_app.update_app_status(id)
     if not row:
         raise HTTPException(status_code=HTTP_404_NOT_FOUND,
                             detail="App not exist",

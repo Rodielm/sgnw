@@ -26,6 +26,7 @@ class Role(db.Entity):
     app = Optional('App')
     composite_key(name, app)
     description = Optional(str)
+    isActive = Required(bool, default=True)
     create_ts = Optional(date, default=lambda: date.today())
     users = Set(User)
     notify_users = Set('NotifyUser')
@@ -37,6 +38,7 @@ class Group(db.Entity):
     app = Optional('App')
     composite_key(name, app)
     description = Optional(str)
+    isActive = Required(bool, default=True)
     create_ts = Required(datetime, sql_default='CURRENT_TIMESTAMP')
     users = Set(User)
     notify_users = Set('NotifyUser')
@@ -47,6 +49,7 @@ class App(db.Entity):
     name = Required(str)
     description = Optional(str)
     version = Optional(str)
+    isActive = Required(bool, default=True)
     create_ts = Required(datetime, sql_default='CURRENT_TIMESTAMP')
     notifications = Set('Notification')
     app_langs = Set('App_lang')
@@ -64,6 +67,7 @@ class Token(db.Entity):
 class Lang(db.Entity):
     id = PrimaryKey(int, auto=True)
     name = Required(str)
+    isActive = Required(bool, default=True)
     app_langs = Set('App_lang')
 
 

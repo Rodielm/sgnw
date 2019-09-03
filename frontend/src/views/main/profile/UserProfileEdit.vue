@@ -6,16 +6,13 @@
       </v-card-title>
       <v-card-text>
         <template>
-          <v-form
-            v-model="valid"
-            ref="form"
-            lazy-validation
-          >
-            <v-text-field
-              label="Full Name"
-              v-model="fullName"
-              required
-            ></v-text-field>
+          <!-- <div class="my-3">
+            <div class="subheading secondary--text text--lighten-2">Username</div>
+            <div class="title primary--text text--darken-2" v-if="user">{{user.email}}</div>
+            <div class="title primary--text text--darken-2" v-else>-----</div>
+          </div> -->
+          <v-form v-model="valid" ref="form" lazy-validation>
+            <v-text-field label="Full Name" v-model="fullName" required></v-text-field>
             <v-text-field
               label="E-mail"
               type="email"
@@ -25,6 +22,12 @@
               :error-messages="errors.collect('email')"
               required
             ></v-text-field>
+            <div class="subheading secondary--text text--lighten-2">User notification settings</div>
+            <v-radio-group v-model="markAllReadOrDelete">
+              <v-radio label="Mark all as read" value="2"></v-radio>
+              <v-radio label="Mark all as deleted" value="3"></v-radio>
+            </v-radio-group>
+            <v-checkbox label="Send all by mail" v-model="sendAllByEmail"></v-checkbox>
           </v-form>
         </template>
       </v-card-text>
@@ -32,12 +35,7 @@
         <v-spacer></v-spacer>
         <v-btn @click="cancel">Cancel</v-btn>
         <v-btn @click="reset">Reset</v-btn>
-        <v-btn
-          @click="submit"
-          :disabled="!valid"
-        >
-          Save
-        </v-btn>
+        <v-btn @click="submit" :disabled="!valid">Save</v-btn>
       </v-card-actions>
     </v-card>
   </v-container>
@@ -55,6 +53,14 @@ export default class UserProfileEdit extends Vue {
   public valid = true;
   public fullName: string = '';
   public email: string = '';
+  public isActive: boolean = false;
+  public isSuperuser: boolean = false;
+  public setPassword = false;
+  public password1: string = '';
+  public password2: string = '';
+  public markAllReadOrDelete = '';
+  public sendAllByEmail = '';
+  public languagePreference = '';
 
   public created() {
     const userProfile = readUserProfile(this.$store);

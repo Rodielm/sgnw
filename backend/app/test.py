@@ -2,6 +2,8 @@
 import gettext
 import os
 
+# msgfmt test_i18n.po -o test_i18n.mo
+# locale/fr/LC_MESSAGES
 # Set domain , attach base, dir , enable fallback
 t = gettext.translation('test_i18n','locale',fallback=True)
 _ = t.gettext

@@ -1,0 +1,29 @@
+{
+    "NotifyMarkAll": "",
+    "ResendAll": "",
+    "languages": "English",
+    "preferencesApp": [
+        {
+            "app": "id",
+            "NotifyMarkReadOrErased": "string",
+            "NotifySendEmail": "boolean",
+            "Resend": "boolean",
+            "languages":""
+        },
+        {
+            "app": "id",
+            "NotifyMarkReadOrErased": "string",
+            "NotifySendEmail": "boolean",
+            "Resend": "boolen",
+            "languages":""
+        }
+    ]
+}
+
+
+{
+    "NotifyMarkAll": "",
+    "ResendAll": "",
+    "languages": "English",
+    "preferencesApp": []
+}

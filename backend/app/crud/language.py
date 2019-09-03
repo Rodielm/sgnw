@@ -37,6 +37,16 @@ def update_lang(id: int, lang: MasterInUpdate):
     return dblang
 
 @db_session
+def update_lang_status(id: int):
+    sql_debug(True)
+    row = db.Lang.get(id=id)
+    if not row:
+        return row
+    else:
+        row.isActive = False
+    return row.to_dict()
+
+@db_session
 def delete_lang(id:int):
     db.Lang[id].delete()
     

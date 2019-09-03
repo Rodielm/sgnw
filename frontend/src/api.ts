@@ -79,6 +79,21 @@ export const api = {
   async updateUserNotifyStatus(token: string, data: { idNoti: number, idStatus: number }) {
     return axios.put(`${apiUrl}/api/v1/noti/me`, data, authHeaders(token));
   },
+  async updateUserStatus(token: string, id: number) {
+    return axios.put(`${apiUrl}/api/v1/users/${id}/status`, authHeaders(token));
+  },
+  async updateAppStatus(token: string, id: number) {
+    return axios.put(`${apiUrl}/api/v1/apps/${id}/status`, authHeaders(token));
+  },
+  async updateGroupStatus(token: string, id: number) {
+    return axios.put(`${apiUrl}/api/v1/groups/${id}/status`, authHeaders(token));
+  },
+  async updateRoleStatus(token: string, id: number) {
+    return axios.put(`${apiUrl}/api/v1/roles/${id}/status`, authHeaders(token));
+  },
+  async updateLangStatus(token: string, id: number) {
+    return axios.put(`${apiUrl}/api/v1/langs/${id}/status`, authHeaders(token));
+  },
   async createUser(token: string, data: IUserProfileCreate) {
     return axios.post(`${apiUrl}/api/v1/users/`, data, authHeaders(token));
   },

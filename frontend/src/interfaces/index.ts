@@ -2,6 +2,7 @@ export interface IUserProfile {
     email: string;
     isActive: boolean;
     isAdmin: boolean;
+    config: string;
     username: string;
     id: number;
 }
@@ -26,6 +27,7 @@ export interface IGroup {
     id: number;
     name: string;
     description: string;
+    isActive: boolean;
     app: IApp;
 }
 
@@ -45,6 +47,7 @@ export interface IApp {
     name: string;
     description: string;
     version: string;
+    isActive?: boolean;
     id: number;
     appLangs?: IAppLang[];
 }
@@ -67,6 +70,7 @@ export interface IRole {
     id: number;
     name: string;
     description: string;
+    isActive: boolean;
     app: IApp;
 }
 
@@ -85,6 +89,7 @@ export interface IRoleUpdate {
 export interface ILang {
     id: number;
     name: string;
+    isActive: boolean;
 }
 
 export interface ILangCreate {

@@ -47,6 +47,21 @@ export const mutations = {
     addFile(state: AdminState, payload: IFileUpload) {
         state.files.push(payload);
     },
+    removeUser(state: AdminState, payload: IUserProfile) {
+        state.users = state.users.filter((user) => user.id !== payload.id);
+    },
+    removeGroup(state: AdminState, payload: IGroup) {
+        state.groups = state.groups.filter((group) => group.id !== payload.id);
+    },
+    removeRole(state: AdminState, payload: IRole) {
+        state.roles = state.roles.filter((role) => role.id !== payload.id);
+    },
+    removeApp(state: AdminState, payload: IApp) {
+        state.apps = state.apps.filter((app) => app.id !== payload.id);
+    },
+    removeLang(state: AdminState, payload: ILang) {
+        state.langs = state.langs.filter((lang) => lang.id !== payload.id);
+    },
     removeFile(state: AdminState, payload: IFileUpload) {
         state.files = state.files.filter((file) => file !== payload);
     },
@@ -77,3 +92,9 @@ export const commitAddFile = commit(mutations.addFile);
 export const commitRemoveFile = commit(mutations.removeFile);
 
 export const commitRemoveAllFile = commit(mutations.removeAllFile);
+
+export const commitRemoveUser = commit(mutations.removeUser);
+export const commitRemoveGroup = commit(mutations.removeGroup);
+export const commitRemoveRole = commit(mutations.removeRole);
+export const commitRemoveApp = commit(mutations.removeApp);
+export const commitRemoveLang = commit(mutations.removeLang);
