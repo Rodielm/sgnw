@@ -85,6 +85,7 @@ class Notification(db.Entity):
     summary_args = Optional(Json)
     body = Optional(str)
     body_args = Optional(Json)
+    body_type = Optional(str)
     hints = Optional(Json)
     app = Required(App)
     I10n_vers = Optional(str)

@@ -46,7 +46,13 @@ def eprint(*args, **kwargs):
 async def upload_file(file_upload: UploadFile = File(...)):
     test_dir = "/home/rodielmj/Desktop/data"
     filepath_to_save = os.path.join(test_dir, file_upload.filename)
+    file_upload.file.seek(0)
     
+    with open(filepath_to_save, 'wb') as f_out:
+        b = file_upload.file.read(1)
+        while b:
+            n = f_out.write(b)
+            b = file_upload.file.read(1)
     return {"filename": file_upload.filename}
 
 

@@ -27,7 +27,7 @@ def read_notification_by_user(id: int, idNoti: int = 0):
     sql_debug(True)
     notifications: List[NotifyUserInResponse] = []
     user = db.User.get(id=id)
-    print('Idioma preferido del usuario {}'.format(user.config['languages']))
+    # print('Idioma preferido del usuario {}'.format(user.config['languages']))
     _ = langTranslate('en')
     
     if idNoti is 0:
