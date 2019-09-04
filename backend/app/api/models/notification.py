@@ -15,6 +15,7 @@ class NotificationBase(BaseModel):
     summary_args: dict = {}
     body: str
     body_args: dict = {}
+    body_type: str = ""
     hints: dict = {}
     app: AppNotification
     I10n_vers: Optional[str] = ""

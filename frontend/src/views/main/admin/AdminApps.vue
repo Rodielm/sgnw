@@ -20,14 +20,24 @@
         <td>{{ props.item.name }}</td>
         <td>{{ props.item.description }}</td>
         <td>
-          <span v-for="(l,index) in props.item.appLangs" :key="l.id">
+          <span v-for="(l,index) in props.item.app_langs" :key="l.id">
             <span>{{l.lang.name}}</span>
-            <span v-if="index+1 < props.item.appLangs.length">,</span>
+            <span v-if="index+1 < props.item.app_langs.length">,</span>
           </span>
         </td>
         <td>
-          <v-icon small class="mr-2" @click="editItem(props.item.id)">edit</v-icon>
-          <v-icon small @click="showRemoveItem(props.item.id)">delete</v-icon>
+          <v-tooltip bottom>
+            <template v-slot:activator="{ on }">
+              <v-icon small class="mr-2" @click="editItem(props.item.id)" v-on="on">edit</v-icon>
+            </template>
+            <span>Edit App</span>
+          </v-tooltip>
+          <v-tooltip bottom>
+            <template v-slot:activator="{on}">
+              <v-icon small @click="showRemoveItem(props.item.id)" v-on="on">delete</v-icon>
+            </template>
+            <span>delete</span>
+          </v-tooltip>
         </td>
       </template>
     </v-data-table>

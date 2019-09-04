@@ -10,7 +10,7 @@
             <div class="subheading secondary--text text--lighten-2">Username</div>
             <div class="title primary--text text--darken-2" v-if="user">{{user.email}}</div>
             <div class="title primary--text text--darken-2" v-else>-----</div>
-          </div> -->
+          </div>-->
           <v-form v-model="valid" ref="form" lazy-validation>
             <v-text-field label="Full Name" v-model="fullName" required></v-text-field>
             <v-text-field
@@ -28,6 +28,15 @@
               <v-radio label="Mark all as deleted" value="3"></v-radio>
             </v-radio-group>
             <v-checkbox label="Send all by mail" v-model="sendAllByEmail"></v-checkbox>
+            <v-select
+              :items="langs"
+              name="lang"
+              label="Select a language"
+              v-model="lang"
+              item-text="name"
+              return-object
+              required
+            ></v-select>
           </v-form>
         </template>
       </v-card-text>
@@ -47,6 +56,8 @@ import { Store } from 'vuex';
 import { IUserProfileUpdate } from '@/interfaces';
 import { readUserProfile } from '@/store/main/getters';
 import { dispatchUpdateUserProfile } from '@/store/main/actions';
+import { dispatchGetLangs } from '../../../store/admin/actions';
+import { readAdminLangs } from '../../../store/admin/getters';
 
 @Component
 export default class UserProfileEdit extends Vue {
@@ -68,6 +79,15 @@ export default class UserProfileEdit extends Vue {
       this.fullName = userProfile.username;
       this.email = userProfile.email;
     }
+  }
+
+  public async mounted() {
+    await dispatchGetLangs(this.$store);
+    this.reset();
+  }
+
+   get langs() {
+    return readAdminLangs(this.$store);
   }
 
   get userProfile() {

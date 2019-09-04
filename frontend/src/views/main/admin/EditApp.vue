@@ -90,8 +90,8 @@ export default class EditApp extends Vue {
       this.name = this.app.name;
       this.description = this.app.description;
       this.version = this.app.version;
-      if (this.app.appLangs) {
-        this.app.appLangs.forEach((f) => {
+      if (this.app.app_langs) {
+        this.app.app_langs.forEach((f) => {
           const appLang: IFileUpload = {
             version: f.version,
             lang: f.lang,
@@ -142,7 +142,7 @@ export default class EditApp extends Vue {
   public async submit() {
     if (await this.$validator.validateAll()) {
       const updatedApp: IAppUpdate = {
-        appLangs: [],
+        app_langs: [],
       };
       if (this.name) {
         updatedApp.name = this.name;
@@ -162,7 +162,7 @@ export default class EditApp extends Vue {
             filename: f.filename,
             lang: f.lang,
           };
-          updatedApp.appLangs.push(appLang);
+          updatedApp.app_langs.push(appLang);
         });
 
         this.deletedFileUploads.forEach((f) => {

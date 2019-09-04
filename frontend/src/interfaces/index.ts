@@ -49,21 +49,21 @@ export interface IApp {
     version: string;
     isActive?: boolean;
     id: number;
-    appLangs?: IAppLang[];
+    app_langs?: IAppLang[];
 }
 
 export interface IAppCreate {
     name: string;
     description?: string;
     version?: string;
-    appLangs: IAppLang[];
+    app_langs: IAppLang[];
 }
 
 export interface IAppUpdate {
     name?: string;
     description?: string;
     version?: string;
-    appLangs: IAppLang[];
+    app_langs: IAppLang[];
 }
 
 export interface IRole {

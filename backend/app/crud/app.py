@@ -34,13 +34,11 @@ def read_app_for_name(name: str) -> AppInResponse:
 
 @db_session
 def create_app(row: AppCreate):
-
     app = db.App(
         name=row.name,
         description=row.description,
         version=row.version,
     )
-
     if row.app_langs:
         for lang in row.app_langs:
             l = db.Lang.get(id=lang.lang.id)
@@ -49,7 +47,6 @@ def create_app(row: AppCreate):
                 lang=l,
                 version=lang.version,
                 filename=lang.filename)
-
     return row
 
 

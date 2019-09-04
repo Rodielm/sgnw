@@ -110,7 +110,7 @@ export default class CreateApp extends Vue {
     if (await this.$validator.validateAll()) {
       const updatedApp: IAppCreate = {
         name: this.name,
-        appLangs: [],
+        app_langs: [],
       };
       if (this.description) {
         updatedApp.description = this.description;
@@ -130,7 +130,7 @@ export default class CreateApp extends Vue {
             filename,
             lang: f.lang,
           };
-          updatedApp.appLangs.push(appLang);
+          updatedApp.app_langs.push(appLang);
         });
       }
 

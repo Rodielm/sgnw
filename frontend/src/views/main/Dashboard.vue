@@ -8,6 +8,8 @@
         >{{selectedItem.notification? selectedItem.notification.summary:""}}</v-card-title>
         <v-card-text>{{selectedItem.notification? selectedItem.notification.body:""}}</v-card-text>
         <v-divider></v-divider>
+        <v-chip v-for="r in selectedItem.groups" :key="r.id" @input="onClose(f)" close>{{r.name}}</v-chip>
+        <v-chip v-for="r in selectedItem.roles" :key="r.id" @input="onClose(f)" close>{{r.name}}</v-chip>
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn color="primary" flat @click="dialog = false">Ok</v-btn>
@@ -24,7 +26,13 @@
           <v-icon>delete</v-icon>
         </div>
         <v-text-field v-model="search" append-icon="search" label="Search" single-line hide-details></v-text-field>
-        <v-data-table v-model="selected" :headers="headers" :search="search" select-all :items="userNotifies">
+        <v-data-table
+          v-model="selected"
+          :headers="headers"
+          :search="search"
+          select-all
+          :items="userNotifies"
+        >
           <template v-slot:headers="props">
             <tr>
               <th>
@@ -48,22 +56,24 @@
             </td>
             <td
               :style="{fontWeight:(props.item.status.name == 'Nuevo'?'bold':'400')}"
-            >{{ props.item.notification.summary + ' ' + props.item.id }}</td>
+            >{{ props.item.notification.summary}}</td>
             <td
               :style="{fontWeight:(props.item.status.name == 'Nuevo'?'bold':'400')}"
             >{{ props.item.notification.body }}</td>
             <td :style="{fontWeight:(props.item.status.name == 'Nuevo'?'bold':'400')}">
+              {{ props.item.notification.app.name}}</td>
+            <!-- <td :style="{fontWeight:(props.item.status.name == 'Nuevo'?'bold':'400')}">
               <span v-for="(g,index) in props.item.groups" :key="g.id">
                 <span>{{g.name}}</span>
                 <span v-if="index+1 < props.item.groups.length">,</span>
               </span>
-            </td>
-            <td :style="{fontWeight:(props.item.status.name == 'Nuevo'?'bold':'400')}">
+            </td>-->
+            <!-- <td :style="{fontWeight:(props.item.status.name == 'Nuevo'?'bold':'400')}">
               <span v-for="(g,index) in props.item.roles" :key="g.id">
                 <span>{{g.name}}</span>
                 <span v-if="index+1 < props.item.roles.length">,</span>
               </span>
-            </td>
+            </td>-->
             <td>
               <v-tooltip bottom>
                 <template v-slot:activator="{ on }">
@@ -136,15 +146,9 @@ export default class Dashboard extends Vue {
       align: 'left',
     },
     {
-      text: 'Groups',
+      text: 'Apps',
       sortable: true,
       value: 'group',
-      align: 'left',
-    },
-    {
-      text: 'Roles',
-      sortable: true,
-      value: 'rol',
       align: 'left',
     },
     {

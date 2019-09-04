@@ -9,7 +9,7 @@
               <v-icon>web</v-icon>
             </v-list-tile-action>
             <v-list-tile-content>
-              <v-list-tile-title>Dashboard</v-list-tile-title>
+              <v-list-tile-title>Notifications</v-list-tile-title>
             </v-list-tile-content>
           </v-list-tile>
           <v-list-tile to="/main/profile/view">
@@ -18,14 +18,6 @@
             </v-list-tile-action>
             <v-list-tile-content>
               <v-list-tile-title>Profile</v-list-tile-title>
-            </v-list-tile-content>
-          </v-list-tile>
-          <v-list-tile to="/main/profile/password">
-            <v-list-tile-action>
-              <v-icon>vpn_key</v-icon>
-            </v-list-tile-action>
-            <v-list-tile-content>
-              <v-list-tile-title>Change Password</v-list-tile-title>
             </v-list-tile-content>
           </v-list-tile>
         </v-list>

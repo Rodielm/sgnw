@@ -43,7 +43,8 @@ def create_user(user: UserInDB):
     user = db.User(
         email=user.email,
         username=user.username,
-        password=get_password_hash(user.password)
+        password=get_password_hash(user.password),
+        config=user.config
     )
     return user
 

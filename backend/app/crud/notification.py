@@ -23,13 +23,15 @@ def read_notification_for_user(id: int):
 
 @db_session
 def read_notification_by_user(id: int, idNoti: int = 0):
-
     sql_debug(True)
     notifications: List[NotifyUserInResponse] = []
     user = db.User.get(id=id)
-    # print('Idioma preferido del usuario {}'.format(user.config['languages']))
-    _ = langTranslate('en')
-    
+    langDefault = 'es'
+
+    if user.config:
+        langDefault = user.config['languages']
+    _ = langTranslate(langDefault)
+
     if idNoti is 0:
         rows = select(nu for nu in db.NotifyUser if nu.user ==
                       user and nu.status.id is not 3)[:]
@@ -41,8 +43,11 @@ def read_notification_by_user(id: int, idNoti: int = 0):
         roles: List[RoleBase] = []
         notify = row.to_dict()
         notify['notification'] = row.notification.to_dict()
-        notify['notification']['summary'] = (_(row.notification.summary) % (row.notification.summary_args))
-        notify['notification']['body'] = (_(row.notification.body) % (row.notification.body_args))
+        notify['notification']['summary'] = (
+            _(row.notification.summary) % (row.notification.summary_args))
+        notify['notification']['body'] = (
+            _(row.notification.body) % (row.notification.body_args))
+        notify['notification']['app'] = row.notification.app.to_dict()
         notify['status'] = row.status.to_dict()
         for g in row.recipient_groups:
             groups.append(g.to_dict())
@@ -66,6 +71,7 @@ def create_notification(row: NotificationInCreate):
         summary_args=row.summary_args,
         body=row.body,
         body_args=row.body_args,
+        body_type=row.body_type,
         hints=row.hints,
         app=app,
         I10n_vers=row.I10n_vers)
@@ -74,56 +80,16 @@ def create_notification(row: NotificationInCreate):
     # Users
     if row.users:
         users = row.users
-        for u in users:
-            user = db.User.get(username=u.username)
-            if user is None:
-                user = db.User.get(email=u.email)
-            if user is None:
-                logging.error(
-                    'User doest not exist {}'.format(u))
-                continue
-            uid = user.id
-            notifications_by_user[uid] = {}
-            notifications_by_user[uid]['recipient_user'] = True
-            notifications_by_user[uid]['recipient_groups'] = set()
-            notifications_by_user[uid]['recipient_roles'] = set()
+        addUsers(users, notifications_by_user)
     # Groups
     if row.recipient_groups:
         print("Procesando grupos")
         groups = row.recipient_groups
-        for gr in groups:
-            group = db.Group.get(name=gr.name, app=app)
-            if group is None:
-                group = db.Group.get(name=gr.name, app=None)
-            if group is None:
-                logging.error('Group doest not exist {}'.format(gr.to_dict()))
-                continue
-            for user in group.users:
-                uid = user.id
-                if uid not in notifications_by_user:
-                    notifications_by_user[uid] = {}
-                    notifications_by_user[uid]['recipient_user'] = False
-                    notifications_by_user[uid]['recipient_groups'] = set()
-                    notifications_by_user[uid]['recipient_roles'] = set()
-                notifications_by_user[uid]['recipient_groups'].add(group)
+        addGroups(groups,notifications_by_user,app)
     # Roles
     if row.recipient_roles:
         roles = row.recipient_roles
-        for ro in roles:
-            role = db.Role.get(name=ro.name, app=app)
-            if role is None:
-                role = db.Role.get(name=ro.name, app=None)
-            if role is None:
-                logging.error('Roles doest not exist {}'.format(ro.to_dict()))
-                continue
-            for user in role.users:
-                uid = user.id
-                if uid not in notifications_by_user:
-                    notifications_by_user[uid] = {}
-                    notifications_by_user[uid]['recipient_user'] = False
-                    notifications_by_user[uid]['recipient_groups'] = set()
-                    notifications_by_user[uid]['recipient_roles'] = set()
-                notifications_by_user[uid]['recipient_roles'].add(role)
+        addRoles(roles,notifications_by_user,app)
     # Create NotifyUser entries
     new_state = db.NotifyState.get(name='Nuevo')
     for uid in notifications_by_user:
@@ -140,6 +106,56 @@ def create_notification(row: NotificationInCreate):
         )
     return Notify
 
+
+def addUsers(users, notifications_by_user):
+    for u in users:
+        user = db.User.get(username=u.username)
+        if user is None:
+            user = db.User.get(email=u.email)
+        if user is None:
+            logging.error(
+                'User doest not exist {}'.format(u))
+            continue
+        uid = user.id
+        notifications_by_user[uid] = {}
+        notifications_by_user[uid]['recipient_user'] = True
+        notifications_by_user[uid]['recipient_groups'] = set()
+        notifications_by_user[uid]['recipient_roles'] = set()
+
+
+def addGroups(groups,notifications_by_user,app):
+    for gr in groups:
+        group = db.Group.get(name=gr.name, app=app)
+        if group is None:
+            group = db.Group.get(name=gr.name, app=None)
+        if group is None:
+            logging.error('Group doest not exist {}'.format(gr.to_dict()))
+            continue
+        for user in group.users:
+            uid = user.id
+            if uid not in notifications_by_user:
+                notifications_by_user[uid] = {}
+                notifications_by_user[uid]['recipient_user'] = False
+                notifications_by_user[uid]['recipient_groups'] = set()
+                notifications_by_user[uid]['recipient_roles'] = set()
+            notifications_by_user[uid]['recipient_groups'].add(group)
+
+def addRoles(roles,notifications_by_user,app):
+    for ro in roles:
+            role = db.Role.get(name=ro.name, app=app)
+            if role is None:
+                role = db.Role.get(name=ro.name, app=None)
+            if role is None:
+                logging.error('Roles doest not exist {}'.format(ro.to_dict()))
+                continue
+            for user in role.users:
+                uid = user.id
+                if uid not in notifications_by_user:
+                    notifications_by_user[uid] = {}
+                    notifications_by_user[uid]['recipient_user'] = False
+                    notifications_by_user[uid]['recipient_groups'] = set()
+                    notifications_by_user[uid]['recipient_roles'] = set()
+                notifications_by_user[uid]['recipient_roles'].add(role)
 
 @db_session
 def update_notification_by_status(userNotifyStatus: UserNotifyStatus, current_user: int):
