@@ -1,6 +1,6 @@
 # sgnw
 
-Sistema de gestión de notificación Web
+Sistema de gestión de notificación Web (TFM)
 
 ## TODO Backend
 
